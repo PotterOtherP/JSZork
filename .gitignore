@@ -1,5 +1,5 @@
-.html
-.jpg
-.gif
-.doc
-.docx
+*.html
+*.jpg
+*.gif
+*.doc
+*.docx
