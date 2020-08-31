@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+
+    body {
+        background-color: #f0f8ff;
+        background-color: rgb(220, 228, 245);
+    }
+
+    .blog-column {
+
+        width: 80%;
+        min-width: 250px;
+        max-width: 800px;
+
+    }
+
+    .date {
+        
+        font-family: monospace;
+        font-weight: bold;
+        margin-left: 25px;
+        margin-bottom: 15px;
+    }
+
+    img {
+
+        margin: auto;
+        margin-left: 20px;
+        margin-bottom: 20px;
+        width: 50%;
+        border-radius: 5%;
+        padding: 5px;
+    }
+
+    article {
+
+        color: brown;
+        font-family: monospace;
+        margin: auto;
+        margin-left: 20px;
+        margin-bottom: 20px;
+        background: #fffaf0;
+        border-radius: 2%;
+        padding: 7px;
+        line-height: 20px;
+        text-align: left;
+    }
+
+    article:hover {
+        font-weight: bold;
+    }
+
+</style>
+
+<head>
+    <title>Blog</title>
+</head>
+<body>
+
+    <a href="index.html">Home</a>
+
+    <div class="blog-column">
+
+    <div class="date">Wednesday, August 26, 2020</div>
+
+    <article>
+
+        The JavaScript translation for the <a href="zork.html">Zork game</a> is more or less done, although there are some major issues to deal with as
+        well as general testing. At this point, there is a problem with checking room objects and I need a new system for dealing
+        with incomplete input. Since submitting the input triggers all of the game update code, there doesn't seem to be a way for
+        those updates to pause and wait for more input. Getting this to work will probably involve creating some flags that get
+        checked when the input parsing starts.
+    </article>
+
+    <article>
+        
+        Two weeks ago my pet cat Emma died of cancer. She was almost 13 years old. She was my first pet, and my closest companion
+        for many years. I have decided to name this project after her. The profound grief that I feel from losing her has given me
+        an urgency to find meaning in life and work.
+
+
+    </article>
+    <img src="emthigh.jpg" alt="My cat Emma sitting on my lap and looking up at me."/>
+
+    <div class="date">Thursday, August 8, 2020</div>
+
+    <article>
+
+        I have reviewed enough web code on <a href="https://freecodecamp.org">Free Code Camp</a> to start porting the <a href="zork.html">Zork game</a> into JavaScript. This will also be a learning process and probably will
+        take more time than it seems now, especially since I am starting another class next week. Maybe I can set a goal of having it
+        completely done and presentable by Halloween.
+
+        I am low on time and energy, and feeling somewhat depressed and left out of life. Nevertheless, I am sure that I am where I am supposed
+        to be and doing what I am supposed to be doing.
+
+
+    </article>
+
+    <div class="date">Monday, July 27, 2020</div>
+
+    <article>
+
+        Today my goal is to create a text box which can be used to submit text by pressing enter and generate some text in response.
+        I am also going to read an article on
+        <a href="https://betterjavacode.com/programming/how-to-create-an-application-with-spring-boot-and-reactjs">
+        how to create an application with Spring Boot and React</a>.
+
+        <p>I should still have some design books around here, if not, it's a good reason to take a trip to <a href="http://www.mckaybooks.com/">McKay's Books</a> in Greensboro.</p>
+
+
+    </article>
+
+    <div class="date">Sunday, July 26, 2020</div>
+
+    <article>
+
+        I have been feeling strongly that I need to be spending my time working. I can't just be a passive consumer of things
+        that other people have created anymore. I am pretty helpless when it comes to art and design (and business), but that isn't going to
+        prevent me from starting. At some point I will bring some other people onto the team.
+
+    </article>
+
+    </div>
+
+</body>
+</html>
