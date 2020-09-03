@@ -446,13 +446,6 @@ prepositions.set("TIE", "to");
 prepositions.set("TURN", "with");
 prepositions.set("UNLOCK", "with");
 
-const InputState = {
-
-    INPUT_COMPLETE: "INPUT_COMPLETE", 
-    INPUT_INCOMPLETE_DIRECT: "INPUT_INCOMPLETE_DIRECT", 
-    INPUT_INCOMPLETE_INDIRECT: "INPUT_INCOMPLETE_INDIRECT", 
-}
-
 
 const Location = {
 

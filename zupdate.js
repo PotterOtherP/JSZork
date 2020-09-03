@@ -47,6 +47,7 @@ function updateGame()
 
     }
 
+    executePlayerAction();
     switch(state.playerAction)
     {
 
@@ -407,6 +408,7 @@ function boatCheck()
 
 }
 
+
 function updateDarkness()
 {
     let currentRoom = worldMap.get(state.playerLocation);
@@ -572,7 +574,9 @@ function updateDarkness()
     updateItems();
     updateEvents();
     ++state.turns;
+
 }
+
 
 function updateDeath()
 {
@@ -714,7 +718,9 @@ function updateDeath()
     }
 
     ++state.turns;
+
 }
+
 
 function updateEvents()
 {
@@ -840,6 +846,7 @@ function updateEvents()
 
 }
 
+
 function updateScore()
 {
     let score = 0;
@@ -900,6 +907,7 @@ function updateScore()
 
 }
 
+
 function breakEgg()
 {
     egg.location = Location.NULL_LOCATION;
@@ -910,6 +918,7 @@ function breakEgg()
     output(ObjectStrings.INIT_BROKEN_CANARY);
     
 }
+
 
 function darknessCheck()
 {
@@ -946,6 +955,42 @@ function darknessCheck()
 
 }
 
+
+function executePlayerAction()
+{
+    switch (state.playerActionType)
+    {
+        case "REFLEXIVE":
+        case "EXIT":
+        {
+            console.log("Executing player action: " + state.playerAction);
+        } break;
+
+        case "DIRECT":
+        {
+            console.log("Executing player action: " + state.playerAction + " on the " + state.directObject.name);
+
+        } break;
+
+        case "INDIRECT":
+        case "INDIRECT_INVERSE":
+        case "SWITCH":
+        {
+            console.log("Executing player action: " + state.playerAction + " on the " + state.directObject.name
+             + " with the " + state.indirectObject.name);
+
+        } break;
+
+        case "MULTIPLE":
+        {
+
+        } break;
+
+        default: {} break;
+    }
+}
+
+
 function playerDies()
 {
     console.log("You are so dead!");
@@ -979,6 +1024,7 @@ function playerDies()
 
 }
 
+
 function playerDiesForReal()
 {
     console.log("You really died for real this time!");
@@ -991,6 +1037,7 @@ function playerDiesForReal()
     output(entranceToHades.description);
 
 }
+
 
 function refreshInventories()
 {
@@ -1029,6 +1076,7 @@ function refreshInventories()
         psg.weightFail = "You can't get down there with what you're carrying.";
 
 }
+
 
 function relocatePlayer(loc)
 {

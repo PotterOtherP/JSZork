@@ -1,10 +1,19 @@
+// Declaring input in the global scope.
+let input = "";
+let missingDirectObject = false;
+let missingIndirectObject = false;
+
+
+// Function called when the player submits input
 function parsePlayerInput()
 {
+    input = "";
+
     document.getElementById("gameArea").innerText = "";
     state.resetInput();
     console.clear();
 
-    let input = document.getElementById("inputTextArea").value;
+    input = document.getElementById("inputTextArea").value;
     state.completePlayerInput = input;
     outputPreviousInput(input);
 
@@ -64,8 +73,7 @@ function parsePlayerInput()
     }
 
 
-    input = parseAction(input);
-    if (input === "failAction") return;
+    if (!parseAction()) return;
 
     input = " " + input + " ";
     input = input.replace(/ at /g, " ");
@@ -87,33 +95,43 @@ function parsePlayerInput()
                 }
             }
 
-            input = parseDirectObject(input);
+            if (!parseDirectObject())
+            {
+                exitInput();
+                return;
+            }
+
         } break;
 
         case "INDIRECT":
         {
-            input = parseDirectObject(input);
-
-            if (input === "failIndirect")
+            if (!parseDirectObject())
             {
                 exitInput();
                 return;
             }
 
-            input = parseIndirectObject(input);
+            if (!parseIndirectObject())
+            {
+                exitInput();
+                return;
+            }
+
         } break;
 
         case "INDIRECT_INVERSE":
         {
-            input = parseIndirectObject(input);
-
-            if (input === "failIndirect")
+            if (!parseIndirectObject())
             {
                 exitInput();
                 return;
             }
 
-            input = parseDirectObject(input);
+            if (!parseDirectObject())
+            {
+                exitInput();
+                return;
+            }
 
         } break;
 
@@ -126,15 +144,6 @@ function parsePlayerInput()
     }
 
     
-
-
-    if (input === "failDirect" || input === "failIndirect")
-    {
-        exitInput();
-        return;
-    }
-
-
     if (validateAction())
     {
         updateGame();
@@ -145,6 +154,8 @@ function parsePlayerInput()
 
 }
 
+// If the bottle is filled, this will add the quantity of water
+// to the current object list.
 function bottleCheck(obj)
 {
     if (obj.name === "glass bottle" && state.bottleFilled)
@@ -157,6 +168,11 @@ function bottleCheck(obj)
 
 }
 
+// Prints debug info 
+// Refreshes inventories 
+// Updates game flags 
+// Fills current object list 
+// Clears player input text area 
 function exitInput()
 {
     printDebugInfo();
@@ -164,8 +180,12 @@ function exitInput()
     updateEvents();
     fillCurrentObjectList();
     document.getElementById("inputTextArea").value = "";
+
 }
 
+// Updates the currentObjects map with all objects
+// that the player can potentially interact with
+// for the current turn.
 function fillCurrentObjectList()
 {
     currentObjects.clear();
@@ -288,6 +308,7 @@ function fillCurrentObjectList()
 
 }
 
+// Returns true if the input string is empty
 function isEmpty(input)
 {
     if (input === null)
@@ -296,13 +317,18 @@ function isEmpty(input)
     }
 
     return (input === "" || input.length === 0);
+
 }
 
+// Returns true if str is known to the game
 function isGameWord(str)
 {
     return (dictionary.has(str));
+
 }
 
+// Process player input if the player is in the loud room
+// and has not solved it yet.
 function loudRoomCheck(input)
 {
     if (state.playerLocation === "LOUD_ROOM" && !state.loudRoomSolved && !state.damWaterLow)
@@ -344,11 +370,16 @@ function loudRoomCheck(input)
     }
 
     return false;
+
 }
 
-function parseAction(input)
+// Returns true if an action phrase is successfully
+// extracted from the input string.
+function parseAction()
 {
     console.log("parseAction phrase: " + input);
+
+    let result = false;
 
     for (let token of actions.keys())
     {
@@ -356,16 +387,25 @@ function parseAction(input)
         {
             state.playerAction = actions.get(token).action;
             state.playerActionType = actions.get(token).type;
-            state.firstInputPhrase = token;
-            return input.substring(token.length).trim();
+            state.actionPhrase = token;
+            input = input.substring(token.length).trim();
+            result = true;
         }
     }
 
-    return "failAction";
+    return result;
+
 }
 
-function parseDirectObject(input)
+
+function parseDirectObject()
 {
+
+    if (isEmpty(input))
+    {
+        output("What do you want to " + state.actionPhrase + "?");
+        return false;
+    }
 
     if (state.previousDirectObject !== null)
     {
@@ -381,8 +421,9 @@ function parseDirectObject(input)
         if (startsWith(token, input))
         {
             state.directObject = currentObjects.get(token);
+            state.directObjectPhrase = token;
             input = input.substring(token.length).trim();
-            return input;
+            return true;
         }
     }
 
@@ -392,16 +433,18 @@ function parseDirectObject(input)
         if (startsWith(token, input))
         {
             output("You can't see any " + token + " here!");
-            return "failIndirect";
+            return false;
         }
     }
 
     output("You used the phrase \"" + input + "\" in a way I don't understand.");
 
-    return "failDirect";
+    return false;
+
 }
 
-function parseIndirectObject(input)
+
+function parseIndirectObject()
 {
     console.log("parseIndirectObject phrase: " + input);
 
@@ -410,8 +453,9 @@ function parseIndirectObject(input)
         if (startsWith(token, input))
         {
             state.indirectObject = currentObjects.get(token);
+            state.indirectObjectPhrase = token;
             input = input.substring(token.length).trim();
-            return input;
+            return true;
         }
     }
 
@@ -421,15 +465,15 @@ function parseIndirectObject(input)
         if (startsWith(token, input))
         {
             output("You can't see any " + token + " here!");
-            return "failIndirect";
+            return false;
         }
     }
 
     output("You used the phrase \"" + input + "\" in a way I don't understand.");
 
-    return "failIndirect";
-}
+    return false;
 
+}
 
 
 function printDebugInfo()
@@ -439,7 +483,9 @@ function printDebugInfo()
     console.log("Direct object: " + state.directObject);
     console.log("Previous direct object: " + state.previousDirectObject);
     console.log("Indirect object: " + state.indirectObject);
+
 }
+
 
 function specialInputCheck()
 {
@@ -509,7 +555,9 @@ function specialInputCheck()
 
 
     return result;
+
 }
+
 
 function startsWith(token, input)
 {
@@ -533,6 +581,7 @@ function startsWith(token, input)
     return check;
 
 }
+
 
 function validateAction()
 {

@@ -26,10 +26,9 @@ class GameState {
         this.playerActionType = "";
         this.completePlayerInput = "";
         this.playerPreviousInput = "";
-        this.inputState = InputState.INPUT_COMPLETE;
-        this.firstInputPhrase = "";
-        this.secondInputPhrase = "";
-        this.thirdInputPhrase = "";
+        this.actionPhrase = "";
+        this.directObjectPhrase = "";
+        this.indirectObjectPhrase = "";
         this.speakPhrase = "";
         this.directObject = null;
         this.previousDirectObject = null;
@@ -80,8 +79,7 @@ class GameState {
             this.playerPreviousInput = this.completePlayerInput;
 
         this.completePlayerInput = "";
-        this.inputState = InputState.INPUT_COMPLETE;
-        this.firstInputPhrase = "";
+        this.actionInputPhrase = "";
         this.secondInputPhrase = "";
         this.thirdInputPhrase = "";
         this.speakPhrase = "";
