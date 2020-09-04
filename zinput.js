@@ -1,5 +1,6 @@
 // Declaring input in the global scope.
 let input = "";
+let missingAction = true;
 let missingDirectObject = false;
 let missingIndirectObject = false;
 
@@ -16,6 +17,7 @@ function parsePlayerInput()
     input = document.getElementById("inputTextArea").value;
     state.completePlayerInput = input;
     outputPreviousInput(input);
+
 
     // Loud room check
     if (loudRoomCheck(input)) 
@@ -72,8 +74,11 @@ function parsePlayerInput()
         }
     }
 
+    if (missingAction)
+    {
+        if (!parseAction()) return;
 
-    if (!parseAction()) return;
+    }
 
     input = " " + input + " ";
     input = input.replace(/ at /g, " ");
@@ -152,6 +157,10 @@ function parsePlayerInput()
 
     exitInput();
 
+    missingAction = true;
+    missingDirectObject = false;
+    missingIndirectObject = false;
+
 }
 
 // If the bottle is filled, this will add the quantity of water
@@ -175,6 +184,8 @@ function bottleCheck(obj)
 // Clears player input text area 
 function exitInput()
 {
+
+
     printDebugInfo();
     refreshInventories();
     updateEvents();
@@ -404,6 +415,16 @@ function parseDirectObject()
     if (isEmpty(input))
     {
         output("What do you want to " + state.actionPhrase + "?");
+        missingAction = false;
+        missingDirectObject = true;
+        return false;
+    }
+
+    if (missingDirectObject && parseAction())
+    {
+        missingDirectObject = false;
+        missingIndirectObject = false;
+        parsePlayerInput();
         return false;
     }
 
