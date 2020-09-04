@@ -1,8 +1,5 @@
 // Declaring input in the global scope.
 let input = "";
-let missingAction = true;
-let missingDirectObject = false;
-let missingIndirectObject = false;
 
 
 // Function called when the player submits input
@@ -11,7 +8,6 @@ function parsePlayerInput()
     input = "";
 
     document.getElementById("gameArea").innerText = "";
-    state.resetInput();
     console.clear();
 
     input = document.getElementById("inputTextArea").value;
@@ -74,10 +70,11 @@ function parsePlayerInput()
         }
     }
 
-    if (missingAction)
-    {
-        if (!parseAction()) return;
 
+    if (!parseAction())
+    {
+        exitInput();
+        return;
     }
 
     input = " " + input + " ";
@@ -153,13 +150,9 @@ function parsePlayerInput()
     {
         updateGame();
         updateScore();
+        exitInput();
     }
-
-    exitInput();
-
-    missingAction = true;
-    missingDirectObject = false;
-    missingIndirectObject = false;
+    
 
 }
 
@@ -190,6 +183,7 @@ function exitInput()
     refreshInventories();
     updateEvents();
     fillCurrentObjectList();
+    state.resetInput();
     document.getElementById("inputTextArea").value = "";
 
 }
@@ -390,6 +384,8 @@ function parseAction()
 {
     console.log("parseAction phrase: " + input);
 
+    if (state.playerAction != "NULL_ACTION") return true;
+
     let result = false;
 
     for (let token of actions.keys())
@@ -415,18 +411,11 @@ function parseDirectObject()
     if (isEmpty(input))
     {
         output("What do you want to " + state.actionPhrase + "?");
-        missingAction = false;
-        missingDirectObject = true;
-        return false;
+        return true;
     }
 
-    if (missingDirectObject && parseAction())
-    {
-        missingDirectObject = false;
-        missingIndirectObject = false;
-        parsePlayerInput();
-        return false;
-    }
+
+
 
     if (state.previousDirectObject !== null)
     {
