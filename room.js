@@ -77,6 +77,7 @@ class Room {
                 }
 
                 // success
+                state.playerPreviousLocation = state.playerLocation;
                 state.playerLocation = dest;
                     return true;
             }
