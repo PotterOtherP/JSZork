@@ -1,88 +1,39 @@
 // Declaring input in the global scope.
 let input = "";
+let missingInput = false;
+let missingDirect = false;
+let missingIndirect = false;
 
 
 // Function called when the player submits input
 function parsePlayerInput()
 {
     input = "";
+    missingInput = missingDirect | missingIndirect;
 
     document.getElementById("gameArea").innerText = "";
     console.clear();
 
-    input = document.getElementById("inputTextArea").value;
-    state.completePlayerInput = input;
+    state.completePlayerInput = document.getElementById("inputTextArea").value;
+    input = state.completePlayerInput;
     outputPreviousInput(input);
-
-
-    // Loud room check
-    if (loudRoomCheck(input)) 
-    {
-        exitInput();
-        return;
-    }
-
     input = input.trim().toLowerCase();
 
-    // Get previous input if player typed "again"
-    if (input === "again" || input === "g")
-    {
-        input = state.playerPreviousInput;
-        if (input === "")
-        {
-            output("Again what?");
-            exitInput();
-            return;
-        }
-    }
-
-    if (specialInputCheck())
+    if (!missingInput && !preprocessInput())
     {
         exitInput();
         return;
     }
 
-
-    input = " " + input + " ";
-    input = input.replace(/ back /g, " ");
-    input = input.replace(/ from /g, " ");
-    input = input.replace(/ of /g, " ");
-    input = input.replace(/ the /g, " ");
-    input = input.replace(/ to /g, " ");
-    input = input.replace(/ with /g, " ");
-    input = input.replace(/  /g, " ");
-    input = input.trim();
-
-
-    // Check for unknown words
-    let inputWords = input.split(" ");
-
-    if (!startsWith("say", input) && !startsWith("speak", input))
+    
+    if (!missingInput && !parseAction())
     {
-        for (let i = 0; i < inputWords.length; ++i)
-        {
-            if (!isGameWord(inputWords[i]))
-            {
-                output("I don't know what \"" + inputWords[i] + "\" means.");
-                exitInput();
-                return;
-            }
-        }
-    }
-
-
-    if (!parseAction())
-    {
+        output("That sentence did not start with a verb!");
         exitInput();
         return;
     }
 
-    input = " " + input + " ";
-    input = input.replace(/ at /g, " ");
-    input = input.replace(/ in /g, " ");
-    input = input.replace(/ on /g, " ");
-    input = input.replace(/ out /g, " ");
-    input = input.trim();
+    removeExtraWords();
 
     switch (state.playerActionType)
     {
@@ -93,7 +44,7 @@ function parsePlayerInput()
                 if (input === "" && state.playerInBoat)
                 {
                     state.directObject = inflatedBoat;
-                    return;
+                    break;
                 }
             }
 
@@ -148,6 +99,7 @@ function parsePlayerInput()
     
     if (validateAction())
     {
+        missingInput = false;
         updateGame();
         updateScore();
         exitInput();
@@ -155,6 +107,199 @@ function parsePlayerInput()
     
 
 }
+
+
+// Returns true if an action phrase is successfully
+// extracted from the input string.
+function parseAction()
+{
+    console.log("parseAction phrase: " + input);
+
+    for (let token of actions.keys())
+    {
+        if (startsWith(token, input))
+        {
+            state.playerAction = actions.get(token).action;
+            state.playerActionType = actions.get(token).type;
+            state.actionPhrase = token;
+            input = input.substring(token.length).trim();
+            return true;
+        }
+    }
+
+    return false;
+
+}
+
+
+function parseDirectObject()
+{
+
+    if (isEmpty(input))
+    {
+        output("What do you want to " + state.actionPhrase + "?");
+        missingDirect = true;
+        return false;
+    }
+
+    if (missingDirect && parseAction())
+    {
+        missingDirect = false;
+    }
+
+
+
+
+    if (state.previousDirectObject !== null)
+    {
+        input = " " + input + " ";
+        input = input.replace(/ it /, " " + state.previousDirectObject.name +  " ");
+        input = input.trim();
+    }
+
+    console.log("parseDirectObject phrase: " + input);
+
+    for (let token of currentObjectNames)
+    {
+        if (startsWith(token, input))
+        {
+            state.directObject = currentObjects.get(token);
+            state.directObjectPhrase = token;
+            input = input.substring(token.length).trim();
+            missingDirect = false;
+            return true;
+        }
+    }
+
+    // didn't find the object
+    for (let token of gameNouns)
+    {
+        if (startsWith(token, input))
+        {
+            output("You can't see any " + token + " here!");
+            return false;
+        }
+    }
+
+    output("You used the phrase \"" + input + "\" in a way I don't understand.");
+
+    return false;
+
+}
+
+
+function parseIndirectObject()
+{
+    console.log("parseIndirectObject phrase: " + input);
+
+    if (isEmpty(input))
+    {
+        output("What do you want to " + state.actionPhrase + "?");
+        missingIndirect = true;
+        return false;
+    }
+
+    if (missingIndirect && parseAction())
+    {
+        missingIndirect = false;
+    }
+
+    for (let token of currentObjectNames)
+    {
+        if (startsWith(token, input))
+        {
+            state.indirectObject = currentObjects.get(token);
+            state.indirectObjectPhrase = token;
+            input = input.substring(token.length).trim();
+            missingIndirect = false;
+            return true;
+        }
+    }
+
+    // didn't find the object
+    for (let token of gameNouns)
+    {
+        if (startsWith(token, input))
+        {
+            output("You can't see any " + token + " here!");
+            return false;
+        }
+    }
+
+    output("You used the phrase \"" + input + "\" in a way I don't understand.");
+
+    return false;
+
+}
+
+
+// Prints debug info 
+// Refreshes inventories 
+// Updates game flags 
+// Fills current object list 
+// Clears player input text area 
+function exitInput()
+{
+    printDebugInfo();
+
+    updateEvents();
+    refreshInventories();
+    fillCurrentObjectList();
+
+    missingInput = missingDirect | missingIndirect;
+
+    if (!missingInput)
+        state.resetInput();
+
+    document.getElementById("inputTextArea").value = "";
+
+}
+
+
+function preprocessInput()
+{
+
+    // Loud room check
+    if (loudRoomCheck(input)) 
+    {
+        return false;
+    }
+
+    // Get previous input if player typed "again"
+    if (input === "again" || input === "g")
+    {
+        input = state.playerPreviousInput;
+        if (input === "")
+        {
+            output("Again what?");
+            return false;
+        }
+    }
+
+    if (specialInputCheck())
+    {
+        return false;
+    }
+
+    // Check for unknown words
+    let inputWords = input.split(" ");
+
+    if (!startsWith("say", input) && !startsWith("speak", input))
+    {
+        for (let i = 0; i < inputWords.length; ++i)
+        {
+            if (!isGameWord(inputWords[i]))
+            {
+                output("I don't know what \"" + inputWords[i] + "\" means.");
+                return false;
+            }
+        }
+    }
+
+    return true;
+
+}
+
 
 // If the bottle is filled, this will add the quantity of water
 // to the current object list.
@@ -170,23 +315,6 @@ function bottleCheck(obj)
 
 }
 
-// Prints debug info 
-// Refreshes inventories 
-// Updates game flags 
-// Fills current object list 
-// Clears player input text area 
-function exitInput()
-{
-
-
-    printDebugInfo();
-    refreshInventories();
-    updateEvents();
-    fillCurrentObjectList();
-    state.resetInput();
-    document.getElementById("inputTextArea").value = "";
-
-}
 
 // Updates the currentObjects map with all objects
 // that the player can potentially interact with
@@ -313,6 +441,7 @@ function fillCurrentObjectList()
 
 }
 
+
 // Returns true if the input string is empty
 function isEmpty(input)
 {
@@ -325,12 +454,14 @@ function isEmpty(input)
 
 }
 
+
 // Returns true if str is known to the game
 function isGameWord(str)
 {
     return (dictionary.has(str));
 
 }
+
 
 // Process player input if the player is in the loud room
 // and has not solved it yet.
@@ -378,113 +509,6 @@ function loudRoomCheck(input)
 
 }
 
-// Returns true if an action phrase is successfully
-// extracted from the input string.
-function parseAction()
-{
-    console.log("parseAction phrase: " + input);
-
-    if (state.playerAction != "NULL_ACTION") return true;
-
-    let result = false;
-
-    for (let token of actions.keys())
-    {
-        if (startsWith(token, input))
-        {
-            state.playerAction = actions.get(token).action;
-            state.playerActionType = actions.get(token).type;
-            state.actionPhrase = token;
-            input = input.substring(token.length).trim();
-            result = true;
-        }
-    }
-
-    return result;
-
-}
-
-
-function parseDirectObject()
-{
-
-    if (isEmpty(input))
-    {
-        output("What do you want to " + state.actionPhrase + "?");
-        return true;
-    }
-
-
-
-
-    if (state.previousDirectObject !== null)
-    {
-        input = " " + input + " ";
-        input = input.replace(/ it /, " " + state.previousDirectObject.name +  " ");
-        input = input.trim();
-    }
-
-    console.log("parseDirectObject phrase: " + input);
-
-    for (let token of currentObjectNames)
-    {
-        if (startsWith(token, input))
-        {
-            state.directObject = currentObjects.get(token);
-            state.directObjectPhrase = token;
-            input = input.substring(token.length).trim();
-            return true;
-        }
-    }
-
-    // didn't find the object
-    for (let token of gameNouns)
-    {
-        if (startsWith(token, input))
-        {
-            output("You can't see any " + token + " here!");
-            return false;
-        }
-    }
-
-    output("You used the phrase \"" + input + "\" in a way I don't understand.");
-
-    return false;
-
-}
-
-
-function parseIndirectObject()
-{
-    console.log("parseIndirectObject phrase: " + input);
-
-    for (let token of currentObjectNames)
-    {
-        if (startsWith(token, input))
-        {
-            state.indirectObject = currentObjects.get(token);
-            state.indirectObjectPhrase = token;
-            input = input.substring(token.length).trim();
-            return true;
-        }
-    }
-
-    // didn't find the object
-    for (let token of gameNouns)
-    {
-        if (startsWith(token, input))
-        {
-            output("You can't see any " + token + " here!");
-            return false;
-        }
-    }
-
-    output("You used the phrase \"" + input + "\" in a way I don't understand.");
-
-    return false;
-
-}
-
 
 function printDebugInfo()
 {
@@ -493,6 +517,25 @@ function printDebugInfo()
     console.log("Direct object: " + state.directObject);
     console.log("Previous direct object: " + state.previousDirectObject);
     console.log("Indirect object: " + state.indirectObject);
+
+}
+
+
+function removeExtraWords()
+{
+    input = " " + input + " ";
+    input = input.replace(/ back /g, " ");
+    input = input.replace(/ from /g, " ");
+    input = input.replace(/ of /g, " ");
+    input = input.replace(/ the /g, " ");
+    input = input.replace(/ to /g, " ");
+    input = input.replace(/ with /g, " ");
+    input = input.replace(/  /g, " ");
+    input = input.replace(/ at /g, " ");
+    input = input.replace(/ in /g, " ");
+    input = input.replace(/ on /g, " ");
+    input = input.replace(/ out /g, " ");
+    input = input.trim();
 
 }
 
