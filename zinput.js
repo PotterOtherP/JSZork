@@ -9,7 +9,7 @@ let missingIndirect = false;
 function parsePlayerInput()
 {
     input = "";
-    missingInput = missingDirect | missingIndirect;
+    missingInput = (missingDirect || missingIndirect)? true : false;
 
     document.getElementById("gameArea").innerText = "";
     console.clear();
@@ -19,7 +19,7 @@ function parsePlayerInput()
     outputPreviousInput(input);
     input = input.trim().toLowerCase();
 
-    if (!missingInput && !preprocessInput())
+    if (!preprocessInput())
     {
         exitInput();
         return;
@@ -57,30 +57,15 @@ function parsePlayerInput()
         } break;
 
         case "INDIRECT":
-        {
-            if (!parseDirectObject())
-            {
-                exitInput();
-                return;
-            }
-
-            if (!parseIndirectObject())
-            {
-                exitInput();
-                return;
-            }
-
-        } break;
-
         case "INDIRECT_INVERSE":
         {
-            if (!parseIndirectObject())
+            if (!missingIndirect && !parseDirectObject())
             {
                 exitInput();
                 return;
             }
 
-            if (!parseDirectObject())
+            if (!parseIndirectObject())
             {
                 exitInput();
                 return;
@@ -91,9 +76,21 @@ function parsePlayerInput()
         case "SPEAK":
         {
             state.speakPhrase = input;
-        } break;
+        } 
+        case "REFLEXIVE":
+        case "EXIT":
+        {
+            state.previousDirectObject = dummyObject;
+        }break;
 
         default: {} break;
+    }
+
+    if (state.playerActionType == "INDIRECT_INVERSE")
+    {
+        let temp = state.directObject;
+        state.directObject = state.indirectObject;
+        state.indirectObject = temp;
     }
 
     
@@ -194,12 +191,12 @@ function parseIndirectObject()
 
     if (isEmpty(input))
     {
-        output("What do you want to " + state.actionPhrase + "?");
+        output("(INDIRECT) What do you want to " + state.actionPhrase + "?");
         missingIndirect = true;
         return false;
     }
 
-    if (missingIndirect && parseAction())
+    if (missingIndirect && parseAction() && parseDirectObject())
     {
         missingIndirect = false;
     }
@@ -246,7 +243,7 @@ function exitInput()
     refreshInventories();
     fillCurrentObjectList();
 
-    missingInput = missingDirect | missingIndirect;
+    missingInput = (missingDirect || missingIndirect)? true : false;
 
     if (!missingInput)
         state.resetInput();
@@ -258,6 +255,8 @@ function exitInput()
 
 function preprocessInput()
 {
+    while (input.contains("  "))
+    input = input.replace(/  /g, " ");
 
     // Loud room check
     if (loudRoomCheck(input)) 
@@ -530,11 +529,13 @@ function removeExtraWords()
     input = input.replace(/ the /g, " ");
     input = input.replace(/ to /g, " ");
     input = input.replace(/ with /g, " ");
-    input = input.replace(/  /g, " ");
     input = input.replace(/ at /g, " ");
     input = input.replace(/ in /g, " ");
     input = input.replace(/ on /g, " ");
     input = input.replace(/ out /g, " ");
+
+
+
     input = input.trim();
 
 }
@@ -675,6 +676,7 @@ function validateAction()
                     default:
                     {
                         output("You're not carrying the " + dirObj.name + ".");
+                        exitInput();
                         return false;
                     } break;
                 }
@@ -688,6 +690,7 @@ function validateAction()
             if (indObj.isItem() && indObj.location !== Location.PLAYER_INVENTORY)
             {
                 output("You're not carrying the " + indObj.name + ".");
+                exitInput();
                 return false;
             }
         } break;
