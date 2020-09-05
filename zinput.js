@@ -81,7 +81,7 @@ function parsePlayerInput()
         case "EXIT":
         {
             state.previousDirectObject = dummyObject;
-        }break;
+        } break;
 
         default: {} break;
     }
@@ -91,6 +91,22 @@ function parsePlayerInput()
         let temp = state.directObject;
         state.directObject = state.indirectObject;
         state.indirectObject = temp;
+    }
+
+    if (!isEmpty(input))
+    {
+        let phrase = state.actionPhrase;
+        if (!isEmpty(state.directObjectPhrase))
+            phrase = state.directObjectPhrase;
+
+        if (!isEmpty(state.indirectObjectPhrase))
+            phrase = state.indirectObjectPhrase;
+
+        phrase += " " + input;
+
+        output("I don't understand the phrase \"" + phrase + "\".");
+        exitInput();
+        return;
     }
 
     
@@ -147,7 +163,7 @@ function parseDirectObject()
 
 
 
-    if (state.previousDirectObject !== null)
+    if (state.previousDirectObject !== null && state.previousDirectObject !== dummyObject)
     {
         input = " " + input + " ";
         input = input.replace(/ it /, " " + state.previousDirectObject.name +  " ");
@@ -178,7 +194,7 @@ function parseDirectObject()
         }
     }
 
-    output("You used the phrase \"" + input + "\" in a way I don't understand.");
+    output("I can't tell what you are referring to.");
 
     return false;
 
@@ -223,7 +239,7 @@ function parseIndirectObject()
         }
     }
 
-    output("You used the phrase \"" + input + "\" in a way I don't understand.");
+    output("I can't tell what you are referring to.");
 
     return false;
 
@@ -255,8 +271,7 @@ function exitInput()
 
 function preprocessInput()
 {
-    while (input.contains("  "))
-    input = input.replace(/  /g, " ");
+    input = input.replace(/ +/g, " ");
 
     // Loud room check
     if (loudRoomCheck(input)) 

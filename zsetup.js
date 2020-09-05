@@ -192,6 +192,7 @@ westOfHouse.addExit(Action.SOUTHEAST, house_west_south);
 westOfHouse.addExit(Action.SOUTHWEST, house_west_barrow);
 westOfHouse.addExit(Action.WEST, house_west_forestW);
 westOfHouse.addFailMessage(Action.EAST, "The door is boarded and you can't remove the boards.");
+westOfHouse.addFailMessage(Action.IN, "The door is boarded and you can't remove the boards.");
 
 const northOfHouse = new Room("North of House", MapStrings.DESC_NORTH_OF_HOUSE, Location.NORTH_OF_HOUSE);
 northOfHouse.addExit(Action.NORTH, house_north_forestpath);
@@ -803,6 +804,7 @@ maze9_maze11.message = "You won't be able to get back up to the tunnel you are g
     + "when it gets to the next room.";
 cellar_livingroom.message = ObjectStrings.CYCLOPS_TRAP_DOOR;
 studio_kitchen.closedFail = "Going up empty-handed is a bad idea.";
+house_west_barrow.closedFail = "You can't go that way.";
 
 // Narrow passages
 studio_kitchen.weightLimit = 35;

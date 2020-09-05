@@ -414,7 +414,6 @@ class Item extends GameObject {
                     let rm = worldMap.get(state.playerLocation);
                     if (rm.isDark())
                     {
-                        outputLine();
                         rm.lookAround();
                     }
                     
