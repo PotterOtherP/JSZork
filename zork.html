@@ -106,7 +106,7 @@
 
     <script type="text/javascript">
         
-        const state = new GameState();
+        let state = new GameState();
 
         function clearOutput()
         {
@@ -185,12 +185,68 @@
     <script type="text/javascript" src="passage.js"></script>
     <script type="text/javascript" src="room.js"></script>
     <script type="text/javascript" src="zsetup.js"></script>
+
+    <script type="text/javascript">
+        
+        state.playerLocation = Location.WEST_OF_HOUSE;
+
+        const savedStates = [];
+
+        let savedState = new GameState();
+        let savedObjects = new Map();
+
+        savedState = Object.assign(savedState, state);
+        for (let key of objectList.keys())
+        {
+            let sourceObject = objectList.get(key);
+            let savedObject = null;
+
+            switch (sourceObject.objectType)
+            {
+                case "ACTOR":
+                {
+                    savedObject = new Actor(sourceObject.name, sourceObject.location);
+                    savedObject = Object.assign(savedObject, sourceObject);
+                } break;
+
+                case "CONTAINER":
+                {
+                    savedObject = new Container(sourceObject.name, sourceObject.location);
+                    savedObject = Object.assign(savedObject, sourceObject);
+                } break;
+
+                case "FEATURE":
+                {
+                    savedObject = new Feature(sourceObject.name, sourceObject.location);
+                    savedObject = Object.assign(savedObject, sourceObject);
+                } break;
+
+                case "ITEM":
+                {
+                    savedObject = new Item(sourceObject.name, sourceObject.location);
+                    savedObject = Object.assign(savedObject, sourceObject);
+                } break;
+
+                case "SURFACE":
+                {
+                    savedObject = new Surface(sourceObject.name, sourceObject.location);
+                    savedObject = Object.assign(savedObject, sourceObject);
+                } break;
+            }
+
+            savedObjects.set(key, savedObject);
+        }
+
+        savedStates.push( {savedState, savedObjects} );
+
+    </script>
+
     <script type="text/javascript" src="zinput.js"></script>
     <script type="text/javascript" src="zupdate.js"></script>
 
     <script type="text/javascript">
 
-        state.playerLocation = Location.WEST_OF_HOUSE;
+    
         refreshInventories();
         fillCurrentObjectList();
         fillDictionary();

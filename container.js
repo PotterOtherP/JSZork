@@ -30,7 +30,7 @@ class Container extends GameObject {
 
             for (let item of this.inventory)
             {
-                if (item.movedFromStart)
+                if (item.movedFromStart || item.initialPresenceString === "")
                     initCheck = false;
             }
 

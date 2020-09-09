@@ -205,7 +205,6 @@ class Actor extends GameObject {
         if (state.playerLocation === Location.CELLAR &&
             state.playerPreviousLocation === Location.LIVING_ROOM)
         {
-            output(ObjectStrings.CYCLOPS_TRAP_DOOR);
             cellar_livingroom.setClosed();
             state.trapDoorOpen = false;
         }

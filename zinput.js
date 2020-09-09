@@ -76,6 +76,7 @@ function parsePlayerInput()
         case "SPEAK":
         {
             state.speakPhrase = input;
+            input = "";
         } 
         case "REFLEXIVE":
         case "EXIT":

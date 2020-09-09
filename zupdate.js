@@ -757,20 +757,12 @@ function updateEvents()
 
     if (state.cyclopsGone)
     {
-        let clops = objectList.get("cyclops");
-
-        clops.location = Location.NULL_LOCATION;
-        let strange = worldMap.get(Location.STRANGE_PASSAGE);
-        let clopsRoom = worldMap.get(Location.CYCLOPS_ROOM);
-        let cell = worldMap.get(Location.CELLAR);
-        let p1 = strange.exits.get(Action.EAST);
-        let p2 = strange.exits.get(Action.WEST);
-        let p3 = clopsRoom.exits.get(Action.UP);
-        let p4 = cell.exits.get(Action.UP);
-        p1.setOpen();
-        p2.setOpen();
-        p3.setOpen();
-        p4.message = "";
+        cyclops.location = Location.NULL_LOCATION;
+        cyclops_strange.setOpen();
+        cyclops_treasure.setOpen();
+        strange_living_room.setOpen();
+        cellar_livingroom.setOpen();
+        cellar_livingroom.message = "";
     }
 
     if (state.gratingOpened)
@@ -1094,6 +1086,18 @@ function relocatePlayer(loc)
 function restart()
 {
     console.log("Restarting");
+    state = savedStates[0].savedState;
+    objectList = savedStates[0].savedObjects;
+
+    state.resetInput();
+    updateEvents();
+    refreshInventories();
+    fillCurrentObjectList();
+
+    
+    outputLocation(westOfHouse.name);
+    westOfHouse.lookAround();
+
 
 }
 

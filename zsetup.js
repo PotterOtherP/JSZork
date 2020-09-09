@@ -1,6 +1,6 @@
 // Data structure declarations
 const worldMap = new Map();
-const objectList = new Map();
+let objectList = new Map();
 const currentObjects = new Map();
 const dictionary = new Set();
 

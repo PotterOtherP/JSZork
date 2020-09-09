@@ -384,7 +384,6 @@ actions.set("mend", {action: Action.REPAIR, type: ActionType.DIRECT});
 actions.set("repair", {action: Action.REPAIR, type: ActionType.DIRECT});
 actions.set("fix", {action: Action.REPAIR, type: ActionType.DIRECT});
 actions.set("ring", {action: Action.RING, type: ActionType.DIRECT});
-actions.set("say", {action: Action.SAY, type: ActionType.DIRECT});
 actions.set("search", {action: Action.SEARCH, type: ActionType.DIRECT});
 actions.set("shake", {action: Action.SHAKE, type: ActionType.DIRECT});
 actions.set("smell", {action: Action.SMELL, type: ActionType.DIRECT});
@@ -404,6 +403,7 @@ actions.set("wear", {action: Action.WEAR, type: ActionType.DIRECT});
 actions.set("wind", {action: Action.WIND, type: ActionType.DIRECT});
 
 
+actions.set("say", {action: Action.SAY, type: ActionType.SPEAK});
 
 // Indirect actions
 actions.set("attack", {action: Action.ATTACK, type: ActionType.INDIRECT});

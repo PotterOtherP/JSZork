@@ -77,6 +77,8 @@ class Room {
                 }
 
                 // success
+                if (psg.message !== "")
+                    output(psg.message + "\n");
                 state.playerPreviousLocation = state.playerLocation;
                 state.playerLocation = dest;
                     return true;
