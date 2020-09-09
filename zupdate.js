@@ -1086,8 +1086,8 @@ function relocatePlayer(loc)
 function restart()
 {
     console.log("Restarting");
-    state = savedStates[0].savedState;
-    objectList = savedStates[0].savedObjects;
+    state = savedGames.get("startSave").savedState;
+    objectList = savedGames.get("startSave").savedObjects;
 
     state.resetInput();
     updateEvents();
@@ -1096,7 +1096,28 @@ function restart()
 
     
     outputLocation(westOfHouse.name);
+    outputTurns(state.turns);
     westOfHouse.lookAround();
+
+
+}
+
+function restore(filename)
+{
+    console.log("Loading...");
+
+    state = savedGames.get(filename).savedState;
+    objectList = savedGames.get(filename).savedObjects;
+
+    state.resetInput();
+    updateEvents();
+    refreshInventories();
+    fillCurrentObjectList();
+
+    let curRoom = worldMap.get(state.playerLocation);
+    outputLocation(curRoom.name);
+    outputTurns(state.turns);
+    curRoom.lookAround();
 
 
 }
@@ -1111,6 +1132,59 @@ function revealGrating()
 
     gratingRoom.darkness = false;
 
+}
+
+function saveGame(filename)
+{
+    console.log("Saving...");
+    output("Saving...");
+
+    let savedState = new GameState();
+    let savedObjects = new Map();
+
+    savedState = Object.assign(savedState, state);
+    for (let key of objectList.keys())
+    {
+        let sourceObject = objectList.get(key);
+        let savedObject = null;
+
+        switch (sourceObject.objectType)
+        {
+            case "ACTOR":
+            {
+                savedObject = new Actor(sourceObject.name, sourceObject.location);
+                savedObject = Object.assign(savedObject, sourceObject);
+            } break;
+
+            case "CONTAINER":
+            {
+                savedObject = new Container(sourceObject.name, sourceObject.location);
+                savedObject = Object.assign(savedObject, sourceObject);
+            } break;
+
+            case "FEATURE":
+            {
+                savedObject = new Feature(sourceObject.name, sourceObject.location);
+                savedObject = Object.assign(savedObject, sourceObject);
+            } break;
+
+            case "ITEM":
+            {
+                savedObject = new Item(sourceObject.name, sourceObject.location);
+                savedObject = Object.assign(savedObject, sourceObject);
+            } break;
+
+            case "SURFACE":
+            {
+                savedObject = new Surface(sourceObject.name, sourceObject.location);
+                savedObject = Object.assign(savedObject, sourceObject);
+            } break;
+        }
+
+        savedObjects.set(key, savedObject);
+    }
+
+    savedGames.set( filename, {savedState, savedObjects} );
 }
 
 function updateActors()

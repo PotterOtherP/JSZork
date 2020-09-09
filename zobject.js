@@ -1,8 +1,10 @@
+const noEffect1 = " doesn't seem to work.";
+const noEffect2 = " has no effect.";
+const noEffect3 = " isn't notably helpful.";
+
 class GameObject {
 
-    noEffect1 = " doesn't seem to work.";
-    noEffect2 = " has no effect.";
-    noEffect3 = " isn't notably helpful.";
+
     
     constructor(name, loc)
     {
