@@ -321,6 +321,8 @@ actions.set("l",     {action: Action.LOOK, type: ActionType.REFLEXIVE});
 actions.set("quit",  {action: Action.QUIT, type: ActionType.REFLEXIVE});
 actions.set("q",     {action: Action.QUIT, type: ActionType.REFLEXIVE});
 actions.set("restart", {action: Action.RESTART, type: ActionType.REFLEXIVE});
+actions.set("restore", {action: Action.RESTORE, type: ActionType.REFLEXIVE});
+actions.set("save", {action: Action.SAVE, type: ActionType.REFLEXIVE});
 actions.set("score", {action: Action.SCORE, type: ActionType.REFLEXIVE});
 actions.set("shout", {action: Action.SHOUT, type: ActionType.REFLEXIVE});
 actions.set("yell",  {action: Action.SHOUT, type: ActionType.REFLEXIVE});

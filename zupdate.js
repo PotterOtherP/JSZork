@@ -343,7 +343,26 @@ function updateGame()
             {
                 restart();            
                 return;
-            }
+
+            } // break;
+
+            case "RESTORE":
+            {
+                output("Enter save file name: ")
+                inputTextArea.removeEventListener("change", parsePlayerInput);
+                inputTextArea.addEventListener("change", restoreInterface);
+                return;
+
+            } // break;
+
+            case "SAVE":
+            {
+                output("Enter save file name: ")
+                inputTextArea.removeEventListener("change", parsePlayerInput);
+                inputTextArea.addEventListener("change", saveInterface);
+                return
+
+            } // break;
 
             case "SCORE":
             {
@@ -359,6 +378,7 @@ function updateGame()
 
     updateActors();
     updateItems();
+    saveGame("undoSave");
     ++state.turns;
 
 }
@@ -553,6 +573,31 @@ function updateDarkness()
             output("To quit, simply leave the page. To restart, enter \"restart\" or click the Restart button.");
         } break;
 
+        case "RESTART":
+        {
+            restart();            
+            return;
+
+        } // break;
+
+        case "RESTORE":
+        {
+            output("Enter save file name: ")
+            inputTextArea.removeEventListener("change", parsePlayerInput);
+            inputTextArea.addEventListener("change", restoreInterface);
+            return;
+
+        } // break;
+
+        case "SAVE":
+        {
+            output("Enter save file name: ")
+            inputTextArea.removeEventListener("change", parsePlayerInput);
+            inputTextArea.addEventListener("change", saveInterface);
+            return
+
+        } // break;
+
         case "SCORE":
         {
             updateScore();
@@ -573,6 +618,7 @@ function updateDarkness()
     updateActors();
     updateItems();
     updateEvents();
+    saveGame("undoSave");
     ++state.turns;
 
 }
@@ -650,6 +696,31 @@ function updateDeath()
             output("You cannot quit being dead that easily.");
         } break;
 
+        case "RESTART":
+        {
+            restart();            
+            return;
+
+        } // break;
+
+        case "RESTORE":
+        {
+            output("Enter save file name: ")
+            inputTextArea.removeEventListener("change", parsePlayerInput);
+            inputTextArea.addEventListener("change", restoreInterface);
+            return;
+
+        } // break;
+
+        case "SAVE":
+        {
+            output("Enter save file name: ")
+            inputTextArea.removeEventListener("change", parsePlayerInput);
+            inputTextArea.addEventListener("change", saveInterface);
+            return
+
+        } // break;
+
         case "SCORE":
         {
             output(GameStrings.DEAD_SCORE);
@@ -717,6 +788,7 @@ function updateDeath()
         }
     }
 
+    saveGame("undoSave");
     ++state.turns;
 
 }
@@ -1104,10 +1176,64 @@ function restart()
 
 function restore(filename)
 {
+    if (!savedGames.has(filename))
+    {
+        output("Save file not found.");
+        return;
+    }
+
     console.log("Loading...");
 
-    state = savedGames.get(filename).savedState;
-    objectList = savedGames.get(filename).savedObjects;
+    let restoreState = savedGames.get(filename).savedState;
+    let restoreObjects = savedGames.get(filename).savedObjects;
+
+    state = Object.assign(state, restoreState);
+
+    objectList.clear();
+    
+    for (let key of restoreObjects.keys())
+    {
+        let sourceObject = restoreObjects.get(key);
+        let targetObject = null;
+
+        switch (sourceObject.objectType)
+        {
+            case "ACTOR":
+            {
+                targetObject = new Actor(sourceObject.name, sourceObject.location);
+                targetObject = Object.assign(targetObject, sourceObject);
+            } break;
+
+            case "CONTAINER":
+            {
+                targetObject = new Container(sourceObject.name, sourceObject.location);
+                targetObject = Object.assign(targetObject, sourceObject);
+            } break;
+
+            case "FEATURE":
+            {
+                targetObject = new Feature(sourceObject.name, sourceObject.location);
+                targetObject = Object.assign(targetObject, sourceObject);
+            } break;
+
+            case "ITEM":
+            {
+                targetObject = new Item(sourceObject.name, sourceObject.location);
+                targetObject = Object.assign(targetObject, sourceObject);
+            } break;
+
+            case "SURFACE":
+            {
+                targetObject = new Surface(sourceObject.name, sourceObject.location);
+                targetObject = Object.assign(targetObject, sourceObject);
+            } break;
+        }
+
+        objectList.set(key, targetObject);
+    }
+
+
+    output("Game restored.\n");
 
     state.resetInput();
     updateEvents();
@@ -1121,6 +1247,24 @@ function restore(filename)
 
 
 }
+
+
+function restoreInterface()
+{
+    console.log("Restore interface function");
+    gameArea.innerText = "";
+
+    let filename = document.getElementById("inputTextArea").value;
+
+    restore(filename);
+
+
+    inputTextArea.value = "";
+
+    inputTextArea.removeEventListener("change", restoreInterface);
+    inputTextArea.addEventListener("change", parsePlayerInput);
+}
+
 
 function revealGrating()
 {
@@ -1137,7 +1281,12 @@ function revealGrating()
 function saveGame(filename)
 {
     console.log("Saving...");
-    output("Saving...");
+
+    
+    if (savedGames.has(filename))
+    {
+        savedGames.delete(filename);
+    }
 
     let savedState = new GameState();
     let savedObjects = new Map();
@@ -1185,6 +1334,38 @@ function saveGame(filename)
     }
 
     savedGames.set( filename, {savedState, savedObjects} );
+    return true;
+}
+
+
+function saveInterface()
+{
+    console.log("Save interface function");
+    gameArea.innerText = "";
+
+    let filename = document.getElementById("inputTextArea").value;
+
+    if (filename === "undoSave" ||
+        filename === "autoSave" ||
+        filename === "autoSave1" ||
+        filename === "autoSave2" ||
+        filename === "autoSave3" ||
+        filename === "startSave")
+    {
+        output("Filename reserved by system, choose something else.");
+    }
+
+    else
+    {
+        saveGame(filename);
+        output("Game saved as \"" + filename + "\".");
+    }
+    
+
+    inputTextArea.value = "";
+
+    inputTextArea.removeEventListener("change", saveInterface);
+    inputTextArea.addEventListener("change", parsePlayerInput);
 }
 
 function updateActors()

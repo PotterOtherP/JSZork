@@ -295,6 +295,7 @@ canyonView.addExit(Action.WEST, forestS_canyon);
 canyonView.addExit(Action.DOWN, canyon_ledge);
 canyonView.addExit(Action.EAST, canyon_ledge);
 canyonView.addFailMessage(Action.SOUTH, "Storm-tossed trees block your way.");
+canyonView.jumpString = "Nice view, lousy place to jump.\n";
 
 const rockyLedge = new Room("Rocky Ledge", MapStrings.DESC_ROCKY_LEDGE, Location.ROCKY_LEDGE);
 rockyLedge.addExit(Action.UP, canyon_ledge);
