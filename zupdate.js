@@ -1,5 +1,7 @@
 function updateGame()
 {
+    saveGame("undoSave");
+
     let currentRoom = worldMap.get(state.playerLocation);
 
     if (state.playerDead)
@@ -378,7 +380,6 @@ function updateGame()
 
     updateActors();
     updateItems();
-    saveGame("undoSave");
     ++state.turns;
 
 }

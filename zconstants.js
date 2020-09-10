@@ -396,7 +396,6 @@ actions.set("get", {action: Action.TAKE, type: ActionType.DIRECT});
 actions.set("acquire", {action: Action.TAKE, type: ActionType.DIRECT});
 actions.set("talk to", {action: Action.TALK_TO, type: ActionType.DIRECT});
 actions.set("touch", {action: Action.TOUCH, type: ActionType.DIRECT});
-actions.set("turn", {action: Action.TURN, type: ActionType.DIRECT});
 actions.set("detach", {action: Action.UNTIE, type: ActionType.DIRECT});
 actions.set("untie", {action: Action.UNTIE, type: ActionType.DIRECT});
 actions.set("wake", {action: Action.WAKE, type: ActionType.DIRECT});
@@ -421,6 +420,7 @@ actions.set("inflate", {action: Action.INFLATE, type: ActionType.INDIRECT});
 actions.set("pump up", {action: Action.INFLATE, type: ActionType.INDIRECT});
 actions.set("pump", {action: Action.INFLATE, type: ActionType.INDIRECT});
 
+actions.set("turn", {action: Action.TURN, type: ActionType.INDIRECT});
 actions.set("unlock", {action: Action.UNLOCK, type: ActionType.INDIRECT});
 actions.set("lock", {action: Action.LOCK, type: ActionType.INDIRECT});
 actions.set("strike", {action: Action.STRIKE, type: ActionType.INDIRECT});
