@@ -277,8 +277,8 @@ class Item extends GameObject {
                     output("The brass lantern is now off.");
                     this.examineString = "The lamp is off.";
 
-                    state.darknessCheck();
-                    if (state.darkness)
+                    darknessCheck();
+                    if (state.playerInDarkness)
                         output("It is now pitch black.");
                     
                 }

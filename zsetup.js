@@ -346,6 +346,7 @@ trollRoom.addExit(Action.EAST, troll_eastwest);
 const eastWestPassage = new Room("East-West Passage", MapStrings.DESC_EAST_WEST_PASSAGE , Location.EAST_WEST_PASSAGE);
 eastWestPassage.addExit(Action.WEST, troll_eastwest);
 eastWestPassage.addExit(Action.NORTH, eastwest_chasm);
+eastWestPassage.addExit(Action.DOWN, eastwest_chasm);
 eastWestPassage.addExit(Action.EAST, eastwest_round);
 eastWestPassage.discoverValue = EAST_WEST_VALUE;
 

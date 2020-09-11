@@ -7,7 +7,7 @@ class GameState {
         this.darknessTurns = 0;
         this.playerInDarkness = false;
         this.lightActivated = false;
-        this.matchCount = 0;
+        this.matchCount = 5;
         this.playerInBoat = false;
 
         // player attributes
