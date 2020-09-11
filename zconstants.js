@@ -287,7 +287,6 @@ actions.set("u", {action: Action.UP, type: ActionType.EXIT});
 actions.set("down", {action: Action.DOWN, type: ActionType.EXIT});
 actions.set("d", {action: Action.DOWN, type: ActionType.EXIT});
 
-actions.set("launch",   {action: Action.LAUNCH, type: ActionType.EXIT});
 actions.set("land",     {action: Action.LAND, type: ActionType.EXIT});
 actions.set("in",       {action: Action.IN, type: ActionType.EXIT});
 actions.set("inside",   {action: Action.IN, type: ActionType.EXIT});
@@ -353,6 +352,7 @@ actions.set("drop", {action: Action.DROP, type: ActionType.DIRECT});
 actions.set("eat", {action: Action.EAT, type: ActionType.DIRECT});
 actions.set("enter", {action: Action.ENTER, type: ActionType.DIRECT});
 actions.set("examine", {action: Action.EXAMINE, type: ActionType.DIRECT});
+actions.set("launch",   {action: Action.LAUNCH, type: ActionType.DIRECT});
 actions.set("look at", {action: Action.EXAMINE, type: ActionType.DIRECT});
 actions.set("l at", {action: Action.EXAMINE, type: ActionType.DIRECT});
 actions.set("extinguish", {action: Action. EXTINGUISH, type: ActionType.DIRECT});

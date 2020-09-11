@@ -1199,7 +1199,7 @@ inflatedBoat.altNames.add("raft");
 inflatedBoat.inventoryID = Location.INSIDE_BOAT;
 inflatedBoat.weight = BOAT_WEIGHT;
 inflatedBoat.capacity = 100;
-inflatedBoat.open = true;
+inflatedBoat.itemOpen = true;
 
 const knife = new Item("nasty knife", Location.ATTIC);
 knife.altNames.add("knife");
@@ -1520,7 +1520,7 @@ self.altNames.add("myself");
 
 const shaftBasket = new Container("basket", Location.SHAFT_ROOM);
 shaftBasket.altLocations.add(Location.DRAFTY_ROOM);
-shaftBasket.open = true;
+shaftBasket.containerOpen = true;
 shaftBasket.capacity = 50;
 shaftBasket.inventoryID = Location.INSIDE_BASKET;
 

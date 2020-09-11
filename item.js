@@ -384,6 +384,7 @@ class Item extends GameObject {
                     if (room.exit(Action.LAUNCH))
                     {
                         let newRoom = worldMap.get(state.playerLocation);
+                        outputLocation(newRoom.name);
                         newRoom.lookAround(); 
                     }
 

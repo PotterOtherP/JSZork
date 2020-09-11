@@ -582,31 +582,31 @@ class Actor extends GameObject {
         {
             switch (state.playerLocation)
             {
-                case FRIGID_RIVER_1:
+                case "FRIGID_RIVER_1":
                 {
                     output("\nThe flow of the river carries you downstream.\n");
                     state.relocatePlayer(Location.FRIGID_RIVER_2);
                 } break;
 
-                case FRIGID_RIVER_2:
+                case "FRIGID_RIVER_2":
                 {
                     output("\nThe flow of the river carries you downstream.\n");
                     state.relocatePlayer(Location.FRIGID_RIVER_3);
                 } break;
 
-                case FRIGID_RIVER_3:
+                case "FRIGID_RIVER_3":
                 {
                     output("\nThe flow of the river carries you downstream.\n");
                     state.relocatePlayer(Location.FRIGID_RIVER_4);
                 } break;
 
-                case FRIGID_RIVER_4:
+                case "FRIGID_RIVER_4":
                 {
                     output("\nThe flow of the river carries you downstream.\n");
                     state.relocatePlayer(Location.FRIGID_RIVER_5);
                 } break;
 
-                case FRIGID_RIVER_5:
+                case "FRIGID_RIVER_5":
                 {
                     output(GameStrings.WATERFALL_DEATH_BOAT);
                     output("\n");
@@ -1453,11 +1453,11 @@ class Actor extends GameObject {
 
             When the troll attacks with the axe, the possible results are:
 
-             - Miss: 25%
-             - Light blow: 20%
-             - Severe blow: 15% 
-             - Stagger: 15%
-             - Disarm: 15%
+             - Miss: 40%
+             - Light blow: 25%
+             - Severe blow: 10% 
+             - Stagger: 10%
+             - Disarm: 5%
              - Knockout: 5%
              - Death: 5%
 
@@ -1469,10 +1469,10 @@ class Actor extends GameObject {
             */
             // Game.output("The troll attacks you.");
 
-            let missCutoff = 25;
-            let lightCutoff = 45;
-            let severeCutoff = 60;
-            let staggerCutoff = 75;
+            let missCutoff = 40;
+            let lightCutoff = 65;
+            let severeCutoff = 75;
+            let staggerCutoff = 85;
             let disarmCutoff = 90;
             let knockoutCutoff = 95;
 
