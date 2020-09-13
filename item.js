@@ -476,7 +476,7 @@ class Item extends GameObject {
 
             case "pair of candles":
             {
-                if (state.indirectObject.name === "dummy_feature")
+                if (state.indirectObject.name === "dummy_object")
                 {
                     output("You should say what to light them with.");
                     return;

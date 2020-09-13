@@ -73,6 +73,22 @@ function parsePlayerInput()
 
         } break;
 
+        case "SWITCH":
+        {
+            if (!missingIndirect && !parseDirectObject())
+            {
+                exitInput();
+                return;
+            }
+
+            if (!isEmpty(input) && !parseIndirectObject())
+            {
+                exitInput();
+                return;
+            }
+
+        } break;
+
         case "SPEAK":
         {
             state.speakPhrase = input;
@@ -96,16 +112,16 @@ function parsePlayerInput()
 
     if (!isEmpty(input))
     {
-        let phrase = state.actionPhrase;
-        if (!isEmpty(state.directObjectPhrase))
-            phrase = state.directObjectPhrase;
+        // let phrase = state.actionPhrase;
+        // if (!isEmpty(state.directObjectPhrase))
+        //     phrase = state.directObjectPhrase;
 
-        if (!isEmpty(state.indirectObjectPhrase))
-            phrase = state.indirectObjectPhrase;
+        // if (!isEmpty(state.indirectObjectPhrase))
+        //     phrase = state.indirectObjectPhrase;
 
-        phrase += " " + input;
+        // phrase += " " + input;
 
-        output("I don't understand the phrase \"" + phrase + "\".");
+        output("I don't understand what that means.");
         exitInput();
         return;
     }
@@ -129,7 +145,7 @@ function parseAction()
 {
     console.log("parseAction phrase: " + input);
 
-    for (let token of actions.keys())
+    for (let token of actionPhrases)
     {
         if (startsWith(token, input))
         {
@@ -213,7 +229,12 @@ function parseIndirectObject()
         return false;
     }
 
-    if (missingIndirect && parseAction() && parseDirectObject())
+    if (missingIndirect && parseAction())
+    {
+        missingIndirect = false;
+    }
+
+    if (missingIndirect && parseDirectObject())
     {
         missingIndirect = false;
     }

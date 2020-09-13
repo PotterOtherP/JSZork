@@ -9,8 +9,14 @@ const gameNouns = new Set();
 
 // for sorting by length
 let currentObjectNames = [];
-const actionNames = [];
+const actionPhrases = [];
 
+for (let phrase of actions.keys())
+    actionPhrases.push(phrase);
+
+actionPhrases.sort(function(a, b) {
+    return (a.length > b.length)? -1 : 0;
+});
 
 const dummyObject = new GameObject("dummy_object", Location.NULL_LOCATION);
 
