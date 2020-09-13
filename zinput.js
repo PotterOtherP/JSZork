@@ -175,6 +175,20 @@ function parseDirectObject()
     if (missingDirect && parseAction())
     {
         missingDirect = false;
+
+        switch (state.playerActionType)
+        {
+            case "DIRECT":
+            case "INDIRECT":
+            case "INDIRECT_INVERSE":
+            case "SWITCH":
+            {
+                return parseDirectObject();
+            } // break;
+
+            default: { return true; } // break;
+
+        }
     }
 
 
@@ -224,7 +238,8 @@ function parseIndirectObject()
 
     if (isEmpty(input))
     {
-        output("(INDIRECT) What do you want to " + state.actionPhrase + "?");
+        output("What do you want to " + state.actionPhrase + " the "
+            + state.directObjectPhrase + " " + prepositions.get(state.playerAction) + "?");
         missingIndirect = true;
         return false;
     }
