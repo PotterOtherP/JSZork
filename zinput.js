@@ -247,12 +247,27 @@ function parseIndirectObject()
     if (missingIndirect && parseAction())
     {
         missingIndirect = false;
+
+        switch (state.playerActionType)
+        {
+            case "DIRECT":
+            case "INDIRECT":
+            case "INDIRECT_INVERSE":
+            case "SWITCH":
+            {
+                if (parseDirectObject())
+                    return parseIndirectObject();
+            } // break;
+
+            default: { return true; } // break;
+
+        }
     }
 
-    if (missingIndirect && parseDirectObject())
-    {
-        missingIndirect = false;
-    }
+    // if (missingIndirect && parseDirectObject())
+    // {
+    //     missingIndirect = false;
+    // }
 
     for (let token of currentObjectNames)
     {
@@ -568,6 +583,8 @@ function printDebugInfo()
     console.log("Direct object: " + state.directObject);
     console.log("Previous direct object: " + state.previousDirectObject);
     console.log("Indirect object: " + state.indirectObject);
+    console.log("Missing direct object: " + missingDirect);
+    console.log("Missing indirect object: " + missingIndirect);
 
 }
 
