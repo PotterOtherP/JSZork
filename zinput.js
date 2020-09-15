@@ -1,22 +1,63 @@
 // Declaring input in the global scope.
 let input = "";
-let missingInput = false;
-let missingDirect = false;
-let missingIndirect = false;
+
+function getMissingInput()
+{
+    document.getElementById("gameArea").innerText = "";
+    console.clear();
+    let missingInput = document.getElementById("inputTextArea").value;
+    missingInput = missingInput.trim().toLowerCase();
+    outputPreviousInput(missingInput);
+
+    // check for an action (not using the parseAction() method)
+    // If the missing input starts with an action, replace original input with it
+
+    let actionCheck = false;
+
+    for (let token of actionPhrases)
+    {
+        if (startsWith(token, missingInput))
+        {
+            state.completePlayerInput = missingInput;
+            actionCheck = true;
+        }
+    }
+
+    // Otherwise, append the missing input
+    if (!actionCheck)
+    {
+        state.completePlayerInput += " " + missingInput;
+    }
+
+    
+    // don't forget to swap this back!
+    inputTextArea.removeEventListener("change", getMissingInput);
+    inputTextArea.addEventListener("change", getPlayerInput);
+
+    // Restart the input parser
+    
+    parsePlayerInput();
+}
 
 
 // Function called when the player submits input
-function parsePlayerInput()
+function getPlayerInput()
 {
     input = "";
-    missingInput = (missingDirect || missingIndirect)? true : false;
 
     document.getElementById("gameArea").innerText = "";
     console.clear();
 
     state.completePlayerInput = document.getElementById("inputTextArea").value;
+    outputPreviousInput(state.completePlayerInput);
+
+    parsePlayerInput();
+
+}
+
+function parsePlayerInput()
+{
     input = state.completePlayerInput;
-    outputPreviousInput(input);
     input = input.trim().toLowerCase();
 
     if (!preprocessInput())
@@ -26,7 +67,7 @@ function parsePlayerInput()
     }
 
     
-    if (!missingInput && !parseAction())
+    if (!parseAction())
     {
         output("That sentence did not start with a verb!");
         exitInput();
@@ -59,7 +100,7 @@ function parsePlayerInput()
         case "INDIRECT":
         case "INDIRECT_INVERSE":
         {
-            if (!missingIndirect && !parseDirectObject())
+            if (!parseDirectObject())
             {
                 exitInput();
                 return;
@@ -75,7 +116,7 @@ function parsePlayerInput()
 
         case "SWITCH":
         {
-            if (!missingIndirect && !parseDirectObject())
+            if (!parseDirectObject())
             {
                 exitInput();
                 return;
@@ -129,7 +170,6 @@ function parsePlayerInput()
     
     if (validateAction())
     {
-        missingInput = false;
         updateGame();
         updateScore();
         exitInput();
@@ -168,31 +208,10 @@ function parseDirectObject()
     if (isEmpty(input))
     {
         output("What do you want to " + state.actionPhrase + "?");
-        missingDirect = true;
+        inputTextArea.removeEventListener("change", getPlayerInput);
+        inputTextArea.addEventListener("change", getMissingInput);
         return false;
     }
-
-    if (missingDirect && parseAction())
-    {
-        missingDirect = false;
-
-        switch (state.playerActionType)
-        {
-            case "DIRECT":
-            case "INDIRECT":
-            case "INDIRECT_INVERSE":
-            case "SWITCH":
-            {
-                return parseDirectObject();
-            } // break;
-
-            default: { return true; } // break;
-
-        }
-    }
-
-
-
 
     if (state.previousDirectObject !== null && state.previousDirectObject !== dummyObject)
     {
@@ -240,34 +259,11 @@ function parseIndirectObject()
     {
         output("What do you want to " + state.actionPhrase + " the "
             + state.directObjectPhrase + " " + prepositions.get(state.playerAction) + "?");
-        missingIndirect = true;
+        inputTextArea.removeEventListener("change", getPlayerInput);
+        inputTextArea.addEventListener("change", getMissingInput);
         return false;
     }
 
-    if (missingIndirect && parseAction())
-    {
-        missingIndirect = false;
-
-        switch (state.playerActionType)
-        {
-            case "DIRECT":
-            case "INDIRECT":
-            case "INDIRECT_INVERSE":
-            case "SWITCH":
-            {
-                if (parseDirectObject())
-                    return parseIndirectObject();
-            } // break;
-
-            default: { return true; } // break;
-
-        }
-    }
-
-    // if (missingIndirect && parseDirectObject())
-    // {
-    //     missingIndirect = false;
-    // }
 
     for (let token of currentObjectNames)
     {
@@ -276,7 +272,6 @@ function parseIndirectObject()
             state.indirectObject = currentObjects.get(token);
             state.indirectObjectPhrase = token;
             input = input.substring(token.length).trim();
-            missingIndirect = false;
             return true;
         }
     }
@@ -310,11 +305,6 @@ function exitInput()
     updateEvents();
     refreshInventories();
     fillCurrentObjectList();
-
-    missingInput = (missingDirect || missingIndirect)? true : false;
-
-    if (!missingInput)
-        state.resetInput();
 
     document.getElementById("inputTextArea").value = "";
 
@@ -583,8 +573,6 @@ function printDebugInfo()
     console.log("Direct object: " + state.directObject);
     console.log("Previous direct object: " + state.previousDirectObject);
     console.log("Indirect object: " + state.indirectObject);
-    console.log("Missing direct object: " + missingDirect);
-    console.log("Missing indirect object: " + missingIndirect);
 
 }
 
