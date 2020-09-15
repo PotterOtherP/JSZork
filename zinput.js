@@ -35,7 +35,7 @@ function getMissingInput()
     inputTextArea.addEventListener("change", getPlayerInput);
 
     // Restart the input parser
-    
+
     parsePlayerInput();
 }
 
@@ -47,6 +47,8 @@ function getPlayerInput()
 
     document.getElementById("gameArea").innerText = "";
     console.clear();
+
+    state.resetInput();
 
     state.completePlayerInput = document.getElementById("inputTextArea").value;
     outputPreviousInput(state.completePlayerInput);
