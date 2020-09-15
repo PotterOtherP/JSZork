@@ -746,13 +746,13 @@ class Feature extends GameObject {
                 {
                     case "screwdriver":
                     {
-                        let machine = objectList.get("machine");
-                        if (!machine.isOpen() && machine.inventory.size > 0)
+                        if (!coalMachine.isOpen() && coalMachine.inventory.size > 0)
                         {
+                            refreshInventories();
                             output(ObjectStrings.MACHINE_SUCCESS);
 
-                            let subject = machine.inventory[0];
-                            machine.inventory.clear();
+                            let subject = coalMachine.inventory[0];
+                            coalMachine.inventory.clear();
                             if (subject.name === "small pile of coal")
                             {
                                 subject.location = Location.NULL_LOCATION;
@@ -767,7 +767,7 @@ class Feature extends GameObject {
                                 slag.location = Location.INSIDE_COAL_MACHINE;
                             }
 
-                            state.refreshInventories();
+                            refreshInventories();
                         }
 
                         else

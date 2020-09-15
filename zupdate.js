@@ -34,7 +34,7 @@ function updateGame()
         }
 
         else if ( (state.playerLocation === "SHAFT_ROOM" && state.shaftBasketLowered) ||
-                  (staet.playerLocation === "DRAFTY_ROOM" && !state.shaftBasketLowered) )
+                  (state.playerLocation === "DRAFTY_ROOM" && !state.shaftBasketLowered) )
         {
             output("The basket is at the other end of the chain.");
             
