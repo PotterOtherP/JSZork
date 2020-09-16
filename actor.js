@@ -1256,7 +1256,7 @@ class Actor extends GameObject {
             if (state.thiefEggTurns === THIEF_OPENS_EGG)
             {
                 canary.location = Location.INSIDE_EGG;
-                egg.open = true;
+                egg.itemOpen = true;
                 state.thiefOpenedEgg = true;
             }
         }

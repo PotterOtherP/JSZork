@@ -607,7 +607,7 @@ class Item extends GameObject {
             return;
         }
 
-        if (this.open)
+        if (this.itemOpen)
         {
             let currentWeight = 0;
             for (let it of this.inventory)

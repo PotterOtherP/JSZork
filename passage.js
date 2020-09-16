@@ -7,14 +7,14 @@ class Passage {
 
         this.closedFail = "";
         this.message = "";
-        this.open = true;
+        this.passageOpen = true;
         this.weightFail = "";
         this.weightLimit = 1000;
     }
 
 
-    setOpen() { this.open = true; }
-    setClosed() { this.open = false; }
-    isOpen() { return this.open; }
+    setOpen() { this.passageOpen = true; }
+    setClosed() { this.passageOpen = false; }
+    isOpen() { return this.passageOpen; }
 }
 
