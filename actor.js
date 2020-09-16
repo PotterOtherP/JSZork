@@ -585,25 +585,25 @@ class Actor extends GameObject {
                 case "FRIGID_RIVER_1":
                 {
                     output("\nThe flow of the river carries you downstream.\n");
-                    state.relocatePlayer(Location.FRIGID_RIVER_2);
+                    relocatePlayer(Location.FRIGID_RIVER_2);
                 } break;
 
                 case "FRIGID_RIVER_2":
                 {
                     output("\nThe flow of the river carries you downstream.\n");
-                    state.relocatePlayer(Location.FRIGID_RIVER_3);
+                    relocatePlayer(Location.FRIGID_RIVER_3);
                 } break;
 
                 case "FRIGID_RIVER_3":
                 {
                     output("\nThe flow of the river carries you downstream.\n");
-                    state.relocatePlayer(Location.FRIGID_RIVER_4);
+                    relocatePlayer(Location.FRIGID_RIVER_4);
                 } break;
 
                 case "FRIGID_RIVER_4":
                 {
                     output("\nThe flow of the river carries you downstream.\n");
-                    state.relocatePlayer(Location.FRIGID_RIVER_5);
+                    relocatePlayer(Location.FRIGID_RIVER_5);
                 } break;
 
                 case "FRIGID_RIVER_5":
