@@ -153,8 +153,12 @@ class Container extends GameObject {
                 {
                     this.containerOpen = true;
 
-                    if (this.inventory.size > 0)
-                        output("The lid opens, revealing " + this.inventory[0].articleName + ".");
+                    if (this.inventory.size === 1)
+                    {
+                        for (let item of this.inventory)
+                            output("The lid opens, revealing " + item.articleName + ".");
+                    }
+                    
                     else
                         output("The lid opens.");
                 }

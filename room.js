@@ -302,6 +302,7 @@ class Room {
 
     lookAround()
     {
+        outputLocation(this.name);
         this.getDescription();
         this.getRoomObjects();
     }

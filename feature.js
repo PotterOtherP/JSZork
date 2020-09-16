@@ -748,23 +748,27 @@ class Feature extends GameObject {
                     {
                         if (!coalMachine.isOpen() && coalMachine.inventory.size > 0)
                         {
-                            refreshInventories();
                             output(ObjectStrings.MACHINE_SUCCESS);
 
-                            let subject = coalMachine.inventory[0];
-                            coalMachine.inventory.clear();
-                            if (subject.name === "small pile of coal")
+                            for (let subject of coalMachine.inventory)
                             {
-                                subject.location = Location.NULL_LOCATION;
-                                let diamond = objectList.get("huge diamond");
-                                diamond.location = Location.INSIDE_COAL_MACHINE;
-                            }
+                                coalMachine.inventory.clear();
 
-                            else
-                            {
-                                subject.location = Location.NULL_LOCATION;
-                                let slag = objectList.get("small piece of vitreous slag");
-                                slag.location = Location.INSIDE_COAL_MACHINE;
+                                if (subject.name === "small pile of coal")
+                                {
+                                    subject.location = Location.NULL_LOCATION;
+                                    let diamond = objectList.get("huge diamond");
+                                    diamond.location = Location.INSIDE_COAL_MACHINE;
+                                    break;
+                                }
+
+                                else
+                                {
+                                    subject.location = Location.NULL_LOCATION;
+                                    let slag = objectList.get("small piece of vitreous slag");
+                                    slag.location = Location.INSIDE_COAL_MACHINE;
+                                    break;
+                                }
                             }
 
                             refreshInventories();
