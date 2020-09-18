@@ -526,6 +526,7 @@ reservoirSouth.addExit(Action.WEST, res_south_stream_view);
 reservoirSouth.addExit(Action.SOUTHEAST, res_south_deep);
 reservoirSouth.addExit(Action.SOUTHWEST, res_south_chasm);
 reservoirSouth.addExit(Action.EAST, dam_res_south);
+reservoirSouth.addFailMessage(Action.NORTH, "You would drown.");
 
 const reservoir = new Room("Reservoir", MapStrings.DESC_RESERVOIR, Location.RESERVOIR);
 reservoir.addExit(Action.NORTH, res_north_res);
@@ -537,12 +538,13 @@ reservoir.addFailMessage(Action.EAST, "The dam blocks your way.");
 const reservoirEmpty = new Room("Reservoir", MapStrings.DESC_RESERVOIR_EMPTY, Location.RESERVOIR_EMPTY);
 reservoirEmpty.addExit(Action.NORTH, res_north_res_empty);
 reservoirEmpty.addExit(Action.SOUTH, res_south_res_empty);
-reservoirEmpty.addExit(Action.WEST, stream_res_empty);
 reservoirEmpty.addExit(Action.LAUNCH, stream_res_empty);
+reservoirEmpty.addFailMessage(Action.WEST, "You cannot wade into the flowing stream.");
 
 const reservoirNorth = new Room("Reservoir North", MapStrings.DESC_RESERVOIR_NORTH, Location.RESERVOIR_NORTH);
 reservoirNorth.addExit(Action.NORTH, res_north_atlantis);
 reservoirNorth.addExit(Action.LAUNCH, res_north_res);
+reservoirNorth.addFailMessage(Action.SOUTH, "You would drown.");
 
 const atlantisRoom = new Room("Atlantis Room", MapStrings.DESC_ATLANTIS_ROOM, Location.ATLANTIS_ROOM);
 atlantisRoom.addExit(Action.UP, atlantis_cave);
@@ -802,8 +804,6 @@ house_behind_kitchen.closedFail = MapStrings.KITCHEN_WINDOW_CLOSED;
 strange_living_room.closedFail = "The door is nailed shut.";
 dome_torch.closedFail = "You cannot do gown without fracturing many bones.";
 hades_land_dead.closedFail = "Some invisible force prevents you from passing through the gate.";
-res_south_res.closedFail = "You would drown.";
-res_north_res.closedFail = "You would drown.";
 cyclops_strange.closedFail = "The east wall is solid rock.";
 cyclops_treasure.closedFail = "The cyclops doesn't look like he'll let you past.";
 maze2_maze4.message = "You won't be able to get back up to the tunnel you are going through "
