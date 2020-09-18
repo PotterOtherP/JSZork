@@ -1410,6 +1410,8 @@ function updateItems()
         whiteCliffsBeachSouth.addFailMessage(Action.EAST, str);
         sandyBeach.addFailMessage(Action.WEST, str);
         shore.addFailMessage(Action.WEST, str);
+        reservoirSouth.removeFailMessage(Action.NORTH);
+        reservoirNorth.removeFailMessage(Action.SOUTH);
         reservoirSouth.addFailMessage(Action.NORTH, str);
         reservoirNorth.addFailMessage(Action.SOUTH, str);
         streamView.addFailMessage(Action.NORTH, str);
@@ -1425,6 +1427,8 @@ function updateItems()
         shore.removeFailMessage(Action.WEST);
         reservoirSouth.removeFailMessage(Action.NORTH);
         reservoirNorth.removeFailMessage(Action.SOUTH);
+        reservoirSouth.addFailMessage(Action.NORTH, "You would drown.");
+        reservoirNorth.addFailMessage(Action.SOUTH, "You would drown.");
         streamView.removeFailMessage(Action.NORTH);
     }
 }
