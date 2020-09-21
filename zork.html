@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<html>
+<head>
+    <title>Zork</title>
+    <meta charset="utf-8">
+
+</head>
 
 
 
@@ -91,12 +97,7 @@
 
 </style>
 
-<html>
-<head>
-    <title>Zork</title>
-    <meta charset="utf-8">
 
-</head>
 <body>
 
     <div id="gameContainer">
@@ -122,6 +123,25 @@
     <script type="text/javascript" src="zstate.js"></script>
 
     <script type="text/javascript">
+
+        /*
+
+            TODO
+
+            - Add all action phrases and createdlist sorted by length
+            - Multiple object parsing
+            - Reorganize update functions to reduce redundant code
+            - Saving and restoring: Object.assign() and Object.create()?
+            - Externally stored save files
+            - Jumping from tree
+            - Fix sceptre waving (rainbowSolid flag)
+            - Grating and leaf pile
+            - Skeleton disturbance
+            - Test cyclops stuff
+
+
+
+        */
         
         let state = new GameState();
 
