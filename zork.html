@@ -7,6 +7,7 @@
     body {
         background-color: #f0f8ff;
         background-color: rgb(220, 228, 245);
+        font-size: 16px;
     }
 
     #gameContainer {
@@ -42,14 +43,18 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 35%;
+        width: 40%;
+    }
+
+    #gameTurnsArea {
+
     }
 
     #gameArea {
         width: 100%;
         height: auto;
         min-height: 200px;
-        max-height: 400px;
+        max-height: 600px;
         overflow: auto;
 
     }
@@ -68,11 +73,21 @@
         margin-top: 10px;
         border: 1px;
         font-family: monospace;
-        font-weight: 1200;
+        font-size: 16px;
         background: black;
         color: white;
 
     }
+
+    @media (max-width: 1000px) {
+        #gameContainer {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+
+    }
+    
 
 </style>
 
@@ -95,8 +110,10 @@
         <div id="gameArea" class="gameTextArea"></div>
         <div id="previousInputArea" class="gameTextArea"></div>
         <input type="text" id="inputTextArea" name="playerInput" tabindex="0" spellcheck="false" autofocus="true">
-        <div style="margin-top: 100px"><a href="index.html">Home</a></div>
     </div>
+
+    <input type="button" id="restartButton" value="Restart" style="margin-top: 20px">
+    <div style="margin-top: 100px"><a href="index.html">Home</a></div>
 
     <script type="text/javascript" src="zconstants.js"></script>
     <script type="text/javascript" src="mapstrings.js"></script>
@@ -205,6 +222,7 @@
 
         state.resetInput();
         inputTextArea.addEventListener("change", getPlayerInput);
+        restartButton.addEventListener("click", restart);
 
     </script>
 

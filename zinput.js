@@ -717,6 +717,7 @@ function validateAction()
                     // which are present but not in the player's inventory.
                     case "ATTACK":
                     case "BOARD":
+                    case "CLIMB":
                     case "CLOSE":
                     case "CUT":
                     case "DEFLATE":

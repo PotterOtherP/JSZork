@@ -49,7 +49,7 @@ class GameObject {
         this.helloString = "It's a well known fact that only schizophrenics say \"Hello\" to " + this.articleName + ".";
         this.inflateString = "How can you inflate that?";
         this.knockString = "Why knock on " + this.articleName + "?";
-        this.launchString = "How exactly do you imagine trying a launch " + this.articleName + "?";
+        this.launchString = "How exactly do you imagine trying to launch " + this.articleName + "?";
         this.lightString = "You can't turn that on.";
         this.listenString = "The " + this.name + " makes no sound.";
         this.lookInString = "You can't look inside " + this.articleName + ".";

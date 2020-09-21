@@ -426,9 +426,9 @@ class Actor extends GameObject {
                     output(MapStrings.LOUD_ROOM_RUSH);
                     output("\n");
 
-                    if (choice === 0) relocatePlayer(Location.DAMP_CAVE);
-                    if (choice === 1) relocatePlayer(Location.ROUND_ROOM);
-                    if (choice === 2) relocatePlayer(Location.DEEP_CANYON);
+                    if (choice === 0) relocatePlayerNoClear(Location.DAMP_CAVE);
+                    if (choice === 1) relocatePlayerNoClear(Location.ROUND_ROOM);
+                    if (choice === 2) relocatePlayerNoClear(Location.DEEP_CANYON);
                 }
 
                 if (state.playerLocation === Location.DEEP_CANYON)

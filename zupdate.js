@@ -1,6 +1,6 @@
 function updateGame()
 {
-    saveGame("undoSave");
+    // saveGame("undoSave");
 
     let currentRoom = worldMap.get(state.playerLocation);
 
@@ -127,6 +127,7 @@ function updateGame()
         case "DOWN":
         case "IN":
         case "OUT":
+        case "LAND":
         {
             if (currentRoom.exit())
             {
@@ -150,9 +151,9 @@ function updateGame()
                     nextRoom.getRoomObjects();
                     output(MapStrings.DESC_LOUD_ROOM_WATER + "\n");
 
-                    if (rand === 0) relocatePlayer(Location.DAMP_CAVE);
-                    if (rand === 1) relocatePlayer(Location.ROUND_ROOM);
-                    if (rand === 2) relocatePlayer(Location.DEEP_CANYON);
+                    if (rand === 0) relocatePlayerNoClear(Location.DAMP_CAVE);
+                    if (rand === 1) relocatePlayerNoClear(Location.ROUND_ROOM);
+                    if (rand === 2) relocatePlayerNoClear(Location.DEEP_CANYON);
 
                     updateActors();
                     updateItems();
@@ -351,7 +352,7 @@ function updateGame()
             case "RESTORE":
             {
                 output("Enter save file name: ")
-                inputTextArea.removeEventListener("change", parsePlayerInput);
+                inputTextArea.removeEventListener("change", getPlayerInput);
                 inputTextArea.addEventListener("change", restoreInterface);
                 return;
 
@@ -360,7 +361,7 @@ function updateGame()
             case "SAVE":
             {
                 output("Enter save file name: ")
-                inputTextArea.removeEventListener("change", parsePlayerInput);
+                inputTextArea.removeEventListener("change", getPlayerInput);
                 inputTextArea.addEventListener("change", saveInterface);
                 return
 
@@ -377,6 +378,13 @@ function updateGame()
             case "NULL_ACTION": {} break;
             default: {} break;
     }
+
+    currentRoom = worldMap.get(state.playerLocation);
+    
+    if (state.playerInBoat)
+        outputLocation(currentRoom.name + ", in the magic boat");
+    else
+        outputLocation(currentRoom.name);
 
     updateActors();
     updateItems();
@@ -584,7 +592,7 @@ function updateDarkness()
         case "RESTORE":
         {
             output("Enter save file name: ")
-            inputTextArea.removeEventListener("change", parsePlayerInput);
+            inputTextArea.removeEventListener("change", getPlayerInput);
             inputTextArea.addEventListener("change", restoreInterface);
             return;
 
@@ -593,7 +601,7 @@ function updateDarkness()
         case "SAVE":
         {
             output("Enter save file name: ")
-            inputTextArea.removeEventListener("change", parsePlayerInput);
+            inputTextArea.removeEventListener("change", getPlayerInput);
             inputTextArea.addEventListener("change", saveInterface);
             return
 
@@ -707,7 +715,7 @@ function updateDeath()
         case "RESTORE":
         {
             output("Enter save file name: ")
-            inputTextArea.removeEventListener("change", parsePlayerInput);
+            inputTextArea.removeEventListener("change", getPlayerInput);
             inputTextArea.addEventListener("change", restoreInterface);
             return;
 
@@ -716,7 +724,7 @@ function updateDeath()
         case "SAVE":
         {
             output("Enter save file name: ")
-            inputTextArea.removeEventListener("change", parsePlayerInput);
+            inputTextArea.removeEventListener("change", getPlayerInput);
             inputTextArea.addEventListener("change", saveInterface);
             return
 
@@ -840,73 +848,54 @@ function updateEvents()
 
     if (state.gratingOpened)
     {
-        let grate = objectList.get("grating");
-        if (!grate.altLocations.has(Location.CLEARING_NORTH))
-            grate.altLocations.add(Location.CLEARING_NORTH);
+        if (!grating.altLocations.has(Location.CLEARING_NORTH))
+            grating.altLocations.add(Location.CLEARING_NORTH);
 
 
-        let rm1 = worldMap.get(Location.GRATING_ROOM);
-        rm1.setLight();
-        let p = rm1.exits.get(Action.UP);
-        p.setOpen();
+        gratingRoom.setLight();
+        grating_clearing.setOpen();
 
-        let rm2 = worldMap.get(Location.CLEARING_NORTH);
-        rm2.addExit(Action.DOWN, psg);
+        clearingNorth.addExit(Action.DOWN, grating_clearing);
 
         if (!state.leafPileMoved)
         {
             state.leafPileMoved = true;
-
-            let leaves = objectList.get("pile of leaves");
-            leaves.location = Location.GRATING_ROOM;
+            leafPile.location = Location.GRATING_ROOM;
         }
     }
 
     else
     {
-        let r = worldMap.get(Location.GRATING_ROOM);
-        let p = r.exits.get(Action.UP);
-        p.setClosed();
+        grating_clearing.setClosed();
         this.examineString = "The grating is closed.";
     }
 
     if (state.ropeRailTied)
     {
-        let rope = objectList.get("rope");
         rope.location = Location.ON_RAILING;
 
-        let rm1 = worldMap.get(Location.DOME_ROOM);
-        let rm2 = worldMap.get(Location.TORCH_ROOM);
-        rm1.description = MapStrings.DESC_DOME_ROOM_ROPE;
-        rm2.description = MapStrings.DESC_TORCH_ROOM_ROPE;
-        rm2.addFailMessage(Action.UP, "You cannot reach the rope.");
-        let psg = rm1.exits.get(Action.DOWN);
-        psg.setOpen();
+        domeRoom.description = MapStrings.DESC_DOME_ROOM_ROPE;
+        torchRoom.description = MapStrings.DESC_TORCH_ROOM_ROPE;
+        torchRoom.addFailMessage(Action.UP, "You cannot reach the rope.");
+        dome_torch.setOpen();
     }
 
     else
     {
-        let rm1 = worldMap.get(Location.DOME_ROOM);
-        let rm2 = worldMap.get(Location.TORCH_ROOM);
-        rm1.description = MapStrings.DESC_DOME_ROOM;
-        rm2.description = MapStrings.DESC_TORCH_ROOM;
-        rm2.removeFailMessage(Action.UP);
-        let psg = rm1.exits.get(Action.DOWN);
-        psg.setClosed();
+        domeRoom.description = MapStrings.DESC_DOME_ROOM;
+        torchRoom.description = MapStrings.DESC_TORCH_ROOM;
+        torchRoom.removeFailMessage(Action.UP);
+        dome_torch.setClosed();
     }
 
     if (state.trapDoorOpen)
     {
-        let r = worldMap.get(Location.LIVING_ROOM);
-        let p = r.exits.get(Action.DOWN);
-        p.setOpen();
+        cellar_livingroom.setOpen();
     }
 
     else
     {
-        let r = worldMap.get(Location.LIVING_ROOM);
-        let p = r.exits.get(Action.DOWN);
-        p.setClosed();
+        cellar_livingroom.setClosed();
     }
 
 }
@@ -1156,11 +1145,26 @@ function relocatePlayer(loc)
 
 }
 
+function relocatePlayerNoClear(loc)
+{
+    // clearOutput();
+    state.playerPreviousLocation = state.playerLocation;
+    state.playerLocation = loc;
+    let room = worldMap.get(loc);
+    darknessCheck();
+    room.lookAround();
+    outputLocation(room.name);
+    room.firstVisit = false;
+
+}
+
 function restart()
 {
     console.log("Restarting");
     state = savedGames.get("startSave").savedState;
     objectList = savedGames.get("startSave").savedObjects;
+
+    gameArea.innerText = "";
 
     state.resetInput();
     updateEvents();
@@ -1192,45 +1196,45 @@ function restore(filename)
 
     objectList.clear();
     
-    for (let key of restoreObjects.keys())
+    for (let sourceObject of restoreObjects.values())
     {
-        let sourceObject = restoreObjects.get(key);
-        let targetObject = null;
+        let targetObject = Object.create(sourceObject);
+        targetObject = Object.assign(targetObject, sourceObject);
+        objectList.set(targetObject.name, targetObject);
 
-        switch (sourceObject.objectType)
-        {
-            case "ACTOR":
-            {
-                targetObject = new Actor(sourceObject.name, sourceObject.location);
-                targetObject = Object.assign(targetObject, sourceObject);
-            } break;
+        // switch (sourceObject.objectType)
+        // {
+        //     case "ACTOR":
+        //     {
+        //         targetObject = new Actor(sourceObject.name, sourceObject.location);
+        //         targetObject = Object.assign(targetObject, sourceObject);
+        //     } break;
 
-            case "CONTAINER":
-            {
-                targetObject = new Container(sourceObject.name, sourceObject.location);
-                targetObject = Object.assign(targetObject, sourceObject);
-            } break;
+        //     case "CONTAINER":
+        //     {
+        //         targetObject = new Container(sourceObject.name, sourceObject.location);
+        //         targetObject = Object.assign(targetObject, sourceObject);
+        //     } break;
 
-            case "FEATURE":
-            {
-                targetObject = new Feature(sourceObject.name, sourceObject.location);
-                targetObject = Object.assign(targetObject, sourceObject);
-            } break;
+        //     case "FEATURE":
+        //     {
+        //         targetObject = new Feature(sourceObject.name, sourceObject.location);
+        //         targetObject = Object.assign(targetObject, sourceObject);
+        //     } break;
 
-            case "ITEM":
-            {
-                targetObject = new Item(sourceObject.name, sourceObject.location);
-                targetObject = Object.assign(targetObject, sourceObject);
-            } break;
+        //     case "ITEM":
+        //     {
+        //         targetObject = new Item(sourceObject.name, sourceObject.location);
+        //         targetObject = Object.assign(targetObject, sourceObject);
+        //     } break;
 
-            case "SURFACE":
-            {
-                targetObject = new Surface(sourceObject.name, sourceObject.location);
-                targetObject = Object.assign(targetObject, sourceObject);
-            } break;
-        }
+        //     case "SURFACE":
+        //     {
+        //         targetObject = new Surface(sourceObject.name, sourceObject.location);
+        //         targetObject = Object.assign(targetObject, sourceObject);
+        //     } break;
+        // }
 
-        objectList.set(key, targetObject);
     }
 
 
@@ -1263,7 +1267,7 @@ function restoreInterface()
     inputTextArea.value = "";
 
     inputTextArea.removeEventListener("change", restoreInterface);
-    inputTextArea.addEventListener("change", parsePlayerInput);
+    inputTextArea.addEventListener("change", getPlayerInput);
 }
 
 
@@ -1293,45 +1297,47 @@ function saveGame(filename)
     let savedObjects = new Map();
 
     savedState = Object.assign(savedState, state);
-    for (let key of objectList.keys())
+    for (let sourceObject of objectList.values())
     {
-        let sourceObject = objectList.get(key);
-        let savedObject = null;
+        let savedObject = Object.create(sourceObject);
+        savedObject = Object.assign(savedObject, sourceObject);
+        savedObjects.set(savedObject.name, savedObject);
 
-        switch (sourceObject.objectType)
-        {
-            case "ACTOR":
-            {
-                savedObject = new Actor(sourceObject.name, sourceObject.location);
-                savedObject = Object.assign(savedObject, sourceObject);
-            } break;
 
-            case "CONTAINER":
-            {
-                savedObject = new Container(sourceObject.name, sourceObject.location);
-                savedObject = Object.assign(savedObject, sourceObject);
-            } break;
 
-            case "FEATURE":
-            {
-                savedObject = new Feature(sourceObject.name, sourceObject.location);
-                savedObject = Object.assign(savedObject, sourceObject);
-            } break;
+        // switch (sourceObject.objectType)
+        // {
+        //     case "ACTOR":
+        //     {
+        //         savedObject = new Actor(sourceObject.name, sourceObject.location);
+        //         savedObject = Object.assign(savedObject, sourceObject);
+        //     } break;
 
-            case "ITEM":
-            {
-                savedObject = new Item(sourceObject.name, sourceObject.location);
-                savedObject = Object.assign(savedObject, sourceObject);
-            } break;
+        //     case "CONTAINER":
+        //     {
+        //         savedObject = new Container(sourceObject.name, sourceObject.location);
+        //         savedObject = Object.assign(savedObject, sourceObject);
+        //     } break;
 
-            case "SURFACE":
-            {
-                savedObject = new Surface(sourceObject.name, sourceObject.location);
-                savedObject = Object.assign(savedObject, sourceObject);
-            } break;
-        }
+        //     case "FEATURE":
+        //     {
+        //         savedObject = new Feature(sourceObject.name, sourceObject.location);
+        //         savedObject = Object.assign(savedObject, sourceObject);
+        //     } break;
 
-        savedObjects.set(key, savedObject);
+        //     case "ITEM":
+        //     {
+        //         savedObject = new Item(sourceObject.name, sourceObject.location);
+        //         savedObject = Object.assign(savedObject, sourceObject);
+        //     } break;
+
+        //     case "SURFACE":
+        //     {
+        //         savedObject = new Surface(sourceObject.name, sourceObject.location);
+        //         savedObject = Object.assign(savedObject, sourceObject);
+        //     } break;
+        // }
+
     }
 
     savedGames.set( filename, {savedState, savedObjects} );
@@ -1366,7 +1372,7 @@ function saveInterface()
     inputTextArea.value = "";
 
     inputTextArea.removeEventListener("change", saveInterface);
-    inputTextArea.addEventListener("change", parsePlayerInput);
+    inputTextArea.addEventListener("change", getPlayerInput);
 }
 
 function updateActors()
