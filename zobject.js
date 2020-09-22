@@ -271,7 +271,17 @@ class GameObject {
     light() { output(this.lightString); }
     listen() { output(this.listenString); }
     lock() { output("You can't lock that."); }
-    lookIn() { output(this.lookInString); }
+    lookIn()
+    {   
+        if (this.isContainer())
+        {
+            this.examine();
+        }
+
+        else
+            output(this.lookInString);
+        
+    }
     lookOut() { output(this.lookOutString); }
     lookUnder() { output(this.lookUnderString); }
     lower() { output(this.lowerString + this.randPhrase()); }

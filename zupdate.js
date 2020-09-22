@@ -265,9 +265,22 @@ function updateGame()
 
             case "JUMP":
             {
-                if (currentRoom.height)
+
+                if (state.playerLocation === "UP_TREE")
+                {
+                    relocatePlayer(Location.FOREST_PATH);
+                    clearOutput();
+                    output(upTree.jumpString);
+                    break;
+                }
+
+                if (currentRoom.jumpString !== "")
                 {
                     output(currentRoom.jumpString);
+                }
+
+                if (currentRoom.height)
+                {
                     playerDies();
                 }
 

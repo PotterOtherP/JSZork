@@ -251,6 +251,8 @@ forestPath.addExit(Action.UP, forestpath_uptree);
 const upTree = new Room("Up a Tree", MapStrings.DESC_UP_TREE, Location.UP_TREE);
 upTree.addExit(Action.DOWN, forestpath_uptree);
 upTree.addFailMessage(Action.UP, "You cannot climb any higher.");
+upTree.jumpString = "In a feat of unaccustomed daring, you manage to land on your feet "
+    + "without killing yourself.";
 
 const forestWest = new Room("Forest", MapStrings.DESC_FOREST_WEST, Location.FOREST_WEST);
 forestWest.addExit(Action.NORTH, clearingN_forestW);
@@ -335,6 +337,8 @@ eastOfChasm.addExit(Action.NORTH, cellar_eastchasm);
 eastOfChasm.addExit(Action.DOWN, cellar_eastchasm);
 eastOfChasm.addExit(Action.EAST, eastchasm_gallery);
 eastOfChasm.addFailMessage(Action.DOWN, "The chasm probably leads straight to the infernal regions.");
+eastOfChasm.jumpString = "This was not a very safe place to try jumping.\nIn the movies, your life "
+    + "would be passing before your eyes.";
 
 const gallery = new Room("Gallery", MapStrings.DESC_GALLERY, Location.GALLERY);
 gallery.addExit(Action.WEST, eastchasm_gallery);
@@ -510,6 +514,8 @@ chasm.addExit(Action.NORTHEAST, res_south_chasm);
 chasm.addExit(Action.SOUTHWEST, eastwest_chasm);
 chasm.addExit(Action.UP, eastwest_chasm);
 chasm.addExit(Action.SOUTH, northsouth_chasm);
+chasm.addFailMessage(Action.DOWN, "Are you out of your mind?");
+chasm.jumpString = "You look before leaping, and realize that you would never survive.";
 
 const streamView = new Room("Stream View", MapStrings.DESC_STREAM_VIEW, Location.STREAM_VIEW);
 streamView.addExit(Action.EAST, res_south_stream_view);
@@ -773,7 +779,7 @@ maze14.setDark(); maze15.setDark(); mazeDeadEndCenter.setDark(); mazeDeadEndNort
 mazeDeadEndSouthEast.setDark(); gratingRoom.setDark(); cyclopsRoom.setDark(); strangePassage.setDark(); treasureRoom.setDark();
 
 // Rooms with a dangerous height
-eastOfChasm.height = true; chasm.height = true; canyonView.height = true;
+eastOfChasm.height = true; canyonView.height = true;
 
 // Rooms that are a body of water
 

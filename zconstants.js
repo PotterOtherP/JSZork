@@ -258,16 +258,40 @@ const ActionType = {
 const actions = new Map();
 
 actions.set("north", {action: Action.NORTH, type: ActionType.EXIT});
+actions.set("go north", {action: Action.NORTH, type: ActionType.EXIT});
+actions.set("walk north", {action: Action.NORTH, type: ActionType.EXIT});
+actions.set("exit north", {action: Action.NORTH, type: ActionType.EXIT});
 actions.set("n", {action: Action.NORTH, type: ActionType.EXIT});
+actions.set("go n", {action: Action.NORTH, type: ActionType.EXIT});
+actions.set("walk n", {action: Action.NORTH, type: ActionType.EXIT});
+actions.set("exit n", {action: Action.NORTH, type: ActionType.EXIT});
 
 actions.set("south", {action: Action.SOUTH, type: ActionType.EXIT});
+actions.set("go south", {action: Action.SOUTH, type: ActionType.EXIT});
+actions.set("walk south", {action: Action.SOUTH, type: ActionType.EXIT});
+actions.set("exit south", {action: Action.SOUTH, type: ActionType.EXIT});
 actions.set("s", {action: Action.SOUTH, type: ActionType.EXIT});
+actions.set("go s", {action: Action.SOUTH, type: ActionType.EXIT});
+actions.set("walk s", {action: Action.SOUTH, type: ActionType.EXIT});
+actions.set("exit s", {action: Action.SOUTH, type: ActionType.EXIT});
 
 actions.set("east", {action: Action.EAST, type: ActionType.EXIT});
+actions.set("go east", {action: Action.EAST, type: ActionType.EXIT});
+actions.set("walk east", {action: Action.EAST, type: ActionType.EXIT});
+actions.set("exit east", {action: Action.EAST, type: ActionType.EXIT});
 actions.set("e", {action: Action.EAST, type: ActionType.EXIT});
+actions.set("go e", {action: Action.EAST, type: ActionType.EXIT});
+actions.set("walk e", {action: Action.EAST, type: ActionType.EXIT});
+actions.set("exit e", {action: Action.EAST, type: ActionType.EXIT});
 
 actions.set("west", {action: Action.WEST, type: ActionType.EXIT});
+actions.set("go west", {action: Action.WEST, type: ActionType.EXIT});
+actions.set("walk west", {action: Action.WEST, type: ActionType.EXIT});
+actions.set("exit west", {action: Action.WEST, type: ActionType.EXIT});
 actions.set("w", {action: Action.WEST, type: ActionType.EXIT});
+actions.set("go w", {action: Action.WEST, type: ActionType.EXIT});
+actions.set("walk w", {action: Action.WEST, type: ActionType.EXIT});
+actions.set("exit w", {action: Action.WEST, type: ActionType.EXIT});
 
 actions.set("northeast", {action: Action.NORTHEAST, type: ActionType.EXIT});
 actions.set("ne", {action: Action.NORTHEAST, type: ActionType.EXIT});
@@ -281,9 +305,11 @@ actions.set("se", {action: Action.SOUTHEAST, type: ActionType.EXIT});
 actions.set("southwest", {action: Action.SOUTHWEST, type: ActionType.EXIT});
 actions.set("sw", {action: Action.SOUTHWEST, type: ActionType.EXIT});
 
+actions.set("climb up", {action: Action.UP, type: ActionType.EXIT});
 actions.set("up", {action: Action.UP, type: ActionType.EXIT});
 actions.set("u", {action: Action.UP, type: ActionType.EXIT});
 
+actions.set("climb down", {action: Action.DOWN, type: ActionType.EXIT});
 actions.set("down", {action: Action.DOWN, type: ActionType.EXIT});
 actions.set("d", {action: Action.DOWN, type: ActionType.EXIT});
 
