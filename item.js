@@ -924,12 +924,12 @@ class Item extends GameObject {
                 }
 
                 else
-                    Game.output(ObjectStrings.CANARY_WIND_GOOD);
+                    output(ObjectStrings.CANARY_WIND_GOOD);
             } break;
 
             case "broken clockwork canary":
             {
-                Game.output(ObjectStrings.CANARY_WIND_BAD);
+                output(ObjectStrings.CANARY_WIND_BAD);
             } break;
 
             default:
