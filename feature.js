@@ -92,14 +92,10 @@ class Feature extends GameObject {
 
             case "kitchen window":
             {
-                let r = worldMap.get(Location.BEHIND_HOUSE);
-                let p = r.exits.get(Action.WEST);
                 if (state.houseWindowOpened)
                 {
                     output(GameStrings.WINDOW_CLOSES);
-                    this.examineString = ObjectStrings.WINDOW_EXAMINE_CLOSED;
                     state.houseWindowOpened = false;
-                    p.setClosed();
                 }
                 else
                     output("The window is already closed.");
@@ -403,14 +399,10 @@ class Feature extends GameObject {
 
             case "kitchen window":
             {
-                let r = worldMap.get(Location.BEHIND_HOUSE);
-                let p = r.exits.get(Action.WEST);
                 if (!state.houseWindowOpened)
                 {
                     output(GameStrings.WINDOW_OPENS);
-                    this.examineString = ObjectStrings.WINDOW_EXAMINE_OPEN;
                     state.houseWindowOpened = true;
-                    p.setOpen();
                 }
                 else
                     output(GameStrings.getHardSarcasm());

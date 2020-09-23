@@ -818,37 +818,31 @@ function updateDeath()
 
 function updateEvents()
 {
+    // CARPET MOVED
     if (state.carpetMoved)
     {
-        let rug = objectList.get("oriental rug");
-        rug.boardString = ObjectStrings.CARPET_SIT_2;
-        rug.lookUnderString = "There is nothing but dust there.";
+        carpet.boardString = ObjectStrings.CARPET_SIT_2;
+        carpet.lookUnderString = "There is nothing but dust there.";
 
-        let trap = objectList.get("trap door");
-        trap.location = Location.LIVING_ROOM;
-        if (!trap.altLocations.has(Location.CELLAR))
-            trap.altLocations.add(Location.CELLAR);
+        trapDoor.location = Location.LIVING_ROOM;
+        if (!trapDoor.altLocations.has(Location.CELLAR))
+            trapDoor.altLocations.add(Location.CELLAR);
 
-        let rm = worldMap.get(Location.LIVING_ROOM);
-        let p = rm.exits.get(Action.DOWN);
-        p.closedFail = "The trap door is closed.";
+        cellar_livingroom.closedFail = "The trap door is closed.";
     }
 
     else
     {
-        let rug = objectList.get("oriental rug");
-        rug.boardString = ObjectStrings.CARPET_SIT_1;
-        rug.lookUnderString = ObjectStrings.CARPET_LOOK_UNDER;
+        carpet.boardString = ObjectStrings.CARPET_SIT_1;
+        carpet.lookUnderString = ObjectStrings.CARPET_LOOK_UNDER;
 
-        let trap = objectList.get("trap door");
-        trap.location = Location.NULL_LOCATION;
-        trap.altLocations.clear();
+        trapDoor.location = Location.NULL_LOCATION;
+        trapDoor.altLocations.clear();
 
-        let rm = worldMap.get(Location.LIVING_ROOM);
-        let p = rm.exits.get(Action.DOWN);
-        p.closedFail = "You can't go that way.";
+        cellar_livingroom.closedFail = "You can't go that way.";
     }
 
+    // CYCLOPS GONE
     if (state.cyclopsGone)
     {
         cyclops.location = Location.NULL_LOCATION;
@@ -859,6 +853,27 @@ function updateEvents()
         cellar_livingroom.message = "";
     }
 
+    else
+    {
+        cyclops_strange.setClosed();
+        cyclops_treasure.setClosed();
+        strange_living_room.setClosed();
+        cellar_livingroom.setClosed();
+    }
+
+    // GAME WON
+    if (state.gameWon)
+    {
+        house_west_barrow.setOpen();
+    }
+
+    else
+    {
+        house_west_barrow.setClosed();
+
+    }
+
+    // GRATING OPENED
     if (state.gratingOpened)
     {
         if (!grating.altLocations.has(Location.CLEARING_NORTH))
@@ -883,6 +898,35 @@ function updateEvents()
         this.examineString = "The grating is closed.";
     }
 
+    // HOUSE WINDOW OPENED
+    if (state.houseWindowOpened)
+    {
+        house_behind_kitchen.setOpen();
+        houseWindow.examineString = ObjectStrings.WINDOW_EXAMINE_OPEN;
+    }
+
+    else
+    {
+        houseWindow.examineString = ObjectStrings.WINDOW_EXAMINE_CLOSED;
+        house_behind_kitchen.setClosed();
+
+    }
+
+    // RAINBOW SOLID
+    if (state.rainbowSolid)
+    {
+        rainbow_end.setOpen();
+        falls_rainbow.setOpen();
+    }
+
+    else
+    {
+        rainbow_end.setClosed();
+        falls_rainbow.setClosed();
+
+    }
+
+    // ROPE TIED TO RAIL
     if (state.ropeRailTied)
     {
         rope.location = Location.ON_RAILING;
@@ -901,6 +945,7 @@ function updateEvents()
         dome_torch.setClosed();
     }
 
+    // TRAP DOOR OPEN
     if (state.trapDoorOpen)
     {
         cellar_livingroom.setOpen();
@@ -909,6 +954,23 @@ function updateEvents()
     else
     {
         cellar_livingroom.setClosed();
+    }
+
+
+    // TROLL GONE
+    if (troll.alive)
+    {
+        troll_eastwest.setClosed();
+        troll_maze.setClosed();
+        troll_eastwest.closedFail = ObjectStrings.TROLL_FEND;
+        troll_maze.closedFail = ObjectStrings.TROLL_FEND;
+    }
+
+    else
+    {
+        troll_eastwest.setOpen();
+        troll_maze.setOpen();
+        troll.location = Location.NULL_LOCATION;
     }
 
 }
@@ -958,12 +1020,9 @@ function updateScore()
             output(GameStrings.ALL_TREASURES_IN_CASE);
             state.winMessageDisplayed = true;
 
-            let map = objectList.get("ancient map");
-            map.location = Location.INSIDE_TROPHY_CASE;
+            ancientMap.location = Location.INSIDE_TROPHY_CASE;
 
-            let rm = worldMap.get(Location.WEST_OF_HOUSE);
-            let p = rm.exits.get(Action.SOUTHWEST);
-            p.setOpen();
+            house_west_barrow.setOpen();
         }
     }
 

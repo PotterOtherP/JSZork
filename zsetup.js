@@ -1416,6 +1416,7 @@ gas.smellString = "It smells like coal gas in here.";
 const grating = new Feature("grating", Location.GRATING_ROOM);
 grating.altNames.add("grate");
 grating.examineString = "The grating is closed.";
+grating.lookInString = "You can see only darkness through the grating.";
 
 const hotBell = new Feature("red hot brass bell", Location.NULL_LOCATION);
 hotBell.altNames.add("red hot bell");

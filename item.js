@@ -859,17 +859,12 @@ class Item extends GameObject {
                 case "ARAGAIN_FALLS":
                 case "ON_THE_RAINBOW":
                 {
-                    let onRainbow = worldMap.get(Location.ON_THE_RAINBOW);
-                    let p1 = onRainbow.exits.get(Action.EAST);
-                    let p2 = onRainbow.exits.get(Action.WEST);
-                    let pot = objectList.get("pot of gold");
-
                     if (!state.rainbowSolid)
                     {
                         state.rainbowSolid = true;
                         output(ObjectStrings.SCEPTRE_RAINBOW);
-                        p1.setOpen();
-                        p2.setOpen();
+                        rainbow_end.setOpen();
+                        falls_rainbow.setOpen();
 
                         if (!state.potOfGoldAppeared)
                         {
@@ -882,8 +877,8 @@ class Item extends GameObject {
                     else
                     {
                         state.rainbowSolid = false;
-                        p1.setClosed();
-                        p2.setClosed();
+                        rainbow_end.setClosed();
+                        falls_rainbow.setClosed();
 
                         if (state.playerLocation === Location.ON_THE_RAINBOW)
                         {
