@@ -1207,47 +1207,11 @@ function restore(filename)
 
     state = Object.assign(state, restoreState);
 
-    objectList.clear();
-    
-    for (let sourceObject of restoreObjects.values())
+
+    for (let targetObject of objectList.values())
     {
-        let targetObject = Object.create(sourceObject);
+        let sourceObject = restoreObjects.get(targetObject.name);
         targetObject = Object.assign(targetObject, sourceObject);
-        objectList.set(targetObject.name, targetObject);
-
-        // switch (sourceObject.objectType)
-        // {
-        //     case "ACTOR":
-        //     {
-        //         targetObject = new Actor(sourceObject.name, sourceObject.location);
-        //         targetObject = Object.assign(targetObject, sourceObject);
-        //     } break;
-
-        //     case "CONTAINER":
-        //     {
-        //         targetObject = new Container(sourceObject.name, sourceObject.location);
-        //         targetObject = Object.assign(targetObject, sourceObject);
-        //     } break;
-
-        //     case "FEATURE":
-        //     {
-        //         targetObject = new Feature(sourceObject.name, sourceObject.location);
-        //         targetObject = Object.assign(targetObject, sourceObject);
-        //     } break;
-
-        //     case "ITEM":
-        //     {
-        //         targetObject = new Item(sourceObject.name, sourceObject.location);
-        //         targetObject = Object.assign(targetObject, sourceObject);
-        //     } break;
-
-        //     case "SURFACE":
-        //     {
-        //         targetObject = new Surface(sourceObject.name, sourceObject.location);
-        //         targetObject = Object.assign(targetObject, sourceObject);
-        //     } break;
-        // }
-
     }
 
 
