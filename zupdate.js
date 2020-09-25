@@ -376,7 +376,7 @@ function updateGame()
                 output("Enter save file name: ")
                 inputTextArea.removeEventListener("change", getPlayerInput);
                 inputTextArea.addEventListener("change", saveInterface);
-                return
+                return;
 
             } // break;
 
@@ -399,6 +399,8 @@ function updateGame()
     else
         outputLocation(currentRoom.name);
 
+    logString += state.completePlayerInput + "|";
+    // inputLog.push(state.completePlayerInput);
     updateActors();
     updateItems();
     ++state.turns;
@@ -637,6 +639,8 @@ function updateDarkness()
 
     }
 
+    logString += state.completePlayerInput + "|";
+    // inputLog.push(state.completePlayerInput);
     updateActors();
     updateItems();
     updateEvents();
@@ -810,6 +814,8 @@ function updateDeath()
         }
     }
 
+    logString += state.completePlayerInput + "|";
+    // inputLog.push(state.completePlayerInput);
     saveGame("undoSave");
     ++state.turns;
 
@@ -1233,8 +1239,20 @@ function relocatePlayerNoClear(loc)
 function restart()
 {
     console.log("Restarting");
-    state = savedGames.get("startSave").savedState;
-    objectList = savedGames.get("startSave").savedObjects;
+
+    state = Object.assign(state, startingState);
+    state.playerLocation = Location.WEST_OF_HOUSE;
+
+
+    objectList.clear();
+
+    for (let sourceObject of startingObjectList.values())
+    {
+        let obj = Object.create(sourceObject);
+        obj = Object.assign(obj, sourceObject);
+
+        objectList.set(obj.name, obj);
+    }
 
     gameArea.innerText = "";
 
@@ -1261,18 +1279,28 @@ function restore(filename)
 
     console.log("Loading...");
 
-    let restoreState = savedGames.get(filename).savedState;
-    let restoreObjects = savedGames.get(filename).savedObjects;
+    restart();
+    gameArea.innerText = "";
 
-    state = Object.assign(state, restoreState);
+    restoringGame = true;
 
+    inputLog = savedGames.get(filename).strings.split("|");
+    inputLog.pop();
+    logString = "";
+    randomLog = [];
+    randomLog = Object.assign(randomLog, savedGames.get(filename).randoms);
 
-    for (let targetObject of objectList.values())
+    for (let statement of inputLog)
     {
-        let sourceObject = restoreObjects.get(targetObject.name);
-        targetObject = Object.assign(targetObject, sourceObject);
+        state.resetInput();
+        state.completePlayerInput = statement;
+        parsePlayerInput();
     }
 
+    randomLog = Object.assign(randomLog, savedGames.get(filename).randoms);
+
+    restoringGame = false;
+    console.clear();
 
     output("Game restored.\n");
 
@@ -1323,61 +1351,16 @@ function saveGame(filename)
 {
     console.log("Saving...");
 
-    
     if (savedGames.has(filename))
     {
         savedGames.delete(filename);
     }
 
-    let savedState = new GameState();
-    let savedObjects = new Map();
+    let savedGame = {strings: logString, randoms: randomLog };
+    savedGames.set(filename, savedGame);
 
-    savedState = Object.assign(savedState, state);
-    for (let sourceObject of objectList.values())
-    {
-        let savedObject = Object.create(sourceObject);
-        savedObject = Object.assign(savedObject, sourceObject);
-        savedObjects.set(savedObject.name, savedObject);
-
-
-
-        // switch (sourceObject.objectType)
-        // {
-        //     case "ACTOR":
-        //     {
-        //         savedObject = new Actor(sourceObject.name, sourceObject.location);
-        //         savedObject = Object.assign(savedObject, sourceObject);
-        //     } break;
-
-        //     case "CONTAINER":
-        //     {
-        //         savedObject = new Container(sourceObject.name, sourceObject.location);
-        //         savedObject = Object.assign(savedObject, sourceObject);
-        //     } break;
-
-        //     case "FEATURE":
-        //     {
-        //         savedObject = new Feature(sourceObject.name, sourceObject.location);
-        //         savedObject = Object.assign(savedObject, sourceObject);
-        //     } break;
-
-        //     case "ITEM":
-        //     {
-        //         savedObject = new Item(sourceObject.name, sourceObject.location);
-        //         savedObject = Object.assign(savedObject, sourceObject);
-        //     } break;
-
-        //     case "SURFACE":
-        //     {
-        //         savedObject = new Surface(sourceObject.name, sourceObject.location);
-        //         savedObject = Object.assign(savedObject, sourceObject);
-        //     } break;
-        // }
-
-    }
-
-    savedGames.set( filename, {savedState, savedObjects} );
     return true;
+
 }
 
 

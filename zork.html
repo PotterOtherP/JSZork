@@ -140,23 +140,21 @@
             - Account for all passages that can be open or closed
             - Determine when the trap door should stop closing after the player
             - Autosaves and restore buttons
+            - Remove non-allowed characters from input
 
 
 
         */
         
         let state = new GameState();
+        let inputLog = [];
+        let logString = "";
+        let randomLog = [];
 
         function clearOutput()
         {
             document.getElementById("gameArea").innerText = "";
         }
-
-        function getRandom(int)
-        {
-            return Math.floor(Math.random() * int);
-        }
-
 
         function setup()
         {
@@ -164,15 +162,35 @@
             // inp.addEventListener("change", reverseInput);
         }
 
+        let restoringGame = false;
+
+        function getRandom(int)
+        {
+            if (restoringGame)
+            {
+                return randomLog.unshift();
+            }
+
+            else
+            {
+                let result = Math.floor(Math.random() * int);
+                randomLog.push(result);
+                return result;
+            }
+        }
+
+
         function output(str)
         {
+            if (restoringGame)
+                return;
+
             if (state.directObject != null && state.indirectObject != null)
             {
                 str = str.replace(/ENEMY/g, state.directObject.name);
                 str = str.replace(/ITEM/g,  state.indirectObject.name);
                 str = str.replace(/WEAPON/g,  state.indirectObject.name);
             }
-
 
             let txt = document.getElementById("gameArea").innerText;
 
@@ -233,7 +251,17 @@
 
         const savedGames = new Map();
 
-        saveGame("startSave");
+        let startingState = Object.create(state);
+        startingState = Object.assign(startingState, state);
+
+        const startingObjectList = new Set();
+        for (let sourceObject of objectList.values())
+        {
+            let obj = Object.create(sourceObject);
+            obj = Object.assign(obj, sourceObject);
+
+            startingObjectList.add(obj);
+        }
     
         refreshInventories();
         fillCurrentObjectList();
