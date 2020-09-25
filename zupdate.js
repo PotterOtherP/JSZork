@@ -399,7 +399,7 @@ function updateGame()
     else
         outputLocation(currentRoom.name);
 
-    logString += state.completePlayerInput + "|";
+    stringLog += state.completePlayerInput + "|";
     // inputLog.push(state.completePlayerInput);
     updateActors();
     updateItems();
@@ -639,7 +639,7 @@ function updateDarkness()
 
     }
 
-    logString += state.completePlayerInput + "|";
+    stringLog += state.completePlayerInput + "|";
     // inputLog.push(state.completePlayerInput);
     updateActors();
     updateItems();
@@ -814,7 +814,7 @@ function updateDeath()
         }
     }
 
-    logString += state.completePlayerInput + "|";
+    stringLog += state.completePlayerInput + "|";
     // inputLog.push(state.completePlayerInput);
     saveGame("undoSave");
     ++state.turns;
@@ -1269,7 +1269,7 @@ function restart()
 
 }
 
-function restore(filename)
+function restoreFromGameMemory(filename)
 {
     if (!savedGames.has(filename))
     {
@@ -1286,7 +1286,7 @@ function restore(filename)
 
     inputLog = savedGames.get(filename).strings.split("|");
     inputLog.pop();
-    logString = "";
+    stringLog = "";
     randomLog = [];
     randomLog = Object.assign(randomLog, savedGames.get(filename).randoms);
 
@@ -1318,6 +1318,61 @@ function restore(filename)
 }
 
 
+function restoreFromLocalStorage(filename)
+{
+    let strName = filename + "_strings";
+    let randName = filename + "_randoms";
+
+    inputLog = localStorage.getItem(strName).split("|");
+
+    let tempRandomLog = [];
+    tempRandomLog = localStorage.getItem(randName).split(",");
+
+    if (inputLog == null || tempRandomLog == null)
+    {
+        output("Save file not found.");
+        return;
+    }
+
+    restoringGame = true;
+
+    for (let i = 0; i < tempRandomLog.length; ++i)
+    {
+        tempRandomLog[i] = parseInt(tempRandomLog[i], 10);
+    }
+
+    inputLog.pop();
+    stringLog = "";
+    randomLog = [];
+    randomLog = Object.assign(randomLog, tempRandomLog);
+
+    for (let statement of inputLog)
+    {
+        state.resetInput();
+        state.completePlayerInput = statement;
+        parsePlayerInput();
+    }
+
+
+    restoringGame = false;
+    console.clear();
+
+    output("Game restored.\n");
+
+    state.resetInput();
+    updateEvents();
+    refreshInventories();
+    fillCurrentObjectList();
+
+    let curRoom = worldMap.get(state.playerLocation);
+    outputLocation(curRoom.name);
+    outputTurns(state.turns);
+    curRoom.lookAround();
+
+
+}
+
+
 function restoreInterface()
 {
     console.log("Restore interface function");
@@ -1325,7 +1380,11 @@ function restoreInterface()
 
     let filename = document.getElementById("inputTextArea").value;
 
-    restore(filename);
+    if (usingLocalStorage)
+        restoreFromLocalStorage(filename);
+
+    else
+        restoreFromGameMemory(filename);
 
 
     inputTextArea.value = "";
@@ -1347,7 +1406,7 @@ function revealGrating()
 
 }
 
-function saveGame(filename)
+function saveToGameMemory(filename)
 {
     console.log("Saving...");
 
@@ -1356,10 +1415,31 @@ function saveGame(filename)
         savedGames.delete(filename);
     }
 
-    let savedGame = {strings: logString, randoms: randomLog };
+    let savedGame = {strings: stringLog, randoms: randomLog };
     savedGames.set(filename, savedGame);
 
     return true;
+
+}
+
+
+function deleteSaveFromLocalStorage(filename)
+{
+    let strName = filename + "_strings";
+    let randName = filename + "_randoms";
+
+    localStorage.removeItem(strName);
+    localStorage.removeItem(randName);
+}
+
+
+function saveToLocalStorage(filename)
+{
+    let strName = filename + "_strings";
+    let randName = filename + "_randoms";
+
+    localStorage.setItem(strName, stringLog);
+    localStorage.setItem(randName, randomLog);
 
 }
 
@@ -1383,7 +1463,11 @@ function saveInterface()
 
     else
     {
-        saveGame(filename);
+        if (usingLocalStorage)
+            saveToLocalStorage(filename);
+        else
+            saveGame(filename);
+
         output("Game saved as \"" + filename + "\".");
     }
     

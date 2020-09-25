@@ -148,18 +148,12 @@
         
         let state = new GameState();
         let inputLog = [];
-        let logString = "";
+        let stringLog = "";
         let randomLog = [];
 
         function clearOutput()
         {
             document.getElementById("gameArea").innerText = "";
-        }
-
-        function setup()
-        {
-            const inp = document.getElementById("inputTextArea");
-            // inp.addEventListener("change", reverseInput);
         }
 
         let restoringGame = false;
@@ -229,7 +223,40 @@
             document.getElementById("gameTurnsArea").innerText = "Turns: " + str;
         }
 
-        setup();
+        // Function from MDN Web Storage API guide
+        function storageAvailable(type)
+        {
+            var storage;
+            try
+            {
+                storage = window[type];
+                var x = '__storage_test__';
+                storage.setItem(x, x);
+                storage.removeItem(x);
+                return true;
+            }
+            catch(e)
+            {
+                return e instanceof DOMException &&
+                (
+                    // everything except Firefox
+                    e.code === 22 ||
+                    // Firefox
+                    e.code === 1014 ||
+                    // test field name too, because code might not be present
+                    // everything except Firefox
+                    e.name === 'QuotaExceededError' ||
+                    // Firefox
+                    e.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+                ) &&
+                // acknowledge QuotaExceededError only if there's something already stored
+                (storage && storage.length !== 0);
+            }
+        }
+
+        const usingLocalStorage = storageAvailable('localStorage');
+        if (!usingLocalStorage)
+            console.log("Local storage not available, games will be saved to game memory.");
 
     </script>
 
