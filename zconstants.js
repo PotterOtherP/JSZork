@@ -294,24 +294,52 @@ actions.set("walk w", {action: Action.WEST, type: ActionType.EXIT});
 actions.set("exit w", {action: Action.WEST, type: ActionType.EXIT});
 
 actions.set("northeast", {action: Action.NORTHEAST, type: ActionType.EXIT});
+actions.set("go northeast", {action: Action.NORTHEAST, type: ActionType.EXIT});
+actions.set("walk northeast", {action: Action.NORTHEAST, type: ActionType.EXIT});
+actions.set("exit northeast", {action: Action.NORTHEAST, type: ActionType.EXIT});
 actions.set("ne", {action: Action.NORTHEAST, type: ActionType.EXIT});
+actions.set("go ne", {action: Action.NORTHEAST, type: ActionType.EXIT});
+actions.set("walk ne", {action: Action.NORTHEAST, type: ActionType.EXIT});
+actions.set("exit ne", {action: Action.NORTHEAST, type: ActionType.EXIT});
 
 actions.set("northwest", {action: Action.NORTHWEST, type: ActionType.EXIT});
+actions.set("go northwest", {action: Action.NORTHWEST, type: ActionType.EXIT});
+actions.set("walk northwest", {action: Action.NORTHWEST, type: ActionType.EXIT});
+actions.set("exit northwest", {action: Action.NORTHWEST, type: ActionType.EXIT});
 actions.set("nw", {action: Action.NORTHWEST, type: ActionType.EXIT});
+actions.set("go nw", {action: Action.NORTHWEST, type: ActionType.EXIT});
+actions.set("walk nw", {action: Action.NORTHWEST, type: ActionType.EXIT});
+actions.set("exit nw", {action: Action.NORTHWEST, type: ActionType.EXIT});
 
 actions.set("southeast", {action: Action.SOUTHEAST, type: ActionType.EXIT});
+actions.set("go southeast", {action: Action.SOUTHEAST, type: ActionType.EXIT});
+actions.set("walk southeast", {action: Action.SOUTHEAST, type: ActionType.EXIT});
+actions.set("exit southeast", {action: Action.SOUTHEAST, type: ActionType.EXIT});
 actions.set("se", {action: Action.SOUTHEAST, type: ActionType.EXIT});
+actions.set("go se", {action: Action.SOUTHEAST, type: ActionType.EXIT});
+actions.set("walk se", {action: Action.SOUTHEAST, type: ActionType.EXIT});
+actions.set("exit se", {action: Action.SOUTHEAST, type: ActionType.EXIT});
 
 actions.set("southwest", {action: Action.SOUTHWEST, type: ActionType.EXIT});
+actions.set("go southwest", {action: Action.SOUTHWEST, type: ActionType.EXIT});
+actions.set("walk southwest", {action: Action.SOUTHWEST, type: ActionType.EXIT});
+actions.set("exit southwest", {action: Action.SOUTHWEST, type: ActionType.EXIT});
 actions.set("sw", {action: Action.SOUTHWEST, type: ActionType.EXIT});
+actions.set("go sw", {action: Action.SOUTHWEST, type: ActionType.EXIT});
+actions.set("walk sw", {action: Action.SOUTHWEST, type: ActionType.EXIT});
+actions.set("exit sw", {action: Action.SOUTHWEST, type: ActionType.EXIT});
 
-actions.set("climb up", {action: Action.UP, type: ActionType.EXIT});
+// actions.set("climb up", {action: Action.UP, type: ActionType.EXIT});
 actions.set("up", {action: Action.UP, type: ActionType.EXIT});
+actions.set("go up", {action: Action.UP, type: ActionType.EXIT});
 actions.set("u", {action: Action.UP, type: ActionType.EXIT});
+actions.set("go u", {action: Action.UP, type: ActionType.EXIT});
 
 actions.set("climb down", {action: Action.DOWN, type: ActionType.EXIT});
 actions.set("down", {action: Action.DOWN, type: ActionType.EXIT});
+actions.set("go down", {action: Action.DOWN, type: ActionType.EXIT});
 actions.set("d", {action: Action.DOWN, type: ActionType.EXIT});
+actions.set("go d", {action: Action.DOWN, type: ActionType.EXIT});
 
 actions.set("land",     {action: Action.LAND, type: ActionType.EXIT});
 actions.set("in",       {action: Action.IN, type: ActionType.EXIT});
@@ -345,8 +373,15 @@ actions.set("l",     {action: Action.LOOK, type: ActionType.REFLEXIVE});
 actions.set("quit",  {action: Action.QUIT, type: ActionType.REFLEXIVE});
 actions.set("q",     {action: Action.QUIT, type: ActionType.REFLEXIVE});
 actions.set("restart", {action: Action.RESTART, type: ActionType.REFLEXIVE});
+actions.set("restart game", {action: Action.RESTART, type: ActionType.REFLEXIVE});
 actions.set("restore", {action: Action.RESTORE, type: ActionType.REFLEXIVE});
+actions.set("restore file", {action: Action.RESTORE, type: ActionType.REFLEXIVE});
+actions.set("restore game", {action: Action.RESTORE, type: ActionType.REFLEXIVE});
+actions.set("load", {action: Action.RESTORE, type: ActionType.REFLEXIVE});
+actions.set("load game", {action: Action.RESTORE, type: ActionType.REFLEXIVE});
+actions.set("load file", {action: Action.RESTORE, type: ActionType.REFLEXIVE});
 actions.set("save", {action: Action.SAVE, type: ActionType.REFLEXIVE});
+actions.set("save game", {action: Action.SAVE, type: ActionType.REFLEXIVE});
 actions.set("score", {action: Action.SCORE, type: ActionType.REFLEXIVE});
 actions.set("shout", {action: Action.SHOUT, type: ActionType.REFLEXIVE});
 actions.set("yell",  {action: Action.SHOUT, type: ActionType.REFLEXIVE});
@@ -367,6 +402,7 @@ actions.set("get in", {action: Action.BOARD, type: ActionType.DIRECT});
 actions.set("sit on", {action: Action.BOARD, type: ActionType.DIRECT});
 actions.set("brush", {action: Action.BRUSH, type: ActionType.DIRECT});
 actions.set("climb", {action: Action.CLIMB, type: ActionType.DIRECT});
+actions.set("climb up", {action: Action.CLIMB, type: ActionType.DIRECT});
 actions.set("close", {action: Action.CLOSE, type: ActionType.DIRECT});
 actions.set("count", {action: Action.COUNT, type: ActionType.DIRECT});
 actions.set("cross", {action: Action.CROSS, type: ActionType.DIRECT});

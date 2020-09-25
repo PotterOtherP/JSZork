@@ -162,7 +162,9 @@
         {
             if (restoringGame)
             {
-                return randomLog.unshift();
+                let result = randomLog.shift();
+                console.log("Retrieving random: " + result);
+                return result;
             }
 
             else
@@ -281,13 +283,13 @@
         let startingState = Object.create(state);
         startingState = Object.assign(startingState, state);
 
-        const startingObjectList = new Set();
+        const startingObjectList = new Map();
         for (let sourceObject of objectList.values())
         {
             let obj = Object.create(sourceObject);
             obj = Object.assign(obj, sourceObject);
 
-            startingObjectList.add(obj);
+            startingObjectList.set(obj.name, obj);
         }
     
         refreshInventories();

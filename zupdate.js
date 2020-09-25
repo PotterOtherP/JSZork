@@ -1,6 +1,5 @@
 function updateGame()
 {
-    // saveGame("undoSave");
 
     let currentRoom = worldMap.get(state.playerLocation);
 
@@ -644,7 +643,7 @@ function updateDarkness()
     updateActors();
     updateItems();
     updateEvents();
-    saveGame("undoSave");
+    // saveGame("undoSave");
     ++state.turns;
 
 }
@@ -816,7 +815,7 @@ function updateDeath()
 
     stringLog += state.completePlayerInput + "|";
     // inputLog.push(state.completePlayerInput);
-    saveGame("undoSave");
+    // saveGame("undoSave");
     ++state.turns;
 
 }
@@ -1244,15 +1243,12 @@ function restart()
     state.playerLocation = Location.WEST_OF_HOUSE;
 
 
-    objectList.clear();
-
-    for (let sourceObject of startingObjectList.values())
+    for (let targetObj of objectList.values())
     {
-        let obj = Object.create(sourceObject);
-        obj = Object.assign(obj, sourceObject);
-
-        objectList.set(obj.name, obj);
+        let sourceObj = startingObjectList.get(targetObj.name);
+        targetObj = Object.assign(targetObj, sourceObj);
     }
+
 
     gameArea.innerText = "";
 
@@ -1323,16 +1319,19 @@ function restoreFromLocalStorage(filename)
     let strName = filename + "_strings";
     let randName = filename + "_randoms";
 
-    inputLog = localStorage.getItem(strName).split("|");
 
-    let tempRandomLog = [];
-    tempRandomLog = localStorage.getItem(randName).split(",");
-
-    if (inputLog == null || tempRandomLog == null)
+    if (localStorage.getItem(strName) == null || localStorage.getItem(randName) == null)
     {
         output("Save file not found.");
         return;
     }
+
+    inputLog = localStorage.getItem(strName).split("|");
+    let tempRandomLog = localStorage.getItem(randName).split(",");
+
+
+    restart();
+    gameArea.innerText = "";
 
     restoringGame = true;
 
@@ -1353,9 +1352,10 @@ function restoreFromLocalStorage(filename)
         parsePlayerInput();
     }
 
+    randomLog = Object.assign(randomLog, tempRandomLog);
 
     restoringGame = false;
-    console.clear();
+    //console.clear();
 
     output("Game restored.\n");
 
@@ -1438,6 +1438,11 @@ function saveToLocalStorage(filename)
     let strName = filename + "_strings";
     let randName = filename + "_randoms";
 
+    if (localStorage.getItem(strName) != null || localStorage.getItem(randName) != null)
+    {
+        deleteSaveFromLocalStorage(filename);
+    }
+
     localStorage.setItem(strName, stringLog);
     localStorage.setItem(randName, randomLog);
 
@@ -1466,7 +1471,7 @@ function saveInterface()
         if (usingLocalStorage)
             saveToLocalStorage(filename);
         else
-            saveGame(filename);
+            saveToGameMemory(filename);
 
         output("Game saved as \"" + filename + "\".");
     }

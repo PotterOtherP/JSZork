@@ -10,6 +10,7 @@ class Actor extends GameObject {
         this.cyclopsCycle = 0;
         this.cyclopsFirstTurn = true;
         this.cyclopsThirsty = false;
+        this.disarmed = false;
         this.firstCombatTurn = true;
         this.hitPoints = MAX_ENEMY_HIT_POINTS;
         this.riverTurns = 0

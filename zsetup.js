@@ -950,7 +950,7 @@ worldMap.set(strangePassage.roomID, strangePassage);
 // There are 19 treasure items with point values.
 // Name, location, point value, weight.
 
-const bar = new Item("platinum bar", Location.LOUD_ROOM);
+let bar = new Item("platinum bar", Location.LOUD_ROOM);
 bar.altNames.add("bar");
 bar.altNames.add("platinum");
 bar.presenceString = ObjectStrings.PLATINUM_BAR;
@@ -958,21 +958,21 @@ bar.acquireValue = PLATINUM_VALUE;
 bar.trophyCaseValue = PLATINUM_TROPHY_VALUE;
 bar.weight = BAR_WEIGHT;
 
-const bauble = new Item("brass bauble", Location.NULL_LOCATION);
+let bauble = new Item("brass bauble", Location.NULL_LOCATION);
 bauble.altNames.add("brass");
 bauble.altNames.add("bauble");
 bauble.acquireValue = BAUBLE_VALUE;
 bauble.trophyCaseValue = BAUBLE_TROPHY_VALUE;
 bauble.weight = BAUBLE_WEIGHT;
 
-const chalice = new Item("silver chalice", Location.TREASURE_ROOM);
+let chalice = new Item("silver chalice", Location.TREASURE_ROOM);
 chalice.altNames.add("silver");
 chalice.altNames.add("chalice");
 chalice.acquireValue = CHALICE_VALUE;
 chalice.trophyCaseValue = CHALICE_TROPHY_VALUE;
 chalice.weight = CHALICE_WEIGHT;
 
-const coffin = new Item("gold coffin", Location.EGYPTIAN_ROOM);
+let coffin = new Item("gold coffin", Location.EGYPTIAN_ROOM);
 coffin.altNames.add("coffin");
 coffin.presenceString = ObjectStrings.COFFIN;
 coffin.inventoryID = Location.INSIDE_COFFIN;
@@ -981,7 +981,7 @@ coffin.trophyCaseValue = COFFIN_TROPHY_VALUE;
 coffin.weight = COFFIN_WEIGHT;
 coffin.capacity = 35;
 
-const coins = new Item("bag of coins", Location.MAZE_5);
+let coins = new Item("bag of coins", Location.MAZE_5);
 coins.altNames.add("bag");
 coins.altNames.add("coins");
 coins.presenceString = ObjectStrings.INIT_COINS;
@@ -989,7 +989,7 @@ coins.acquireValue = COINS_VALUE;
 coins.trophyCaseValue = COINS_TROPHY_VALUE;
 coins.weight = COINS_WEIGHT;
 
-const canary = new Item("golden clockwork canary", Location.NULL_LOCATION);
+let canary = new Item("golden clockwork canary", Location.NULL_LOCATION);
 canary.altNames.add("golden canary");
 canary.altNames.add("golden clockwork");
 canary.altNames.add("clockwork canary");
@@ -1001,14 +1001,14 @@ canary.acquireValue = CANARY_VALUE;
 canary.trophyCaseValue = CANARY_TROPHY_VALUE;
 canary.weight = CANARY_WEIGHT;
 
-const diamond = new Item("huge diamond", Location.NULL_LOCATION);
+let diamond = new Item("huge diamond", Location.NULL_LOCATION);
 diamond.altNames.add("diamond");
 diamond.presenceString = ObjectStrings.DIAMOND;
 diamond.acquireValue = DIAMOND_VALUE;
 diamond.trophyCaseValue = DIAMOND_TROPHY_VALUE;
 diamond.weight = DIAMOND_WEIGHT;
 
-const egg = new Item("jewel-encrusted egg", Location.INSIDE_BIRDS_NEST);
+let egg = new Item("jewel-encrusted egg", Location.INSIDE_BIRDS_NEST);
 egg.altNames.add("egg");
 egg.initialPresenceString = ObjectStrings.INIT_EGG;
 egg.acquireValue = EGG_VALUE;
@@ -1017,13 +1017,13 @@ egg.weight = EGG_WEIGHT;
 egg.inventoryID = Location.INSIDE_EGG;
 egg.capacity = 6;
 
-const emerald = new Item("large emerald", Location.INSIDE_BUOY);
+let emerald = new Item("large emerald", Location.INSIDE_BUOY);
 emerald.altNames.add("emerald");
 emerald.acquireValue = EMERALD_VALUE;
 emerald.trophyCaseValue = EMERALD_TROPHY_VALUE;
 emerald.weight = EMERALD_WEIGHT;
 
-const jade = new Item("jade figurine", Location.BAT_ROOM);
+let jade = new Item("jade figurine", Location.BAT_ROOM);
 jade.altNames.add("jade");
 jade.altNames.add("figurine");
 jade.presenceString = ObjectStrings.JADE;
@@ -1031,14 +1031,14 @@ jade.acquireValue = JADE_VALUE;
 jade.trophyCaseValue = JADE_TROPHY_VALUE;
 jade.weight = JADE_WEIGHT;
 
-const painting = new Item("painting", Location.GALLERY);
+let painting = new Item("painting", Location.GALLERY);
 painting.initialPresenceString = ObjectStrings.INIT_PAINTING;
 painting.presenceString = ObjectStrings.PAINTING;
 painting.acquireValue = PAINTING_VALUE;
 painting.trophyCaseValue = PAINTING_TROPHY_VALUE;
 painting.weight = PAINTING_WEIGHT;
 
-const pot = new Item("pot of gold", Location.NULL_LOCATION);
+let pot = new Item("pot of gold", Location.NULL_LOCATION);
 pot.altNames.add("pot");
 pot.altNames.add("gold");
 pot.initialPresenceString = ObjectStrings.INIT_POT_OF_GOLD;
@@ -1046,7 +1046,7 @@ pot.acquireValue = POT_OF_GOLD_VALUE;
 pot.trophyCaseValue = POT_OF_GOLD_TROPHY_VALUE;
 pot.weight = POT_OF_GOLD_WEIGHT;
 
-const sapphire = new Item("sapphire-encrusted bracelet", Location.GAS_ROOM);
+let sapphire = new Item("sapphire-encrusted bracelet", Location.GAS_ROOM);
 sapphire.altNames.add("sapphire");
 sapphire.altNames.add("bracelet");
 sapphire.altNames.add("sapphire bracelet");
@@ -1054,14 +1054,14 @@ sapphire.acquireValue = SAPPHIRE_VALUE;
 sapphire.trophyCaseValue = SAPPHIRE_TROPHY_VALUE;
 sapphire.weight = SAPPHIRE_WEIGHT;
 
-const scarab = new Item("beautiful jeweled scarab", Location.NULL_LOCATION);
+let scarab = new Item("beautiful jeweled scarab", Location.NULL_LOCATION);
 scarab.altNames.add("jeweled scarab");
 scarab.altNames.add("scarab");
 scarab.acquireValue = SCARAB_VALUE;
 scarab.trophyCaseValue = SCARAB_TROPHY_VALUE;
 scarab.weight = SCARAB_WEIGHT;
 
-const sceptre = new Item("sceptre", Location.INSIDE_COFFIN);
+let sceptre = new Item("sceptre", Location.INSIDE_COFFIN);
 sceptre.altNames.add("scepter");
 sceptre.initialPresenceString = ObjectStrings.INIT_SCEPTRE;
 sceptre.presenceString = ObjectStrings.SCEPTRE;
@@ -1070,7 +1070,7 @@ sceptre.acquireValue = SCEPTRE_VALUE;
 sceptre.trophyCaseValue = SCEPTRE_TROPHY_VALUE;
 sceptre.weight = SCEPTRE_WEIGHT;
 
-const skull = new Item("crystal skull", Location.LAND_OF_THE_DEAD);
+let skull = new Item("crystal skull", Location.LAND_OF_THE_DEAD);
 skull.altNames.add("skull");
 skull.altNames.add("crystal");
 skull.initialPresenceString = ObjectStrings.INIT_SKULL;
@@ -1078,7 +1078,7 @@ skull.acquireValue = CRYSTAL_SKULL_VALUE;
 skull.trophyCaseValue = CRYSTAL_SKULL_TROPHY_VALUE;
 skull.weight = SKULL_WEIGHT;
 
-const torch = new Item("torch", Location.TORCH_ROOM);
+let torch = new Item("torch", Location.TORCH_ROOM);
 torch.altNames.add("ivory");
 torch.altNames.add("ivory torch");
 torch.initialPresenceString = ObjectStrings.INIT_TORCH;
@@ -1087,7 +1087,7 @@ torch.acquireValue = TORCH_VALUE;
 torch.trophyCaseValue = TORCH_TROPHY_VALUE;
 torch.weight = TORCH_WEIGHT;
 
-const trident = new Item("crystal trident", Location.ATLANTIS_ROOM);
+let trident = new Item("crystal trident", Location.ATLANTIS_ROOM);
 trident.altNames.add("trident");
 trident.altNames.add("crystal");
 trident.initialPresenceString = ObjectStrings.INIT_TRIDENT;
@@ -1095,7 +1095,7 @@ trident.acquireValue = TRIDENT_VALUE;
 trident.trophyCaseValue = TRIDENT_TROPHY_VALUE;
 trident.weight = TRIDENT_WEIGHT;
 
-const trunk = new Item("trunk of jewels", Location.RESERVOIR_EMPTY);
+let trunk = new Item("trunk of jewels", Location.RESERVOIR_EMPTY);
 trunk.altNames.add("trunk");
 trunk.altNames.add("jewels");
 trunk.acquireValue = TRUNK_OF_JEWELS_VALUE;
@@ -1106,40 +1106,40 @@ trunk.weight = TRUNK_WEIGHT;
 
 // And another 40 (or so) items that can be taken.
 
-const ancientMap = new Item("ancient map", Location.NULL_LOCATION);
+let ancientMap = new Item("ancient map", Location.NULL_LOCATION);
 ancientMap.altNames.add("map");
 ancientMap.weight = ANCIENT_MAP_WEIGHT;
 ancientMap.initialPresenceString = ObjectStrings.INIT_ANCIENT_MAP;
 ancientMap.readString = ObjectStrings.ANCIENT_MAP;
 ancientMap.examineString = ObjectStrings.ANCIENT_MAP;
 
-const axe = new Item("bloody axe", Location.TROLL_INVENTORY);
+let axe = new Item("bloody axe", Location.TROLL_INVENTORY);
 axe.altNames.add("axe");
 axe.altNames.add("ax");
 axe.weight = AXE_WEIGHT;
 
-const bell = new Item("brass bell", Location.TEMPLE);
+let bell = new Item("brass bell", Location.TEMPLE);
 bell.altNames.add("bell");
 bell.ringString = "Ding, dong.";
 bell.weight = BELL_WEIGHT;
 
-const blackBook = new Item("black book", Location.ON_ALTAR);
+let blackBook = new Item("black book", Location.ON_ALTAR);
 blackBook.altNames.add("book");
 blackBook.initialPresenceString = ObjectStrings.INIT_BLACK_BOOK;
 blackBook.weight = BLACK_BOOK_WEIGHT;
 
-const boatLabel = new Item("tan label", Location.NULL_LOCATION);
+let boatLabel = new Item("tan label", Location.NULL_LOCATION);
 boatLabel.altNames.add("label");
 boatLabel.readString = GameStrings.BOAT_LABEL_TEXT;
 boatLabel.weight = BOAT_LABEL_WEIGHT;
 
-const bottle = new Item("glass bottle", Location.ON_KITCHEN_TABLE);
+let bottle = new Item("glass bottle", Location.ON_KITCHEN_TABLE);
 bottle.altNames.add("bottle");
 bottle.altNames.add("glass");
 bottle.initialPresenceString = ObjectStrings.INIT_BOTTLE;
 bottle.weight = BOTTLE_WEIGHT;
 
-const brokenCanary = new Item("broken clockwork canary", Location.NULL_LOCATION);
+let brokenCanary = new Item("broken clockwork canary", Location.NULL_LOCATION);
 brokenCanary.altNames.add("broken canary");
 brokenCanary.altNames.add("canary");
 brokenCanary.altNames.add("broken clockwork");
@@ -1149,7 +1149,7 @@ brokenCanary.examineString = ObjectStrings.EXAMINE_BROKEN_CANARY;
 brokenCanary.trophyCaseValue = BROKEN_CANARY_TROPHY_VALUE;
 brokenCanary.weight = CANARY_WEIGHT;
 
-const brokenEgg = new Item("broken jewel-encrusted egg", Location.NULL_LOCATION);
+let brokenEgg = new Item("broken jewel-encrusted egg", Location.NULL_LOCATION);
 brokenEgg.presenceString = "There is a somewhat ruined egg here.";
 brokenEgg.altNames.add("broken egg");
 brokenEgg.altNames.add("jewel-encrusted egg");
@@ -1159,7 +1159,7 @@ brokenEgg.trophyCaseValue = BROKEN_EGG_TROPHY_VALUE;
 brokenEgg.weight = EGG_WEIGHT;
 brokenEgg.capacity = 6;
 
-const buoy = new Item("red buoy", Location.FRIGID_RIVER_4);
+let buoy = new Item("red buoy", Location.FRIGID_RIVER_4);
 buoy.altNames.add("buoy");
 buoy.inventoryID = Location.INSIDE_BUOY;
 buoy.weight = BUOY_WEIGHT;
@@ -1167,7 +1167,7 @@ buoy.capacity = 20;
 buoy.initialPresenceString = ObjectStrings.INIT_BUOY;
 buoy.examineString = "You notice something funny about the feel of the buoy.";
 
-const candles = new Item("pair of candles", Location.ALTAR);
+let candles = new Item("pair of candles", Location.ALTAR);
 candles.altNames.add("candles");
 candles.altNames.add("candle");
 candles.altNames.add("pair");
@@ -1175,7 +1175,7 @@ candles.initialPresenceString = ObjectStrings.INIT_CANDLES;
 candles.weight = CANDLES_WEIGHT;
 candles.activated = true;
 
-const coal = new Item("small pile of coal", Location.DEAD_END_COAL_MINE);
+let coal = new Item("small pile of coal", Location.DEAD_END_COAL_MINE);
 coal.altNames.add("coal");
 coal.altNames.add("pile");
 coal.altNames.add("coal pile");
@@ -1183,7 +1183,7 @@ coal.altNames.add("pile of coal");
 coal.altNames.add("small pile");
 coal.weight = COAL_WEIGHT;
 
-const deflatedBoat = new Item("pile of plastic", Location.DAM_BASE);
+let deflatedBoat = new Item("pile of plastic", Location.DAM_BASE);
 deflatedBoat.altNames.add("boat");
 deflatedBoat.altNames.add("raft");
 deflatedBoat.altNames.add("pile");
@@ -1191,22 +1191,22 @@ deflatedBoat.altNames.add("plastic");
 deflatedBoat.presenceString = ObjectStrings.INIT_BOAT;
 deflatedBoat.weight = BOAT_WEIGHT;
 
-const garlic = new Item("clove of garlic", Location.INSIDE_SACK);
+let garlic = new Item("clove of garlic", Location.INSIDE_SACK);
 garlic.altNames.add("clove");
 garlic.altNames.add("garlic");
 garlic.weight = GARLIC_WEIGHT;
 
-const guideBook = new Item("guidebook", Location.DAM_LOBBY);
+let guideBook = new Item("guidebook", Location.DAM_LOBBY);
 guideBook.altNames.add("book");
 guideBook.initialPresenceString = ObjectStrings.INIT_GUIDEBOOK;
 guideBook.weight = GUIDEBOOK_WEIGHT;
 
-const gunk = new Item("viscous material", Location.INSIDE_TUBE);
+let gunk = new Item("viscous material", Location.INSIDE_TUBE);
 gunk.altNames.add("gunk");
 gunk.altNames.add("material");
 gunk.weight = GUNK_WEIGHT;
 
-const inflatedBoat = new Item("magic boat", Location.NULL_LOCATION);
+let inflatedBoat = new Item("magic boat", Location.NULL_LOCATION);
 inflatedBoat.altNames.add("boat");
 inflatedBoat.altNames.add("raft");
 inflatedBoat.inventoryID = Location.INSIDE_BOAT;
@@ -1214,12 +1214,12 @@ inflatedBoat.weight = BOAT_WEIGHT;
 inflatedBoat.capacity = 100;
 inflatedBoat.itemOpen = true;
 
-const knife = new Item("nasty knife", Location.ATTIC);
+let knife = new Item("nasty knife", Location.ATTIC);
 knife.altNames.add("knife");
 knife.initialPresenceString = ObjectStrings.INIT_NASTY_KNIFE;
 knife.weight = KNIFE_WEIGHT;
 
-const lantern = new Item("brass lantern", Location.LIVING_ROOM);
+let lantern = new Item("brass lantern", Location.LIVING_ROOM);
 lantern.initialPresenceString = ObjectStrings.INIT_LANTERN;
 lantern.altNames.add("lamp");
 lantern.altNames.add("lantern");
@@ -1227,7 +1227,7 @@ lantern.altNames.add("brass lamp");
 lantern.lifespan = LANTERN_LIFESPAN;
 lantern.weight = LANTERN_WEIGHT;
 
-const nest = new Item("bird's nest", Location.UP_TREE);
+let nest = new Item("bird's nest", Location.UP_TREE);
 nest.altNames.add("nest");
 nest.initialPresenceString = ObjectStrings.INIT_NEST;
 nest.inventoryID = Location.INSIDE_BIRDS_NEST;
@@ -1235,7 +1235,7 @@ nest.weight = NEST_WEIGHT;
 nest.itemOpen = true;
 nest.capacity = 20;
 
-const leafPile = new Item("pile of leaves", Location.CLEARING_NORTH);
+let leafPile = new Item("pile of leaves", Location.CLEARING_NORTH);
 leafPile.altNames.add("pile");
 leafPile.altNames.add("leaves");
 leafPile.countString = "There are 69,105 leaves here.";
@@ -1243,41 +1243,41 @@ leafPile.initialPresenceString =  ObjectStrings.LEAF_PILE;
 leafPile.presenceString =  ObjectStrings.LEAF_PILE;
 leafPile.weight = LEAVES_WEIGHT;
 
-const leaflet = new Item("leaflet", Location.INSIDE_MAILBOX);
+let leaflet = new Item("leaflet", Location.INSIDE_MAILBOX);
 leaflet.readString = GameStrings.LEAFLET_TEXT;
 leaflet.weight = LEAFLET_WEIGHT;
 
-const lunch = new Item("lunch", Location.INSIDE_SACK);
+let lunch = new Item("lunch", Location.INSIDE_SACK);
 lunch.altNames.add("peppers");
 lunch.altNames.add("hot peppers");
 lunch.weight = LUNCH_WEIGHT;
 
-const matchbook = new Item("matchbook", Location.DAM_LOBBY);
+let matchbook = new Item("matchbook", Location.DAM_LOBBY);
 matchbook.altNames.add("matches");
 matchbook.altNames.add("match");
 matchbook.presenceString = ObjectStrings.INIT_MATCHBOOK;
 matchbook.lifespan = MATCH_LIFESPAN;
 matchbook.weight = MATCHBOOK_WEIGHT;
 
-const pump = new Item("hand-held air pump", Location.RESERVOIR_NORTH);
+let pump = new Item("hand-held air pump", Location.RESERVOIR_NORTH);
 pump.altNames.add("air pump");
 pump.altNames.add("pump");
 pump.weight = PUMP_WEIGHT;
 
-const puncturedBoat = new Item("punctured boat", Location.NULL_LOCATION);
+let puncturedBoat = new Item("punctured boat", Location.NULL_LOCATION);
 puncturedBoat.altNames.add("boat");
 puncturedBoat.altNames.add("ruined boat");
 puncturedBoat.weight = BOAT_WEIGHT;
 
-const rope = new Item("rope", Location.ATTIC);
+let rope = new Item("rope", Location.ATTIC);
 rope.initialPresenceString = ObjectStrings.INIT_ROPE;
 rope.weight = ROPE_WEIGHT;
 
-const rustyKnife = new Item("rusty knife", Location.MAZE_5);
+let rustyKnife = new Item("rusty knife", Location.MAZE_5);
 rustyKnife.initialPresenceString = ObjectStrings.INIT_RUSTY_KNIFE;
 rustyKnife.weight = RUSTY_KNIFE_WEIGHT;
 
-const sack = new Item("brown sack", Location.ON_KITCHEN_TABLE);
+let sack = new Item("brown sack", Location.ON_KITCHEN_TABLE);
 sack.altNames.add("sack");
 sack.altNames.add("bag");
 sack.altNames.add("brown bag");
@@ -1286,49 +1286,49 @@ sack.inventoryID = Location.INSIDE_SACK;
 sack.weight = SACK_WEIGHT;
 sack.capacity = 9;
 
-const screwdriver = new Item("screwdriver", Location.MAINTENANCE_ROOM);
+let screwdriver = new Item("screwdriver", Location.MAINTENANCE_ROOM);
 screwdriver.altNames.add("driver");
 screwdriver.weight = SCREWDRIVER_WEIGHT;
 
-const shovel = new Item("shovel", Location.SANDY_BEACH);
+let shovel = new Item("shovel", Location.SANDY_BEACH);
 shovel.weight = SHOVEL_WEIGHT;
 
-const skeletonKey = new Item("skeleton key", Location.MAZE_5);
+let skeletonKey = new Item("skeleton key", Location.MAZE_5);
 skeletonKey.altNames.add("key");
 skeletonKey.weight = SKELETON_KEY_WEIGHT;
 
-const stiletto = new Item("stiletto", Location.THIEF_INVENTORY);
+let stiletto = new Item("stiletto", Location.THIEF_INVENTORY);
 stiletto.weight = STILETTO_WEIGHT;
 
-const studioPaper = new Item("ZORK owner's manual", Location.STUDIO);
+let studioPaper = new Item("ZORK owner's manual", Location.STUDIO);
 studioPaper.altNames.add("paper");
 studioPaper.altNames.add("manual");
 studioPaper.readString = GameStrings.NATE_MANUAL_TEXT;
 studioPaper.initialPresenceString = ObjectStrings.INIT_ZORK_MANUAL;
 studioPaper.weight = ZORK_MANUAL_WEIGHT;
 
-const sword = new Item("elvish sword", Location.LIVING_ROOM);
+let sword = new Item("elvish sword", Location.LIVING_ROOM);
 sword.initialPresenceString = ObjectStrings.INIT_SWORD;
 sword.altNames.add("sword");
 sword.weight = SWORD_WEIGHT;
 
-const timber = new Item("broken timber", Location.TIMBER_ROOM);
+let timber = new Item("broken timber", Location.TIMBER_ROOM);
 timber.altNames.add("timber");
 timber.weight = TIMBER_WEIGHT;
 
-const tube = new Item("tube", Location.MAINTENANCE_ROOM);
+let tube = new Item("tube", Location.MAINTENANCE_ROOM);
 tube.presenceString = ObjectStrings.TUBE;
 tube.examineString = ObjectStrings.DESC_TUBE;
 tube.inventoryID = Location.INSIDE_TUBE;
 tube.weight = TUBE_WEIGHT;
 tube.capacity = 7;
 
-const uselessLantern = new Item("useless lantern", Location.MAZE_5);
+let uselessLantern = new Item("useless lantern", Location.MAZE_5);
 uselessLantern.altNames.add("lantern");
 uselessLantern.initialPresenceString = ObjectStrings.INIT_USELESS;
 uselessLantern.weight = USELESS_LANTERN_WEIGHT;
 
-const wrench = new Item("wrench", Location.MAINTENANCE_ROOM);
+let wrench = new Item("wrench", Location.MAINTENANCE_ROOM);
 wrench.weight = WRENCH_WEIGHT;
 
 
@@ -1336,34 +1336,34 @@ wrench.weight = WRENCH_WEIGHT;
 
 
 
-const altar = new Surface("altar", Location.ALTAR);
+let altar = new Surface("altar", Location.ALTAR);
 altar.inventoryID = Location.ON_ALTAR;
 altar.capacity = 50;
 
-const atticTable = new Surface("attic table", Location.ATTIC);
+let atticTable = new Surface("attic table", Location.ATTIC);
 atticTable.inventoryID = Location.ON_ATTIC_TABLE;
 atticTable.altNames.add("table");
 atticTable.capacity = 40;
 
-const brokenMirror = new Feature("broken mirror", Location.NULL_LOCATION);
+let brokenMirror = new Feature("broken mirror", Location.NULL_LOCATION);
 brokenMirror.altNames.add("mirror");
 brokenMirror.examineString = "The mirror is broken into many pieces.";
 brokenMirror.takeString = "The mirror is many times your size. Give up.";
 brokenMirror.breakString = "Haven't you done enough damage already?";
 
-const buttonBlue = new Feature("blue button", Location.MAINTENANCE_ROOM);
+let buttonBlue = new Feature("blue button", Location.MAINTENANCE_ROOM);
 buttonBlue.altNames.add("blue");
 
-const buttonBrown = new Feature("brown button", Location.MAINTENANCE_ROOM);
+let buttonBrown = new Feature("brown button", Location.MAINTENANCE_ROOM);
 buttonBrown.altNames.add("brown");
 
-const buttonRed = new Feature("red button", Location.MAINTENANCE_ROOM);
+let buttonRed = new Feature("red button", Location.MAINTENANCE_ROOM);
 buttonRed.altNames.add("red");
 
-const buttonYellow = new Feature("yellow button", Location.MAINTENANCE_ROOM);
+let buttonYellow = new Feature("yellow button", Location.MAINTENANCE_ROOM);
 buttonYellow.altNames.add("yellow");
 
-const carpet = new Feature("oriental rug", Location.LIVING_ROOM);
+let carpet = new Feature("oriental rug", Location.LIVING_ROOM);
 carpet.takeString = "The rug is extremely heavy and cannot be carried.";
 carpet.altNames.add("carpet");
 carpet.altNames.add("oriental carpet");
@@ -1372,31 +1372,31 @@ carpet.altNames.add("oriental rug");
 carpet.boardString = ObjectStrings.CARPET_SIT_1;
 carpet.lookUnderString = ObjectStrings.CARPET_LOOK_UNDER;
 
-const coalMachine = new Container("machine", Location.MACHINE_ROOM);
+let coalMachine = new Container("machine", Location.MACHINE_ROOM);
 coalMachine.inventoryID = Location.INSIDE_COAL_MACHINE;
 coalMachine.altNames.add("lid");
 coalMachine.capacity = 50;
 coalMachine.takeString = "It is far too large to carry.";
 
-const coalMachineSwitch = new Feature("switch", Location.MACHINE_ROOM);
+let coalMachineSwitch = new Feature("switch", Location.MACHINE_ROOM);
 
-const damBolt = new Feature("bolt", Location.DAM);
+let damBolt = new Feature("bolt", Location.DAM);
 
-const deadGate = new Feature("gate", Location.ENTRANCE_TO_HADES);
+let deadGate = new Feature("gate", Location.ENTRANCE_TO_HADES);
 deadGate.altLocations.add(Location.LAND_OF_THE_DEAD);
 deadGate.takeString = ObjectStrings.DEAD_GATE;
 deadGate.touchString = ObjectStrings.DEAD_GATE;
 deadGate.openString = ObjectStrings.DEAD_GATE;
 deadGate.closeString = ObjectStrings.DEAD_GATE;
 
-const engravings = new Feature("engravings", Location.ENGRAVINGS_CAVE);
+let engravings = new Feature("engravings", Location.ENGRAVINGS_CAVE);
 engravings.altNames.add("markings");
 engravings.altNames.add("walls");
 engravings.altNames.add("wall");
 engravings.readString = GameStrings.ENGRAVINGS_TEXT;
 engravings.examineString = GameStrings.ENGRAVINGS_TEXT;
 
-const forest = new Feature("forest", Location.FOREST_PATH);
+let forest = new Feature("forest", Location.FOREST_PATH);
 forest.altNames.add("woods");
 forest.altNames.add("trees");
 forest.altNames.add("tree");
@@ -1409,16 +1409,16 @@ forest.altLocations.add(Location.CLEARING_EAST);
 forest.altLocations.add(Location.UP_TREE);
 forest.listenString = "The pines and the hemlocks seem to be murmuring.";
 
-const gas = new Feature("gas", Location.GAS_ROOM);
+let gas = new Feature("gas", Location.GAS_ROOM);
 gas.blowString = "There is too much gas to blow away.";
 gas.smellString = "It smells like coal gas in here.";
 
-const grating = new Feature("grating", Location.GRATING_ROOM);
+let grating = new Feature("grating", Location.GRATING_ROOM);
 grating.altNames.add("grate");
 grating.examineString = "The grating is closed.";
 grating.lookInString = "You can see only darkness through the grating.";
 
-const hotBell = new Feature("red hot brass bell", Location.NULL_LOCATION);
+let hotBell = new Feature("red hot brass bell", Location.NULL_LOCATION);
 hotBell.altNames.add("red hot bell");
 hotBell.altNames.add("hot brass bell");
 hotBell.altNames.add("hot bell");
@@ -1428,7 +1428,7 @@ hotBell.takeString = "The bell is very hot and cannot be taken.";
 hotBell.ringString = "The bell is too hot to reach.";
 hotBell.presenceString = "On the ground is a red hot bell.";
 
-const house = new Feature("white house", Location.WEST_OF_HOUSE);
+let house = new Feature("white house", Location.WEST_OF_HOUSE);
 house.altNames.add("house");
 house.altLocations.add(Location.NORTH_OF_HOUSE);
 house.altLocations.add(Location.BEHIND_HOUSE);
@@ -1438,7 +1438,7 @@ house.altLocations.add(Location.LIVING_ROOM);
 house.altLocations.add(Location.ATTIC);
 house.examineString = ObjectStrings.HOUSE_EXAMINE;
 
-const houseBoards = new Feature("wooden boards", Location.WEST_OF_HOUSE);
+let houseBoards = new Feature("wooden boards", Location.WEST_OF_HOUSE);
 houseBoards.altNames.add("boards");
 houseBoards.altNames.add("board");
 houseBoards.altNames.add("wood");
@@ -1447,29 +1447,29 @@ houseBoards.altLocations.add(Location.SOUTH_OF_HOUSE);
 houseBoards.altLocations.add(Location.NORTH_OF_HOUSE);
 houseBoards.takeString = "The boards are securely fastened.";
 
-const houseExteriorDoor = new Feature("door", Location.WEST_OF_HOUSE);
+let houseExteriorDoor = new Feature("door", Location.WEST_OF_HOUSE);
 houseExteriorDoor.altNames.add("wooden door");
 houseExteriorDoor.openString = "The door cannot be opened.";
 
-const houseExteriorWindow = new Feature("boarded window", Location.NORTH_OF_HOUSE);
+let houseExteriorWindow = new Feature("boarded window", Location.NORTH_OF_HOUSE);
 houseExteriorWindow.altNames.add("windows");
 houseExteriorWindow.altNames.add("window");
 houseExteriorWindow.altLocations.add(Location.SOUTH_OF_HOUSE);
 houseExteriorWindow.breakString = "You can't break the windows open.";
 houseExteriorWindow.openString = "The windows are boarded and can't be opened.";
 
-const houseWindow = new Feature("kitchen window", Location.BEHIND_HOUSE);
+let houseWindow = new Feature("kitchen window", Location.BEHIND_HOUSE);
 houseWindow.altNames.add("window");
 houseWindow.altLocations.add(Location.KITCHEN);
 houseWindow.examineString = ObjectStrings.WINDOW_EXAMINE_AJAR;
 houseWindow.lookInString = ObjectStrings.WINDOW_LOOK_IN;
 
-const kitchenTable = new Surface("kitchen table", Location.KITCHEN);
+let kitchenTable = new Surface("kitchen table", Location.KITCHEN);
 kitchenTable.altNames.add("table");
 kitchenTable.capacity = 50;
 kitchenTable.inventoryID = Location.ON_KITCHEN_TABLE;
 
-const mailbox = new Container("small mailbox", Location.WEST_OF_HOUSE);
+let mailbox = new Container("small mailbox", Location.WEST_OF_HOUSE);
 mailbox.altNames.add("mailbox");
 mailbox.altNames.add("box");
 mailbox.takeString = "It is securely anchored.";
@@ -1478,7 +1478,7 @@ mailbox.inventory.add(leaflet);
 mailbox.inventoryID = Location.INSIDE_MAILBOX;
 mailbox.capacity = 10;
 
-const mirror = new Feature("mirror", Location.MIRROR_ROOM_SOUTH);
+let mirror = new Feature("mirror", Location.MIRROR_ROOM_SOUTH);
 mirror.altLocations.add(Location.MIRROR_ROOM_NORTH);
 mirror.touchString = "There is a rumble from deep within the earth and the room shakes.";
 mirror.examineString = "There is an ugly person staring back at you.";
@@ -1486,30 +1486,30 @@ mirror.lookInString = "There is an ugly person staring back at you.";
 mirror.takeString = "The mirror is many times your size. Give up.";
 mirror.breakString = "You have broken the mirror. I hope you have a seven years' supply of good luck handy.";
 
-const mountains = new Feature("mountains", Location.FOREST_NORTHEAST);
+let mountains = new Feature("mountains", Location.FOREST_NORTHEAST);
 mountains.altNames.add("mountain");
 mountains.climbString = "Don't you believe me? The mountains are impassable!";
 
-const pedestal = new Surface("pedestal", Location.TORCH_ROOM);
+let pedestal = new Surface("pedestal", Location.TORCH_ROOM);
 pedestal.inventoryID = Location.ON_PEDESTAL;
 pedestal.capacity = 30;
 
-const railing = new Feature("wooden railing", Location.DOME_ROOM);
+let railing = new Feature("wooden railing", Location.DOME_ROOM);
 railing.altNames.add("railing");
 railing.altNames.add("rail");
 
-const rainbow = new Feature("rainbow", Location.END_OF_RAINBOW);
+let rainbow = new Feature("rainbow", Location.END_OF_RAINBOW);
 rainbow.altLocations.add(Location.ON_THE_RAINBOW);
 rainbow.altLocations.add(Location.ARAGAIN_FALLS);
 rainbow.crossString = "Can you walk on water vapor?";
 
-const reservoirWater = new Feature("reservoir water", Location.RESERVOIR);
+let reservoirWater = new Feature("reservoir water", Location.RESERVOIR);
 reservoirWater.altNames.add("reservoir");
 reservoirWater.altNames.add("water");
 reservoirWater.altLocations.add(Location.RESERVOIR_NORTH);
 reservoirWater.altLocations.add(Location.RESERVOIR_SOUTH);
 
-const riverWater = new Feature("river water", Location.FRIGID_RIVER_1);
+let riverWater = new Feature("river water", Location.FRIGID_RIVER_1);
 riverWater.altNames.add("water");
 riverWater.altNames.add("river");
 riverWater.altLocations.add(Location.FRIGID_RIVER_2);
@@ -1523,54 +1523,54 @@ riverWater.altLocations.add(Location.SANDY_BEACH);
 riverWater.altLocations.add(Location.SHORE);
 
 
-const sand = new Feature("sand", Location.SANDY_CAVE);
+let sand = new Feature("sand", Location.SANDY_CAVE);
 sand.altNames.add("ground");
 
-const self = new Item("you", Location.NULL_LOCATION);
+let self = new Item("you", Location.NULL_LOCATION);
 self.altNames.add("me");
 self.altNames.add("self");
 self.altNames.add("myself");
 
 
-const shaftBasket = new Container("basket", Location.SHAFT_ROOM);
+let shaftBasket = new Container("basket", Location.SHAFT_ROOM);
 shaftBasket.altLocations.add(Location.DRAFTY_ROOM);
 shaftBasket.containerOpen = true;
 shaftBasket.capacity = 50;
 shaftBasket.inventoryID = Location.INSIDE_BASKET;
 
-const shaftChain = new Feature("chain", Location.SHAFT_ROOM);
+let shaftChain = new Feature("chain", Location.SHAFT_ROOM);
 
-const skeleton = new Feature("skeleton", Location.MAZE_5);
+let skeleton = new Feature("skeleton", Location.MAZE_5);
 
-const streamWater = new Feature("stream water", Location.STREAM);
+let streamWater = new Feature("stream water", Location.STREAM);
 streamWater.altNames.add("stream");
 streamWater.altNames.add("water");
 streamWater.altLocations.add(Location.STREAM_VIEW);
 
-const toolChests = new Feature("tool chests", Location.MAINTENANCE_ROOM);
+let toolChests = new Feature("tool chests", Location.MAINTENANCE_ROOM);
 toolChests.initialPresenceString = ObjectStrings.INIT_TOOL_CHESTS;
 toolChests.takeString = "The chests are so rusty and corroded that they crumble when you touch them.";
 toolChests.examineString = "The chests are all empty.";
 
-const trapDoor = new Feature("trap door", Location.NULL_LOCATION);
+let trapDoor = new Feature("trap door", Location.NULL_LOCATION);
 trapDoor.altNames.add("trap");
 trapDoor.altNames.add("door");
 
-const trophyCase = new Container("trophy case", Location.LIVING_ROOM);
+let trophyCase = new Container("trophy case", Location.LIVING_ROOM);
 trophyCase.altNames.add("case");
 trophyCase.inventoryID = Location.INSIDE_TROPHY_CASE;
 trophyCase.capacity = 10000;
 
-const vitreousSlag = new Item("small piece of vitreous slag", Location.NULL_LOCATION);
+let vitreousSlag = new Item("small piece of vitreous slag", Location.NULL_LOCATION);
 vitreousSlag.altNames.add("piece of vitreous slag");
 vitreousSlag.altNames.add("piece of slag");
 vitreousSlag.altNames.add("vitreous slag");
 vitreousSlag.altNames.add("slag");
 
-const water = new Feature("quantity of water", Location.NULL_LOCATION);
+let water = new Feature("quantity of water", Location.NULL_LOCATION);
 water.altNames.add("water");
 
-const woodenDoor = new Feature("wooden door", Location.LIVING_ROOM);
+let woodenDoor = new Feature("wooden door", Location.LIVING_ROOM);
 woodenDoor.altNames.add("door");
 woodenDoor.altNames.add("letters");
 woodenDoor.altNames.add("lettering");
@@ -1581,20 +1581,20 @@ woodenDoor.examineString = ObjectStrings.WOODEN_DOOR;
 
 // Actors
 
-const cyclops = new Actor("cyclops", Location.CYCLOPS_ROOM);
+let cyclops = new Actor("cyclops", Location.CYCLOPS_ROOM);
 cyclops.examineString = ObjectStrings.CYCLOPS_EXAMINE;
 cyclops.helloString = "The cyclops bows his head to you in greeting.";
 
-const damFlow = new Actor("flow", Location.DAM);
+let damFlow = new Actor("flow", Location.DAM);
 damFlow.intangible = true;
 
-const flood = new Actor("flood", Location.MAINTENANCE_ROOM);
+let flood = new Actor("flood", Location.MAINTENANCE_ROOM);
 flood.intangible = true;
 
-const gustOfWind = new Actor("gust of wind", Location.CAVE_SOUTH);
+let gustOfWind = new Actor("gust of wind", Location.CAVE_SOUTH);
 gustOfWind.intangible = true;
 
-const riverCurrent = new Actor("current", Location.FRIGID_RIVER_1);
+let riverCurrent = new Actor("current", Location.FRIGID_RIVER_1);
 riverCurrent.altLocations.add(Location.FRIGID_RIVER_2);
 riverCurrent.altLocations.add(Location.FRIGID_RIVER_3);
 riverCurrent.altLocations.add(Location.FRIGID_RIVER_4);
@@ -1602,7 +1602,7 @@ riverCurrent.altLocations.add(Location.FRIGID_RIVER_5);
 riverCurrent.intangible = true;
 
 
-const songbird = new Actor("song bird", forest.location);
+let songbird = new Actor("song bird", forest.location);
 songbird.altLocations.add(Location.FOREST_PATH);
 songbird.altLocations.add(Location.FOREST_WEST);
 songbird.altLocations.add(Location.FOREST_EAST);
@@ -1616,16 +1616,16 @@ songbird.presenceString = "";
 songbird.takeString = ObjectStrings.SONGBIRD_NEARBY;
 songbird.examineString = ObjectStrings.SONGBIRD_NEARBY;
 
-const spirits = new Actor("spirits", Location.ENTRANCE_TO_HADES);
+let spirits = new Actor("spirits", Location.ENTRANCE_TO_HADES);
 spirits.presenceString = ObjectStrings.SPIRITS;
 spirits.talkString = "The spirits jeer loudly and ignore you.";
 spirits.attackString = "How can you attack a spirit with material objects?";
 spirits.takeString = "You seem unable to interact with these spirits.";
 
-const swordGlow = new Actor("glow", Location.NULL_LOCATION);
+let swordGlow = new Actor("glow", Location.NULL_LOCATION);
 swordGlow.intangible = true;
 
-const thief = new Actor("thief", Location.TREASURE_ROOM);
+let thief = new Actor("thief", Location.TREASURE_ROOM);
 thief.altNames.add("theif");
 thief.altNames.add("bandit");
 thief.altNames.add("robber");
@@ -1634,14 +1634,14 @@ thief.inventoryID = Location.THIEF_INVENTORY;
 thief.presenceString = ObjectStrings.THIEF_PRESENT_2;
 thief.helloString = "The thief bows his head to you in greeting.";
 
-const troll = new Actor("troll", Location.TROLL_ROOM);
+let troll = new Actor("troll", Location.TROLL_ROOM);
 troll.presenceString = ObjectStrings.TROLL_PRESENCE;
 troll.takeString = ObjectStrings.TROLL_TAKE;
 troll.talkString = ObjectStrings.TROLL_TALK_1;
 troll.inventoryID = Location.TROLL_INVENTORY;
 troll.helloString = "The troll bows his head to you in greeting.";
 
-const vampireBat = new Actor("vampire bat", Location.BAT_ROOM);
+let vampireBat = new Actor("vampire bat", Location.BAT_ROOM);
 vampireBat.altNames.add("vampire");
 vampireBat.altNames.add("bat");
 vampireBat.attackString = ObjectStrings.BAT_CEILING;
