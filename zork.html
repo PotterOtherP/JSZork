@@ -160,6 +160,13 @@
             {
                 let result = randomLog.shift();
                 console.log("Retrieving random: " + result);
+
+                if (randomLog.length < 1)
+                {
+                    console.log("Error restoring game: random number log mismatch");
+                    result = 0;
+                }
+                
                 return result;
             }
 

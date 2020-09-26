@@ -51,6 +51,8 @@ class Actor extends GameObject {
                 if (weapon.name === "rusty knife")
                 {
                     output(ObjectStrings.RUSTY_KNIFE_CURSE);
+                    rustyKnife.location = Location.MAZE_5;
+                    rustyKnife.movedFromStart = false;
                     playerDies();
                     return;
                 }
@@ -1057,6 +1059,7 @@ class Actor extends GameObject {
     thiefMoves()
     {
         let nextThiefLocation = getRandom(THIEF_LOCATIONS.length);
+        // console.log("Thief location random number: " + nextThiefLocation);
         this.location = THIEF_LOCATIONS[nextThiefLocation];
         this.thiefFirstTurn = true;
     }
@@ -1219,6 +1222,7 @@ class Actor extends GameObject {
 
             // Move the thief to the player if we roll an encounter.
             let encounterCheck = getRandom(100);
+            // console.log("Thief encounter check number: " + encounterCheck);
             if (encounterCheck < THIEF_ENCOUNTER_PERCENT && playerInThiefArea)
             {
                 this.location = state.playerLocation;

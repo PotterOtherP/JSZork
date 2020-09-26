@@ -11,6 +11,22 @@ class Feature extends GameObject {
 
     }
 
+    attack()
+    {
+        switch(this.name)
+        {
+            case "skeleton":
+            {
+                skeletonIsDisturbed();
+            } break;
+
+            default:
+            {
+                super.attack();
+            } break;
+        }
+    }
+
     breakObject()
     {
         switch (this.name)
@@ -33,6 +49,11 @@ class Feature extends GameObject {
                     brokeMirror.altLocations.add(Location.MIRROR_ROOM_NORTH);
                     state.mirrorBroken = true;
                 }
+            } break;
+
+            case "skeleton":
+            {
+                skeletonIsDisturbed();
             } break;
 
             default:
@@ -62,6 +83,11 @@ class Feature extends GameObject {
                 {
                     output("There is no tree here suitable for climbing.");
                 }
+            } break;
+
+            case "skeleton":
+            {
+                skeletonIsDisturbed();
             } break;
 
             default:
@@ -229,6 +255,11 @@ class Feature extends GameObject {
                 output(ObjectStrings.DEAD_GATE);
             } break;
 
+            case "skeleton":
+            {
+                skeletonIsDisturbed();
+            } break;
+
             default:
             {
                 super.kick();
@@ -310,6 +341,11 @@ class Feature extends GameObject {
                 output(ObjectStrings.DEAD_GATE);
             } break;
 
+            case "skeleton":
+            {
+                skeletonIsDisturbed();
+            } break;
+
             default:
             {
                 super.lower();
@@ -341,6 +377,11 @@ class Feature extends GameObject {
                 {
                     output(GameStrings.RUG_ALREADY_MOVED);
                 }
+            } break;
+
+            case "skeleton":
+            {
+                skeletonIsDisturbed();
             } break;
 
             default:
@@ -546,6 +587,11 @@ class Feature extends GameObject {
 
             } break;
 
+            case "skeleton":
+            {
+                skeletonIsDisturbed();
+            } break;
+
 
             default:
             {
@@ -595,9 +641,30 @@ class Feature extends GameObject {
                 output(ObjectStrings.DEAD_GATE);
             } break;
 
+            case "skeleton":
+            {
+                skeletonIsDisturbed();
+            } break;
+
             default:
             {
                 super.raise();
+            } break;
+        }
+    }
+
+    shake()
+    {
+        switch(this.name)
+        {
+            case "skeleton":
+            {
+                skeletonIsDisturbed();
+            } break;
+
+            default:
+            {
+                super.shake();
             } break;
         }
     }
@@ -619,6 +686,11 @@ class Feature extends GameObject {
                 else
                     output("The water slips through your fingers.");
                 
+            } break;
+
+            case "skeleton":
+            {
+                skeletonIsDisturbed();
             } break;
 
             default:
@@ -689,6 +761,11 @@ class Feature extends GameObject {
                     if (g.isItem() && g.location === state.playerPreviousLocation)
                         g.location = state.playerLocation;
                 }
+            } break;
+
+            case "skeleton":
+            {
+                skeletonIsDisturbed();
             } break;
 
             default:

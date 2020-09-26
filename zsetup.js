@@ -1276,6 +1276,7 @@ rope.initialPresenceString = ObjectStrings.INIT_ROPE;
 rope.weight = ROPE_WEIGHT;
 
 let rustyKnife = new Item("rusty knife", Location.MAZE_5);
+rustyKnife.altNames.add("knife");
 rustyKnife.initialPresenceString = ObjectStrings.INIT_RUSTY_KNIFE;
 rustyKnife.weight = RUSTY_KNIFE_WEIGHT;
 

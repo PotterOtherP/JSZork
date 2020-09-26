@@ -309,7 +309,7 @@ function parseIndirectObject()
 // Clears player input text area 
 function exitInput()
 {
-    printDebugInfo();
+    // printDebugInfo();
 
     updateEvents();
     refreshInventories();

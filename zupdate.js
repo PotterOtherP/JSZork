@@ -3,8 +3,66 @@ function updateGame()
 
     let currentRoom = worldMap.get(state.playerLocation);
 
+    // Special cases: being in the boat and messing with the shaft basket
+
+    if (state.playerInBoat && !boatCheck())
+    {
+        output("You need to get out of the boat first.");
+        return;
+    }
+
+    if (state.directObject.name === "basket")
+    {
+        if (state.playerAction === "RAISE" || state.playerAction === "LOWER")
+        {
+            // don't do anything
+        }
+
+        else if ( (state.playerLocation === "SHAFT_ROOM" && state.shaftBasketLowered) ||
+                  (state.playerLocation === "DRAFTY_ROOM" && !state.shaftBasketLowered) )
+        {
+            output("The basket is at the other end of the chain.");
+            return;
+        }
+
+    }
+
     switch (state.playerAction)
     {
+        // All actions which do NOT consume a turn should be processed here
+        // before the specific update functions are called. They will return
+        // before the end of the switch block is reached and the game updates
+        // the actors, etc.
+
+        case "DIAGNOSE":
+        {
+            if (state.playerDead)
+                output(GameStrings.DEAD_DIAGNOSE);
+
+            else
+                output("You have " + state.playerHitPoints + "/" + MAX_HIT_POINTS + " hit points.");
+
+            return;
+
+        } //break;
+
+        case "INVENTORY":
+        {
+            if (state.playerDead)
+                output(GameStrings.DEAD_INVENTORY);
+
+            else
+                listInventory();
+
+            return;
+        } // break;
+
+        case "LOOK":
+        {
+            currentRoom.lookAround();
+            return;
+        } // break;
+
         case "QUIT":
         {
             output("To quit, simply leave the page. To restart, enter \"restart\" or click the Restart button.");
@@ -26,6 +84,20 @@ function updateGame()
 
         } // break;
 
+        case "SCORE":
+        {
+            if (state.playerDead)
+                output(GameStrings.DEAD_SCORE);
+            else
+            {
+                updateScore();
+                output("Your score is " + state.playerScore + ".");
+                output("This gives you the rank of " + state.playerScoreRank + ".");
+            }
+
+            return;
+        } // break;
+
         case "SAVE":
         {
             output("Enter save file name: ")
@@ -34,6 +106,8 @@ function updateGame()
             return;
 
         } // break;
+
+
 
         default:
         {
@@ -66,6 +140,7 @@ function updateGame()
     stringLog += state.completePlayerInput + "|";
     updateActors();
     updateItems();
+    updateEvents();
     ++state.turns;
 
 }
@@ -75,29 +150,7 @@ function updateStandard()
 {
     let currentRoom = worldMap.get(state.playerLocation);
 
-    // Special cases: being in the boat and messing with the shaft basket
 
-    if (state.playerInBoat && !boatCheck())
-    {
-        output("You need to get out of the boat first.");
-        return;
-    }
-
-    if (state.directObject.name === "basket")
-    {
-        if (state.playerAction === "RAISE" || state.playerAction === "LOWER")
-        {
-            // don't do anything
-        }
-
-        else if ( (state.playerLocation === "SHAFT_ROOM" && state.shaftBasketLowered) ||
-                  (state.playerLocation === "DRAFTY_ROOM" && !state.shaftBasketLowered) )
-        {
-            output("The basket is at the other end of the chain.");
-            return;
-        }
-
-    }
 
     switch(state.playerAction)
     {
@@ -264,106 +317,81 @@ function updateStandard()
 
             } break;
 
-            case "INVENTORY":
+        case "JUMP":
+        {
+
+            if (state.playerLocation === "UP_TREE")
             {
-                listInventory();
+                relocatePlayer(Location.FOREST_PATH);
+                clearOutput();
+                output(upTree.jumpString);
+                break;
+            }
 
-            } break;
-
-            case "JUMP":
+            if (currentRoom.jumpString !== "")
             {
+                output(currentRoom.jumpString);
+            }
 
-                if (state.playerLocation === "UP_TREE")
-                {
-                    relocatePlayer(Location.FOREST_PATH);
-                    clearOutput();
-                    output(upTree.jumpString);
-                    break;
-                }
-
-                if (currentRoom.jumpString !== "")
-                {
-                    output(currentRoom.jumpString);
-                }
-
-                if (currentRoom.height)
-                {
-                    playerDies();
-                }
-
-                else
-                    output(GameStrings.getJumpSarcasm());
-            } break;
-
-            case "LOOK":
+            if (currentRoom.height)
             {
-                currentRoom.lookAround();
-            } break;
+                playerDies();
+            }
 
-            case "PRAY":
+            else
+                output(GameStrings.getJumpSarcasm());
+        } break;
+
+        case "PRAY":
+        {
+            if (state.playerLocation === Location.ALTAR)
             {
-                if (state.playerLocation === Location.ALTAR)
-                {
-                    relocatePlayer(Location.FOREST_WEST);
-                }
+                relocatePlayer(Location.FOREST_WEST);
+            }
 
-                else
-                {
-                    output("If you pray enough, your prayers may be answered.");
-                }
-            } break;
-
-            case "SAY":
+            else
             {
-                let clops = objectList.get("cyclops");
+                output("If you pray enough, your prayers may be answered.");
+            }
+        } break;
 
-                if (state.speakPhrase === "ulysses" || state.speakPhrase === "odysseus")
+        case "SAY":
+        {
+            let clops = objectList.get("cyclops");
+
+            if (state.speakPhrase === "ulysses" || state.speakPhrase === "odysseus")
+            {
+                if (state.playerLocation === Location.CYCLOPS_ROOM &&
+                    clops.location === Location.CYCLOPS_ROOM)
                 {
-                    if (state.playerLocation === Location.CYCLOPS_ROOM &&
-                        clops.location === Location.CYCLOPS_ROOM)
-                    {
-                        output(ObjectStrings.CYCLOPS_FLEES);
-                        clops.alive = false;
-                        state.cyclopsGone = true;                        
-                    }
-
-                    else
-                        output("Wasn't he a sailor?");
+                    output(ObjectStrings.CYCLOPS_FLEES);
+                    clops.alive = false;
+                    state.cyclopsGone = true;                        
                 }
 
                 else
-                    output("\"" + state.speakPhrase + "\" yourself.");
+                    output("Wasn't he a sailor?");
+            }
 
-            } break;
+            else
+                output("\"" + state.speakPhrase + "\" yourself.");
 
-            case "SHOUT": { output("Yaaaaarrrrggghhh!"); } break;
+        } break;
 
-            case "SWIM":
-            {
-                output("You need to wait an hour after eating first.");
-            } break;
+        case "SHOUT": { output("Yaaaaarrrrggghhh!"); } break;
 
-            case "WAIT":
-            {
-                if (state.playerHitPoints < MAX_HIT_POINTS) ++state.playerHitPoints;
-                output("Time passes...");
-            } break;
+        case "SWIM":
+        {
+            output("You need to wait an hour after eating first.");
+        } break;
 
-            case "DIAGNOSE":
-            {
-                output("You have " + state.playerHitPoints + "/" + MAX_HIT_POINTS + " hit points.");
-            } break;
+        case "WAIT":
+        {
+            if (state.playerHitPoints < MAX_HIT_POINTS) ++state.playerHitPoints;
+            output("Time passes...");
+        } break;
 
-            
-            case "SCORE":
-            {
-                updateScore();
-                output("Your score is " + state.playerScore + ".");
-                output("This gives you the rank of " + state.playerScoreRank + ".");
-
-            } break;
-
-            default: {} break;
+        default: {} break;
     }
 
 }
@@ -388,12 +416,6 @@ function updateDarkness()
             ++state.darknessTurns;
         } break;
 
-        case "INVENTORY":
-        {
-            listInventory();
-
-        } break;
-
         case "JUMP":
         {
             output(GameStrings.getJumpSarcasm());
@@ -409,12 +431,6 @@ function updateDarkness()
         case "LISTEN":
         {
             output(GameStrings.DARKNESS_LISTEN);
-            ++state.darknessTurns;
-        } break;
-
-        case "LOOK":
-        {
-            output(GameStrings.DARKNESS);
             ++state.darknessTurns;
         } break;
 
@@ -465,18 +481,6 @@ function updateDarkness()
 
         } break;
 
-        case "DIAGNOSE":
-        {
-             output("You have " + state.playerHitPoints + "/" + MAX_HIT_POINTS + " hit points.");
-        } break;
-
-        case "SCORE":
-        {
-            updateScore();
-            output("Your score is " + state.playerScore + ".");
-            output("This gives you the rank of " + state.playerScoreRank + ".");
-        } break;
-
         default:
         {
             output("It's too dark to see!");
@@ -484,12 +488,6 @@ function updateDarkness()
         } break;
 
     }
-
-    stringLog += state.completePlayerInput + "|";
-    updateActors();
-    updateItems();
-    updateEvents();
-    ++state.turns;
 
 }
 
@@ -510,20 +508,9 @@ function updateDeath()
             output("The dead may not greet the living.");
         } break;
 
-        case "INVENTORY":
-        {
-            output(GameStrings.DEAD_INVENTORY);
-        } break;
-
         case "LIGHT":
         {
             output("You need no light to guide you.");
-        } break;
-
-        case "LOOK":
-        {
-            currentRoom.lookAround();
-
         } break;
 
         case "PRAY":
@@ -554,16 +541,6 @@ function updateDeath()
         case "WAIT":
         {
             output(GameStrings.DEAD_WAIT);
-        } break;
-
-        case "DIAGNOSE":
-        {
-            output(GameStrings.DEAD_DIAGNOSE);
-        } break;
-
-        case "SCORE":
-        {
-            output(GameStrings.DEAD_SCORE);
         } break;
 
         case "NORTH":
@@ -620,19 +597,13 @@ function updateDeath()
 
         } break; 
 
-
-        case "NULL_ACTION": {} break;
         default:
         {
             output(GameStrings.DEAD_ACTION_FAIL);
         }
     }
 
-    stringLog += state.completePlayerInput + "|";
-    ++state.turns;
-
 }
-
 
 function updateEvents()
 {
@@ -1284,6 +1255,21 @@ function revealGrating()
 
     gratingRoom.setLight();
 
+}
+
+
+function skeletonIsDisturbed()
+{
+    output(ObjectStrings.SKELTON_DISTURBED);
+
+    for (let treasure of objectList.values())
+    {
+        if (treasure.location === Location.PLAYER_INVENTORY &&
+            treasure.trophyCaseValue > 0)
+        {
+            treasure.location = Location.LAND_OF_THE_DEAD;
+        }
+    }
 }
 
 

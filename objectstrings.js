@@ -140,6 +140,9 @@ const ObjectStrings = {
     SCEPTRE_RAINBOW_2: "The structural integrity of the rainbow is severely compromised, leaving you "
         + "hanging in mid-air, supported only by water vapor. Bye.",
     SLAG_CRUMBLE: "The slag was rather insubstantial, and crumbles into dust at your touch.",
+    SKELTON_DISTURBED: "A ghost appears in the room and is appalled at your desecration of the remains "
+        + "of a fellow adventurer. He casts a curse on your valuables and banishes them to the Land of "
+        + " the Living Dead. The ghost leaves, muttering obscenities.",
     SPIRITS_REVERT: "The tension of this ceremony is broken, and the wraiths, amused but shaken at "
         + "your clumsy attempt, resume their hideous jeering.",
     WATER_DRINK: "Thank you very much. I was rather thirsty (from all this talking, probably).",
