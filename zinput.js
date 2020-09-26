@@ -218,7 +218,14 @@ function parseDirectObject()
     if (state.previousDirectObject !== null && state.previousDirectObject !== dummyObject)
     {
         input = " " + input + " ";
-        input = input.replace(/ it /, " " + state.previousDirectObject.name +  " ");
+
+        if (!state.previousDirectObject.plural)
+            input = input.replace(/ it /, " " + state.previousDirectObject.name +  " ");
+
+        if (state.previousDirectObject.plural || state.previousDirectObject.name === "pile of leaves")
+            input = input.replace(/ them /, " " + state.previousDirectObject.name +  " ");
+
+
         input = input.trim();
     }
 

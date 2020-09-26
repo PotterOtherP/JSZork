@@ -18,6 +18,7 @@ class GameObject {
         this.intangible = false;
         this.inventoryID = Location.NULL_INVENTORY;
         this.movedFromStart = false;
+        this.plural = false;
 
         this.inventory = new Set();
         this.altLocations = new Set();

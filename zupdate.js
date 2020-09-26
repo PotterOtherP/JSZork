@@ -3,19 +3,77 @@ function updateGame()
 
     let currentRoom = worldMap.get(state.playerLocation);
 
-    if (state.playerDead)
+    switch (state.playerAction)
     {
-        updateDeath();
-        return;
+        case "QUIT":
+        {
+            output("To quit, simply leave the page. To restart, enter \"restart\" or click the Restart button.");
+        } break;
+
+        case "RESTART":
+        {
+            restart();            
+            return;
+
+        } // break;
+
+        case "RESTORE":
+        {
+            output("Enter save file name: ")
+            inputTextArea.removeEventListener("change", getPlayerInput);
+            inputTextArea.addEventListener("change", restoreInterface);
+            return;
+
+        } // break;
+
+        case "SAVE":
+        {
+            output("Enter save file name: ")
+            inputTextArea.removeEventListener("change", getPlayerInput);
+            inputTextArea.addEventListener("change", saveInterface);
+            return;
+
+        } // break;
+
+        default:
+        {
+            if (state.playerDead)
+            {
+                updateDeath();
+                break;
+            } 
+
+            darknessCheck();
+
+            if (state.playerInDarkness)
+            {
+                updateDarkness();
+                break;
+            }
+
+            updateStandard();
+
+        } break;
     }
 
-    darknessCheck();
+    currentRoom = worldMap.get(state.playerLocation);
+    
+    if (state.playerInBoat)
+        outputLocation(currentRoom.name + ", in the magic boat");
+    else
+        outputLocation(currentRoom.name);
 
-    if (state.playerInDarkness)
-    {
-        updateDarkness();
-        return;
-    }
+    stringLog += state.completePlayerInput + "|";
+    updateActors();
+    updateItems();
+    ++state.turns;
+
+}
+
+
+function updateStandard()
+{
+    let currentRoom = worldMap.get(state.playerLocation);
 
     // Special cases: being in the boat and messing with the shaft basket
 
@@ -36,19 +94,11 @@ function updateGame()
                   (state.playerLocation === "DRAFTY_ROOM" && !state.shaftBasketLowered) )
         {
             output("The basket is at the other end of the chain.");
-            
-            /* Do we want to take a turn here?
-            updateActors();
-            updateItems();
-            updateScore();
-            ++state.turns;
-            */
             return;
         }
 
     }
 
-    executePlayerAction();
     switch(state.playerAction)
     {
 
@@ -216,49 +266,7 @@ function updateGame()
 
             case "INVENTORY":
             {
-                let count = 0;
-                for (let item of objectList.values())
-                {
-                    
-                    if (item.location === Location.PLAYER_INVENTORY)
-                    {
-                        ++count;
-                        if (count === 1)
-                            output("You are carrying: \n");
-                        output(item.capArticleName);
-                    }
-
-                    if (item.location === Location.PLAYER_INVENTORY && item.name === "glass bottle" && state.bottleFilled)
-                        output("The glass bottle contains:\n  A quantity of water");
-
-                    if (item.location === Location.PLAYER_INVENTORY && item.isContainer()
-                        && item.isOpen())
-                    {
-                        if (item.inventory.size > 0)
-                        {
-                            let check = false;
-
-                            for (let it of item.inventory)
-                            {
-                                if (it.initialPresenceString !== "" && !it.movedFromStart)
-                                {
-                                    output(it.initialPresenceString);
-                                    check = true;
-                                }
-                            }
-
-                            if (!check)
-                            {
-                                output("The " + item.name + " contains:");
-                                for (let it of item.inventory)
-                                    output("  " + it.capArticleName);
-                            }
-                        }
-                    }
-                }
-
-                if (count === 0)
-                    output("You are empty-handed.");
+                listInventory();
 
             } break;
 
@@ -341,44 +349,12 @@ function updateGame()
                 output("Time passes...");
             } break;
 
-
-            // Game actions
-
             case "DIAGNOSE":
             {
                 output("You have " + state.playerHitPoints + "/" + MAX_HIT_POINTS + " hit points.");
             } break;
 
-            case "QUIT":
-            {
-                output("To quit, simply leave the page. To restart, enter \"restart\" or click the Restart button.");
-            } break;
-
-            case "RESTART":
-            {
-                restart();            
-                return;
-
-            } // break;
-
-            case "RESTORE":
-            {
-                output("Enter save file name: ")
-                inputTextArea.removeEventListener("change", getPlayerInput);
-                inputTextArea.addEventListener("change", restoreInterface);
-                return;
-
-            } // break;
-
-            case "SAVE":
-            {
-                output("Enter save file name: ")
-                inputTextArea.removeEventListener("change", getPlayerInput);
-                inputTextArea.addEventListener("change", saveInterface);
-                return;
-
-            } // break;
-
+            
             case "SCORE":
             {
                 updateScore();
@@ -387,67 +363,8 @@ function updateGame()
 
             } break;
 
-            case "NULL_ACTION": {} break;
             default: {} break;
     }
-
-    currentRoom = worldMap.get(state.playerLocation);
-    
-    if (state.playerInBoat)
-        outputLocation(currentRoom.name + ", in the magic boat");
-    else
-        outputLocation(currentRoom.name);
-
-    stringLog += state.completePlayerInput + "|";
-    // inputLog.push(state.completePlayerInput);
-    updateActors();
-    updateItems();
-    ++state.turns;
-
-}
-
-
-// Determines if the player's action can be performed while in the boat
-function boatCheck()
-{
-    let result = true;
-
-    switch(state.playerAction)
-    {
-        case "ATTACK":
-        case "CLIMB":
-        case "DEFLATE":
-        case "TIE":
-        case "KICK":
-        case "DIG":
-        {
-            result = false;
-        } break;
-
-        case "TAKE":
-        {
-            if (state.directObject.name === "magic boat")
-            {
-                output("You can't take the boat while you're inside it!");
-                result = false;
-            }
-        } break;
-
-        default: {} break;
-    }
-
-    if ((state.playerActionType === "DIRECT" || state.playerActionType === "INDIRECT")
-        && state.directObject.location === state.playerLocation)
-    {
-        result = true;
-    }
-
-    if (worldMap.get(state.playerLocation).bodyOfWater)
-    {
-        result = true;
-    }
-
-    return result;
 
 }
 
@@ -473,45 +390,8 @@ function updateDarkness()
 
         case "INVENTORY":
         {
-            let count = 0;
-            for (let item of objectList.values())
-            {
-                
-                if (item.location === Location.PLAYER_INVENTORY)
-                {
-                    ++count;
-                    if (count === 1)
-                        output("You are carrying: \n");
-                    output(item.capArticleName);
-                }
+            listInventory();
 
-                if (item.location === Location.PLAYER_INVENTORY && item.isContainer()
-                    && (item.isOpen() || item.name === "glass bottle")) 
-                {
-                    if (item.inventory.size() > 0)
-                    {
-                        let check = false;
-
-                        for (let it of item.inventory)
-                        {
-                            if (it.initialPresenceString !== "" && !it.movedFromStart)
-                            {
-                                output(it.initialPresenceString);
-                                check = true;
-                            }
-                        }
-
-                        if (!check)
-                        {
-                            output("The " + item.name + " contains:");
-                            for (let it of item.inventory)
-                                output(it.capArticleName);
-                        }
-                    }
-                }
-            }
-            if (count === 0)
-                output("You are empty-handed.");
         } break;
 
         case "JUMP":
@@ -583,43 +463,12 @@ function updateDarkness()
 
             }
 
-
         } break;
 
         case "DIAGNOSE":
         {
-
+             output("You have " + state.playerHitPoints + "/" + MAX_HIT_POINTS + " hit points.");
         } break;
-
-        case "QUIT":
-        {
-            output("To quit, simply leave the page. To restart, enter \"restart\" or click the Restart button.");
-        } break;
-
-        case "RESTART":
-        {
-            restart();            
-            return;
-
-        } // break;
-
-        case "RESTORE":
-        {
-            output("Enter save file name: ")
-            inputTextArea.removeEventListener("change", getPlayerInput);
-            inputTextArea.addEventListener("change", restoreInterface);
-            return;
-
-        } // break;
-
-        case "SAVE":
-        {
-            output("Enter save file name: ")
-            inputTextArea.removeEventListener("change", getPlayerInput);
-            inputTextArea.addEventListener("change", saveInterface);
-            return
-
-        } // break;
 
         case "SCORE":
         {
@@ -627,8 +476,6 @@ function updateDarkness()
             output("Your score is " + state.playerScore + ".");
             output("This gives you the rank of " + state.playerScoreRank + ".");
         } break;
-
-        case "NULL_ACTION": {} break;
 
         default:
         {
@@ -639,11 +486,9 @@ function updateDarkness()
     }
 
     stringLog += state.completePlayerInput + "|";
-    // inputLog.push(state.completePlayerInput);
     updateActors();
     updateItems();
     updateEvents();
-    // saveGame("undoSave");
     ++state.turns;
 
 }
@@ -716,36 +561,6 @@ function updateDeath()
             output(GameStrings.DEAD_DIAGNOSE);
         } break;
 
-        case "QUIT":
-        {
-            output("You cannot quit being dead that easily.");
-        } break;
-
-        case "RESTART":
-        {
-            restart();            
-            return;
-
-        } // break;
-
-        case "RESTORE":
-        {
-            output("Enter save file name: ")
-            inputTextArea.removeEventListener("change", getPlayerInput);
-            inputTextArea.addEventListener("change", restoreInterface);
-            return;
-
-        } // break;
-
-        case "SAVE":
-        {
-            output("Enter save file name: ")
-            inputTextArea.removeEventListener("change", getPlayerInput);
-            inputTextArea.addEventListener("change", saveInterface);
-            return
-
-        } // break;
-
         case "SCORE":
         {
             output(GameStrings.DEAD_SCORE);
@@ -814,8 +629,6 @@ function updateDeath()
     }
 
     stringLog += state.completePlayerInput + "|";
-    // inputLog.push(state.completePlayerInput);
-    // saveGame("undoSave");
     ++state.turns;
 
 }
@@ -915,6 +728,17 @@ function updateEvents()
         houseWindow.examineString = ObjectStrings.WINDOW_EXAMINE_CLOSED;
         house_behind_kitchen.setClosed();
 
+    }
+
+    // LEAF PILE MOVED
+    if (state.leafPileMoved)
+    {
+        gratingRoom.setLight();
+    }
+
+    else
+    {
+        gratingRoom.setDark();
     }
 
     // RAINBOW SOLID
@@ -1039,6 +863,51 @@ function updateScore()
 }
 
 
+// Determines if the player's action can be performed while in the boat
+function boatCheck()
+{
+    let result = true;
+
+    switch(state.playerAction)
+    {
+        case "ATTACK":
+        case "CLIMB":
+        case "DEFLATE":
+        case "TIE":
+        case "KICK":
+        case "DIG":
+        {
+            result = false;
+        } break;
+
+        case "TAKE":
+        {
+            if (state.directObject.name === "magic boat")
+            {
+                output("You can't take the boat while you're inside it!");
+                result = false;
+            }
+        } break;
+
+        default: {} break;
+    }
+
+    if ((state.playerActionType === "DIRECT" || state.playerActionType === "INDIRECT")
+        && state.directObject.location === state.playerLocation)
+    {
+        result = true;
+    }
+
+    if (worldMap.get(state.playerLocation).bodyOfWater)
+    {
+        result = true;
+    }
+
+    return result;
+
+}
+
+
 function breakEgg()
 {
     egg.location = Location.NULL_LOCATION;
@@ -1087,38 +956,49 @@ function darknessCheck()
 }
 
 
-function executePlayerAction()
+function listInventory()
 {
-    switch (state.playerActionType)
+    let count = 0;
+
+    for (let item of objectList.values())
     {
-        case "REFLEXIVE":
-        case "EXIT":
+        if (item.location === Location.PLAYER_INVENTORY)
         {
-            console.log("Executing player action: " + state.playerAction);
-        } break;
+            ++count;
+            if (count === 1)
+                output("You are carrying: \n");
+            output(item.capArticleName);
+        }
 
-        case "DIRECT":
+        if (item.location === Location.PLAYER_INVENTORY && item.isContainer()
+            && (item.isOpen() || item.name === "glass bottle")) 
         {
-            console.log("Executing player action: " + state.playerAction + " on the " + state.directObject.name);
+            if (item.inventory.size() > 0)
+            {
+                let check = false;
 
-        } break;
+                for (let it of item.inventory)
+                {
+                    if (it.initialPresenceString !== "" && !it.movedFromStart)
+                    {
+                        output(it.initialPresenceString);
+                        check = true;
+                    }
+                }
 
-        case "INDIRECT":
-        case "INDIRECT_INVERSE":
-        case "SWITCH":
-        {
-            console.log("Executing player action: " + state.playerAction + " on the " + state.directObject.name
-             + " with the " + state.indirectObject.name);
-
-        } break;
-
-        case "MULTIPLE":
-        {
-
-        } break;
-
-        default: {} break;
+                if (!check)
+                {
+                    output("The " + item.name + " contains:");
+                    for (let it of item.inventory)
+                        output(it.capArticleName);
+                }
+            }
+        }
     }
+
+    if (count === 0)
+        output("You are empty-handed.");
+
 }
 
 
@@ -1235,6 +1115,7 @@ function relocatePlayerNoClear(loc)
 
 }
 
+
 function restart()
 {
     console.log("Restarting");
@@ -1262,8 +1143,8 @@ function restart()
     outputTurns(state.turns);
     westOfHouse.lookAround();
 
-
 }
+
 
 function restoreFromGameMemory(filename)
 {
@@ -1309,7 +1190,6 @@ function restoreFromGameMemory(filename)
     outputLocation(curRoom.name);
     outputTurns(state.turns);
     curRoom.lookAround();
-
 
 }
 
@@ -1369,7 +1249,6 @@ function restoreFromLocalStorage(filename)
     outputTurns(state.turns);
     curRoom.lookAround();
 
-
 }
 
 
@@ -1391,6 +1270,7 @@ function restoreInterface()
 
     inputTextArea.removeEventListener("change", restoreInterface);
     inputTextArea.addEventListener("change", getPlayerInput);
+
 }
 
 
@@ -1402,9 +1282,10 @@ function revealGrating()
 
     clearingNorth.addExit(Action.DOWN, grating_clearing);
 
-    gratingRoom.darkness = false;
+    gratingRoom.setLight();
 
 }
+
 
 function saveToGameMemory(filename)
 {
@@ -1430,6 +1311,7 @@ function deleteSaveFromLocalStorage(filename)
 
     localStorage.removeItem(strName);
     localStorage.removeItem(randName);
+
 }
 
 
@@ -1481,7 +1363,9 @@ function saveInterface()
 
     inputTextArea.removeEventListener("change", saveInterface);
     inputTextArea.addEventListener("change", getPlayerInput);
+
 }
+
 
 function updateActors()
 {
@@ -1501,6 +1385,7 @@ function updateActors()
         playerDies();
 
 }
+
 
 function updateItems()
 {
@@ -1545,4 +1430,5 @@ function updateItems()
         reservoirNorth.addFailMessage(Action.SOUTH, "You would drown.");
         streamView.removeFailMessage(Action.NORTH);
     }
+
 }

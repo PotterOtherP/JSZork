@@ -675,7 +675,10 @@ class Actor extends GameObject {
     swordGlowTurn()
     {
         if (sword.location !== Location.PLAYER_INVENTORY)
+        {
+            this.swordGlowLevel = 0;
             return;
+        }
 
         let newGlowLevel = 0;
 

@@ -372,6 +372,7 @@ class Feature extends GameObject {
                             if (!state.leafPileMoved)
                             {
                                 state.leafPileMoved = true;
+                                leafPile.location = Location.GRATING_ROOM;
                                 output("A pile of leaves falls onto your head and to the ground.");
                             }
 

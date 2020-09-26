@@ -988,6 +988,7 @@ coins.presenceString = ObjectStrings.INIT_COINS;
 coins.acquireValue = COINS_VALUE;
 coins.trophyCaseValue = COINS_TROPHY_VALUE;
 coins.weight = COINS_WEIGHT;
+coins.plural = true;
 
 let canary = new Item("golden clockwork canary", Location.NULL_LOCATION);
 canary.altNames.add("golden canary");
@@ -1174,6 +1175,7 @@ candles.altNames.add("pair");
 candles.initialPresenceString = ObjectStrings.INIT_CANDLES;
 candles.weight = CANDLES_WEIGHT;
 candles.activated = true;
+candles.plural = true;
 
 let coal = new Item("small pile of coal", Location.DEAD_END_COAL_MINE);
 coal.altNames.add("coal");
@@ -1781,7 +1783,7 @@ function fillDictionary()
 {
     for (let i = 0; i < GAME_WORDS.length; ++i)
     {
-        dictionary.add(GameStrings.GAME_WORDS[i]);
+        dictionary.add(GAME_WORDS[i]);
     }
 
     for (let name of objectList.keys())
@@ -1819,4 +1821,6 @@ function fillDictionary()
         for (let i = 0; i < words.length; ++i)
             dictionary.add(words[i]);
     }
+
+
 }

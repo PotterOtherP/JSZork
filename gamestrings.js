@@ -174,38 +174,6 @@ const GameStrings = {
     },
 
 
-
-
-
-    // All the words recognized by the game.
-    GAME_WORDS: ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", 
-        "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
-        "u", "v", "w", "x", "y", "z", "ne", "nw", "se", "sw",
-        "again", "an", "around", "at", "attach", "attack", "author",
-        "bar", "bell", "bird", "bottle", "box", "bug",
-        "carpet", "case", "close",
-        "door", "down", "drop",
-        "east", "egg", "examine", "exit",
-        "five", "fuck",
-        "giant", "go",
-        "hand", "high", "highfive", "hit", "house",
-        "in", "inn", "inside", "inventory", "it",
-        "jump", "juniper",
-        "key", "kick", "kitchen", "knife",
-        "lantern", "leaflet", "light", "lock", "look",
-        "mailbox", "move",
-        "nest", "next", "north", "northeast", "northwest", "note",
-        "odysseus", "off", "on", "open", "out",
-        "passage", "piano", "pick", "pile", "place", "put", "play", "please", "pull", "punch",
-        "quit",
-        "read", "ring", "room", "rope",
-        "sack", "say", "scream", "shit", "shout", "slap", "songbird", "south", "southeast", "southwest", "store", "sword",
-        "take", "the", "tie", "to", "trap", "trophy", "turn",
-        "ulysses", "unlock", "up",
-        "wait", "walk", "west", "window", "with", "wizard",
-        "yell"
-        ],
-
     GODMODE_WORDS: [
 
     "accio",
