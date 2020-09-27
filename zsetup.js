@@ -1529,10 +1529,12 @@ riverWater.altLocations.add(Location.SHORE);
 let sand = new Feature("sand", Location.SANDY_CAVE);
 sand.altNames.add("ground");
 
-let self = new Item("you", Location.NULL_LOCATION);
+let self = new Feature("you", Location.NULL_LOCATION);
 self.altNames.add("me");
 self.altNames.add("self");
 self.altNames.add("myself");
+self.takeString = "How romantic!";
+self.attackString = "You don't have the you.";
 
 
 let shaftBasket = new Container("basket", Location.SHAFT_ROOM);

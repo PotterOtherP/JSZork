@@ -70,6 +70,7 @@
         height: 20px;
         border-bottom-left-radius: 5px;
         border-bottom-right-radius: 5px;
+        overflow: auto;
     }
 
     #inputTextArea {
@@ -158,15 +159,16 @@
         {
             if (restoringGame)
             {
-                let result = randomLog.shift();
-                console.log("Retrieving random: " + result);
 
                 if (randomLog.length < 1)
                 {
                     console.log("Error restoring game: random number log mismatch");
-                    result = 0;
+                    return 0;
                 }
                 
+                let result = randomLog.shift();
+                console.log("Retrieving random: " + result);
+
                 return result;
             }
 
@@ -276,6 +278,7 @@
     <script type="text/javascript" src="zsetup.js"></script>
     <script type="text/javascript" src="zinput.js"></script>
     <script type="text/javascript" src="zupdate.js"></script>
+    <script type="text/javascript" src="zsave.js"></script>
 
     <script type="text/javascript">
 

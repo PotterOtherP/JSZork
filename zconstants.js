@@ -13,6 +13,9 @@ const SPIRIT_CEREMONY_LENGTH = 5;
 const THIEF_OPENS_EGG = 5;
 const WINNING_SCORE = 350;
 
+const MAX_INPUT_LENGTH = 50;
+const MAX_TURNS = 2000;
+
 // from Actor object
 const CYCLOPS_CYCLE_MAX = 8;
 const MAX_ENEMY_HIT_POINTS = 10;

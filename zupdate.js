@@ -100,6 +100,12 @@ function updateGame()
 
         case "SAVE":
         {
+            if (state.turns > MAX_TURNS)
+            {
+                output("Your game file is too large. It's time to start a new game.");
+                return;
+            }
+
             output("Enter save file name: ")
             inputTextArea.removeEventListener("change", getPlayerInput);
             inputTextArea.addEventListener("change", saveInterface);
@@ -605,6 +611,27 @@ function updateDeath()
 
 }
 
+
+function updateActors()
+{
+    cyclops.cyclopsTurn();
+    flood.floodTurn();
+    damFlow.damFlowTurn();
+    gustOfWind.gustOfWindTurn();
+    riverCurrent.riverCurrentTurn();
+    songbird.songbirdTurn();
+    spirits.spiritsTurn();
+    swordGlow.swordGlowTurn();
+    thief.thiefTurn();
+    troll.trollTurn();
+    vampireBat.vampireBatTurn();
+
+    if (state.playerHitPoints <= 0)
+        playerDies();
+
+}
+
+
 function updateEvents()
 {
     // CARPET MOVED
@@ -771,6 +798,53 @@ function updateEvents()
         troll_eastwest.setOpen();
         troll_maze.setOpen();
         troll.location = Location.NULL_LOCATION;
+    }
+
+}
+
+
+function updateItems()
+{
+    for (let g of objectList.values())
+    {
+        if (g.isItem() && g.activated && g.lifespan > 0)
+        {
+            g.tick();
+            if (g.lifespan <= 0)
+                g.activated = false;
+        }
+    }
+
+    if (state.playerInBoat)
+    {
+        inflatedBoat.location = state.playerLocation;
+        inflatedBoat.presenceString = "";
+        let str = "Refer to the boat label for instructions.";
+        damBase.addFailMessage(Action.EAST, str);
+        whiteCliffsBeachNorth.addFailMessage(Action.EAST, str);
+        whiteCliffsBeachSouth.addFailMessage(Action.EAST, str);
+        sandyBeach.addFailMessage(Action.WEST, str);
+        shore.addFailMessage(Action.WEST, str);
+        reservoirSouth.removeFailMessage(Action.NORTH);
+        reservoirNorth.removeFailMessage(Action.SOUTH);
+        reservoirSouth.addFailMessage(Action.NORTH, str);
+        reservoirNorth.addFailMessage(Action.SOUTH, str);
+        streamView.addFailMessage(Action.NORTH, str);
+    }
+
+    else
+    {
+        inflatedBoat.presenceString = "There is a magic boat here.";
+        damBase.removeFailMessage(Action.EAST);
+        whiteCliffsBeachNorth.removeFailMessage(Action.EAST);
+        whiteCliffsBeachSouth.removeFailMessage(Action.EAST);
+        sandyBeach.removeFailMessage(Action.WEST);
+        shore.removeFailMessage(Action.WEST);
+        reservoirSouth.removeFailMessage(Action.NORTH);
+        reservoirNorth.removeFailMessage(Action.SOUTH);
+        reservoirSouth.addFailMessage(Action.NORTH, "You would drown.");
+        reservoirNorth.addFailMessage(Action.SOUTH, "You would drown.");
+        streamView.removeFailMessage(Action.NORTH);
     }
 
 }
@@ -1073,6 +1147,7 @@ function relocatePlayer(loc)
 
 }
 
+
 function relocatePlayerNoClear(loc)
 {
     // clearOutput();
@@ -1083,164 +1158,6 @@ function relocatePlayerNoClear(loc)
     room.lookAround();
     outputLocation(room.name);
     room.firstVisit = false;
-
-}
-
-
-function restart()
-{
-    console.log("Restarting");
-
-    state = Object.assign(state, startingState);
-    state.playerLocation = Location.WEST_OF_HOUSE;
-
-
-    for (let targetObj of objectList.values())
-    {
-        let sourceObj = startingObjectList.get(targetObj.name);
-        targetObj = Object.assign(targetObj, sourceObj);
-    }
-
-
-    gameArea.innerText = "";
-
-    state.resetInput();
-    updateEvents();
-    refreshInventories();
-    fillCurrentObjectList();
-
-    
-    outputLocation(westOfHouse.name);
-    outputTurns(state.turns);
-    westOfHouse.lookAround();
-
-}
-
-
-function restoreFromGameMemory(filename)
-{
-    if (!savedGames.has(filename))
-    {
-        output("Save file not found.");
-        return;
-    }
-
-    console.log("Loading...");
-
-    restart();
-    gameArea.innerText = "";
-
-    restoringGame = true;
-
-    inputLog = savedGames.get(filename).strings.split("|");
-    inputLog.pop();
-    stringLog = "";
-    randomLog = [];
-    randomLog = Object.assign(randomLog, savedGames.get(filename).randoms);
-
-    for (let statement of inputLog)
-    {
-        state.resetInput();
-        state.completePlayerInput = statement;
-        parsePlayerInput();
-    }
-
-    randomLog = Object.assign(randomLog, savedGames.get(filename).randoms);
-
-    restoringGame = false;
-    console.clear();
-
-    output("Game restored.\n");
-
-    state.resetInput();
-    updateEvents();
-    refreshInventories();
-    fillCurrentObjectList();
-
-    let curRoom = worldMap.get(state.playerLocation);
-    outputLocation(curRoom.name);
-    outputTurns(state.turns);
-    curRoom.lookAround();
-
-}
-
-
-function restoreFromLocalStorage(filename)
-{
-    let strName = filename + "_strings";
-    let randName = filename + "_randoms";
-
-
-    if (localStorage.getItem(strName) == null || localStorage.getItem(randName) == null)
-    {
-        output("Save file not found.");
-        return;
-    }
-
-    inputLog = localStorage.getItem(strName).split("|");
-    let tempRandomLog = localStorage.getItem(randName).split(",");
-
-
-    restart();
-    gameArea.innerText = "";
-
-    restoringGame = true;
-
-    for (let i = 0; i < tempRandomLog.length; ++i)
-    {
-        tempRandomLog[i] = parseInt(tempRandomLog[i], 10);
-    }
-
-    inputLog.pop();
-    stringLog = "";
-    randomLog = [];
-    randomLog = Object.assign(randomLog, tempRandomLog);
-
-    for (let statement of inputLog)
-    {
-        state.resetInput();
-        state.completePlayerInput = statement;
-        parsePlayerInput();
-    }
-
-    randomLog = Object.assign(randomLog, tempRandomLog);
-
-    restoringGame = false;
-    //console.clear();
-
-    output("Game restored.\n");
-
-    state.resetInput();
-    updateEvents();
-    refreshInventories();
-    fillCurrentObjectList();
-
-    let curRoom = worldMap.get(state.playerLocation);
-    outputLocation(curRoom.name);
-    outputTurns(state.turns);
-    curRoom.lookAround();
-
-}
-
-
-function restoreInterface()
-{
-    console.log("Restore interface function");
-    gameArea.innerText = "";
-
-    let filename = document.getElementById("inputTextArea").value;
-
-    if (usingLocalStorage)
-        restoreFromLocalStorage(filename);
-
-    else
-        restoreFromGameMemory(filename);
-
-
-    inputTextArea.value = "";
-
-    inputTextArea.removeEventListener("change", restoreInterface);
-    inputTextArea.addEventListener("change", getPlayerInput);
 
 }
 
@@ -1269,152 +1186,6 @@ function skeletonIsDisturbed()
         {
             treasure.location = Location.LAND_OF_THE_DEAD;
         }
-    }
-}
-
-
-function saveToGameMemory(filename)
-{
-    console.log("Saving...");
-
-    if (savedGames.has(filename))
-    {
-        savedGames.delete(filename);
-    }
-
-    let savedGame = {strings: stringLog, randoms: randomLog };
-    savedGames.set(filename, savedGame);
-
-    return true;
-
-}
-
-
-function deleteSaveFromLocalStorage(filename)
-{
-    let strName = filename + "_strings";
-    let randName = filename + "_randoms";
-
-    localStorage.removeItem(strName);
-    localStorage.removeItem(randName);
-
-}
-
-
-function saveToLocalStorage(filename)
-{
-    let strName = filename + "_strings";
-    let randName = filename + "_randoms";
-
-    if (localStorage.getItem(strName) != null || localStorage.getItem(randName) != null)
-    {
-        deleteSaveFromLocalStorage(filename);
-    }
-
-    localStorage.setItem(strName, stringLog);
-    localStorage.setItem(randName, randomLog);
-
-}
-
-
-function saveInterface()
-{
-    console.log("Save interface function");
-    gameArea.innerText = "";
-
-    let filename = document.getElementById("inputTextArea").value;
-
-    if (filename === "undoSave" ||
-        filename === "autoSave" ||
-        filename === "autoSave1" ||
-        filename === "autoSave2" ||
-        filename === "autoSave3" ||
-        filename === "startSave")
-    {
-        output("Filename reserved by system, choose something else.");
-    }
-
-    else
-    {
-        if (usingLocalStorage)
-            saveToLocalStorage(filename);
-        else
-            saveToGameMemory(filename);
-
-        output("Game saved as \"" + filename + "\".");
-    }
-    
-
-    inputTextArea.value = "";
-
-    inputTextArea.removeEventListener("change", saveInterface);
-    inputTextArea.addEventListener("change", getPlayerInput);
-
-}
-
-
-function updateActors()
-{
-    cyclops.cyclopsTurn();
-    flood.floodTurn();
-    damFlow.damFlowTurn();
-    gustOfWind.gustOfWindTurn();
-    riverCurrent.riverCurrentTurn();
-    songbird.songbirdTurn();
-    spirits.spiritsTurn();
-    swordGlow.swordGlowTurn();
-    thief.thiefTurn();
-    troll.trollTurn();
-    vampireBat.vampireBatTurn();
-
-    if (state.playerHitPoints <= 0)
-        playerDies();
-
-}
-
-
-function updateItems()
-{
-    for (let g of objectList.values())
-    {
-        if (g.isItem() && g.activated && g.lifespan > 0)
-        {
-            g.tick();
-            if (g.lifespan <= 0)
-                g.activated = false;
-        }
-    }
-
-    if (state.playerInBoat)
-    {
-        inflatedBoat.location = state.playerLocation;
-        inflatedBoat.presenceString = "";
-        let str = "Refer to the boat label for instructions.";
-        damBase.addFailMessage(Action.EAST, str);
-        whiteCliffsBeachNorth.addFailMessage(Action.EAST, str);
-        whiteCliffsBeachSouth.addFailMessage(Action.EAST, str);
-        sandyBeach.addFailMessage(Action.WEST, str);
-        shore.addFailMessage(Action.WEST, str);
-        reservoirSouth.removeFailMessage(Action.NORTH);
-        reservoirNorth.removeFailMessage(Action.SOUTH);
-        reservoirSouth.addFailMessage(Action.NORTH, str);
-        reservoirNorth.addFailMessage(Action.SOUTH, str);
-        streamView.addFailMessage(Action.NORTH, str);
-    }
-
-    else
-    {
-        inflatedBoat.presenceString = "There is a magic boat here.";
-        damBase.removeFailMessage(Action.EAST);
-        whiteCliffsBeachNorth.removeFailMessage(Action.EAST);
-        whiteCliffsBeachSouth.removeFailMessage(Action.EAST);
-        sandyBeach.removeFailMessage(Action.WEST);
-        shore.removeFailMessage(Action.WEST);
-        reservoirSouth.removeFailMessage(Action.NORTH);
-        reservoirNorth.removeFailMessage(Action.SOUTH);
-        reservoirSouth.addFailMessage(Action.NORTH, "You would drown.");
-        reservoirNorth.addFailMessage(Action.SOUTH, "You would drown.");
-        streamView.removeFailMessage(Action.NORTH);
     }
 
 }

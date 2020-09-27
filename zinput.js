@@ -1,6 +1,30 @@
 // Declaring input in the global scope.
 let input = "";
 
+function processRawInput(rawInput)
+{
+    let hackRE = /<*>/g;
+    if (rawInput.match(hackRE))
+    {
+        output("You're not trying to do something tricky, are you?");
+        inputTextArea.value = "";
+        return "";
+    }
+
+    if (rawInput.length > MAX_INPUT_LENGTH)
+    {
+        output("You don't need to say anything as long as that.");
+        inputTextArea.value = "";
+        return "";
+    }
+
+    let charRE = /[\w\s,]/g;
+    rawInput = rawInput.match(charRE).join('');
+    rawInput = rawInput.trim().toLowerCase();
+
+    return rawInput;
+}
+
 function getMissingInput()
 {
     document.getElementById("gameArea").innerText = "";
@@ -50,9 +74,17 @@ function getPlayerInput()
 
     state.resetInput();
 
-    state.completePlayerInput = document.getElementById("inputTextArea").value;
-    outputPreviousInput(state.completePlayerInput);
+    let rawInput = inputTextArea.value;
+    console.log("Raw input: " + rawInput);
+    
+    let processedInput = processRawInput(rawInput);
 
+    console.log("Processed input: " + processedInput);
+
+
+    if (isEmpty(processedInput)) return;
+    outputPreviousInput(rawInput);
+    state.completePlayerInput = processedInput;
     parsePlayerInput();
 
 }
@@ -60,7 +92,6 @@ function getPlayerInput()
 function parsePlayerInput()
 {
     input = state.completePlayerInput;
-    input = input.trim().toLowerCase();
 
     if (!preprocessInput())
     {
@@ -389,6 +420,8 @@ function fillCurrentObjectList()
     currentObjects.clear();
 
     // Self object should go here
+    currentObjects.set("you", self);
+    currentObjects.set("me", self);
 
     for (let g of objectList.values())
     {
@@ -523,6 +556,8 @@ function isEmpty(input)
 // Returns true if str is known to the game
 function isGameWord(str)
 {
+    str = str.match(/\w/gi).join('');
+
     return (dictionary.has(str));
 
 }
@@ -627,6 +662,33 @@ function specialInputCheck()
     if (input === "bug")
     {
         output("Bug? Maybe in the original program, but not in a flawless remake like this! (Cough, cough.)");
+        return true;
+    }
+
+    if (input === "hello")
+    {
+        let choice = getRandom(3);
+
+        switch (choice)
+        {
+            case 0:
+            {
+                output("Hello.");
+            } break;
+
+            case 1:
+            {
+                output("Good day.");
+            } break;
+
+            case 2:
+            {
+                output("Nice weather we've been having lately.");
+            } break;
+
+            default: {} break;
+        }
+
         return true;
     }
 
