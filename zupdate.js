@@ -144,11 +144,11 @@ function updateGame()
         outputLocation(currentRoom.name);
 
     stringLog += state.completePlayerInput + "|";
+    ++state.turns;
     updateActors();
     updateItems();
     updateEvents();
     updateScore();
-    ++state.turns;
 
 }
 
@@ -440,25 +440,20 @@ function updateMultiple()
                             line += ObjectStrings.INIT_BROKEN_CANARY;
                             egg.location = Location.NULL_LOCATION;
                             brokenCanary.location = Location.INSIDE_BROKEN_EGG;
-                            brokenEgg.location = state.playerLocation;
+                            brokenEgg.location = Location.FOREST_PATH;
                             brokenEgg.itemOpen = true;
-                            let badEgg = objectList.get("broken jewel-encrusted egg");
-                            badEgg.location = Location.FOREST_PATH;
                         }
 
                         else if (obj.name === "bird's nest")
                         {
-                            let goodEgg = objectList.get("jewel-encrusted egg");
-                            if (goodEgg.location == Location.INSIDE_BIRDS_NEST)
+                            if (egg.location == Location.INSIDE_BIRDS_NEST)
                             {
                                 line += ("The nest falls to the ground, and the egg spills out of it, seriously damaged.");
                                 line += ObjectStrings.INIT_BROKEN_CANARY;
                                 egg.location = Location.NULL_LOCATION;
                                 brokenCanary.location = Location.INSIDE_BROKEN_EGG;
-                                brokenEgg.location = state.playerLocation;
+                                brokenEgg.location = Location.FOREST_PATH;
                                 brokenEgg.itemOpen = true;
-                                let badEgg = objectList.get("broken jewel-encrusted egg");
-                                badEgg.location = Location.FOREST_PATH;
                             }
 
                             else

@@ -162,19 +162,17 @@ class Item extends GameObject {
             {
                 output("The egg falls to the ground and springs open, seriously damaged.");
                 breakEgg();
-                let badEgg = objectList.get("broken jewel-encrusted egg");
-                badEgg.location = Location.FOREST_PATH;
+                brokenEgg.location = Location.FOREST_PATH;
             }
 
             else if (this.name === "bird's nest")
             {
-                let goodEgg = objectList.get("jewel-encrusted egg");
-                if (goodEgg.location == Location.INSIDE_BIRDS_NEST)
+                
+                if (egg.location == Location.INSIDE_BIRDS_NEST)
                 {
                     output("The nest falls to the ground, and the egg spills out of it, seriously damaged.");
                     breakEgg();
-                    let badEgg = objectList.get("broken jewel-encrusted egg");
-                    badEgg.location = Location.FOREST_PATH;
+                    brokenEgg.location = Location.FOREST_PATH;
                 }
 
                 else

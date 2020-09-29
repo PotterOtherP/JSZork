@@ -23,11 +23,17 @@ function restart()
         targetObj = Object.assign(targetObj, sourceObj);
     }
 
+    for (let room of worldMap.values())
+    {
+        room.firstVisit = true;
+    }
+
 
     gameArea.innerText = "";
 
     state.resetInput();
     updateEvents();
+    updateScore();
     refreshInventories();
     fillCurrentObjectList();
 
