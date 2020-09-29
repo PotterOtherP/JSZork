@@ -33,7 +33,7 @@ class GameState {
         this.directObject = null;
         this.previousDirectObject = null;
         this.indirectObject = null;
-        this.multipleObjectList = [];
+        this.multipleObjectList = new Map();
 
         // game events
         this.blueButtonPushed = false;
@@ -96,6 +96,7 @@ class GameState {
         this.directObject = dummyObject;
         this.indirectObject = dummyObject;
         this.multipleObjects = false;
+        this.multipleObjectList.clear();
     }
 
 

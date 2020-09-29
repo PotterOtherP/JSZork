@@ -147,6 +147,7 @@ function updateGame()
     updateActors();
     updateItems();
     updateEvents();
+    updateScore();
     ++state.turns;
 
 }
@@ -400,6 +401,121 @@ function updateStandard()
         default: {} break;
     }
 
+}
+
+
+function updateMultiple()
+{
+    document.getElementById("gameArea").innerText = "";
+
+    switch (state.playerAction)
+    {
+        case "DROP":
+        {
+            for (let [token, obj] of state.multipleObjectList)
+            {
+                let obj = state.multipleObjectList.get(token);
+                let line = token + ": ";
+
+                if (obj.isItem() && !currentObjects.has(obj.name))
+                {
+                    line += "You can't see any " + token + " here!";
+                }
+
+                else if (obj.isItem() && obj.location !== "PLAYER_INVENTORY")
+                {
+                    line += "You don't have the " + token + ".";
+                }
+
+                // Copied code from item.drop() and breakEgg()
+                else if (obj.isItem() && obj.location === "PLAYER_INVENTORY")
+                {
+                    if (state.playerLocation === Location.UP_TREE)
+                    {
+                        state.playerCarryWeight -= obj.weight;
+
+                        if (obj.name === "jewel-encrusted egg")
+                        {
+                            line += ("The egg falls to the ground and springs open, seriously damaged.");
+                            line += ObjectStrings.INIT_BROKEN_CANARY;
+                            egg.location = Location.NULL_LOCATION;
+                            brokenCanary.location = Location.INSIDE_BROKEN_EGG;
+                            brokenEgg.location = state.playerLocation;
+                            brokenEgg.itemOpen = true;
+                            let badEgg = objectList.get("broken jewel-encrusted egg");
+                            badEgg.location = Location.FOREST_PATH;
+                        }
+
+                        else if (obj.name === "bird's nest")
+                        {
+                            let goodEgg = objectList.get("jewel-encrusted egg");
+                            if (goodEgg.location == Location.INSIDE_BIRDS_NEST)
+                            {
+                                line += ("The nest falls to the ground, and the egg spills out of it, seriously damaged.");
+                                line += ObjectStrings.INIT_BROKEN_CANARY;
+                                egg.location = Location.NULL_LOCATION;
+                                brokenCanary.location = Location.INSIDE_BROKEN_EGG;
+                                brokenEgg.location = state.playerLocation;
+                                brokenEgg.itemOpen = true;
+                                let badEgg = objectList.get("broken jewel-encrusted egg");
+                                badEgg.location = Location.FOREST_PATH;
+                            }
+
+                            else
+                                line += ("The bird's nest falls to the ground.");
+
+                            obj.location = Location.FOREST_PATH;
+                        }
+
+                        else
+                        {
+                            line += ("The " + obj.name + " falls to the ground.");
+                            obj.location = Location.FOREST_PATH;
+                        }
+                    }
+
+                    else
+                    {
+                        state.playerCarryWeight -= obj.weight;
+                        obj.location = state.playerLocation;
+                        line += ("Dropped.");
+                    }
+                }
+
+                else
+                {
+                    line += "You can't drop that.";
+                }
+
+                output(line);
+
+            }
+
+        } break;
+
+        case "PUT":
+        {
+
+        } break;
+
+        case "TAKE":
+        {
+
+        } break;
+
+        default:
+        {
+            output("You can't use multiple objects with \"" + state.actionPhrase + "\".");
+        } break;
+    }
+
+
+    stringLog += state.completePlayerInput + "|";
+    updateActors();
+    updateItems();
+    updateEvents();
+    updateScore();
+    ++state.turns;
 }
 
 
@@ -711,7 +827,7 @@ function updateEvents()
     else
     {
         grating_clearing.setClosed();
-        this.examineString = "The grating is closed.";
+        grating.examineString = "The grating is closed.";
     }
 
     // HOUSE WINDOW OPENED
@@ -1018,7 +1134,7 @@ function listInventory()
         if (item.location === Location.PLAYER_INVENTORY && item.isContainer()
             && (item.isOpen() || item.name === "glass bottle")) 
         {
-            if (item.inventory.size() > 0)
+            if (item.inventory.size > 0)
             {
                 let check = false;
 

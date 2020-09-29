@@ -204,7 +204,6 @@ function parsePlayerInput()
     if (validateAction())
     {
         updateGame();
-        updateScore();
         exitInput();
     }
     
