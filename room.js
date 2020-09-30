@@ -15,7 +15,7 @@ class Room {
 
         this.exits = new Map();
         this.failMessages = new Map();
-        this.failMessages.set(Action.LAND, "You have sea lions on the land?");
+        this.failMessages.set(Action.LAND, "Can you land if you are already on the land?");
         this.failMessages.set(Action.LAUNCH, GameStrings.LAUNCH_FAIL);
 
 

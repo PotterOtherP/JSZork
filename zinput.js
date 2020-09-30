@@ -102,7 +102,16 @@ function parsePlayerInput()
     
     if (!parseAction())
     {
-        output("That sentence did not start with a verb!");
+        output("I can't tell what you're trying to do.");
+        exitInput();
+        return;
+    }
+
+    fillCurrentObjectList();
+
+    if (detectMultipleObjects())
+    {
+        updateMultiple();
         exitInput();
         return;
     }
@@ -186,15 +195,6 @@ function parsePlayerInput()
 
     if (!isEmpty(input))
     {
-        // let phrase = state.actionPhrase;
-        // if (!isEmpty(state.directObjectPhrase))
-        //     phrase = state.directObjectPhrase;
-
-        // if (!isEmpty(state.indirectObjectPhrase))
-        //     phrase = state.indirectObjectPhrase;
-
-        // phrase += " " + input;
-
         output("I don't understand what that means.");
         exitInput();
         return;
@@ -208,6 +208,21 @@ function parsePlayerInput()
     }
     
 
+}
+
+
+function detectMultipleObjects()
+{
+    let multRE = /,|and|all|except|but|treasure/i;
+    console.log("Input in detectMultipleObjects(): " + input);
+
+    if (!multRE.test(input))
+        return false;
+
+    
+
+
+    return false;
 }
 
 
@@ -339,7 +354,7 @@ function parseIndirectObject()
 // Clears player input text area 
 function exitInput()
 {
-    // printDebugInfo();
+    printDebugInfo();
 
     updateEvents();
     refreshInventories();
@@ -421,6 +436,8 @@ function fillCurrentObjectList()
     // Self object should go here
     currentObjects.set("you", self);
     currentObjects.set("me", self);
+    currentObjects.set("myself", self);
+    currentObjects.set("self", self);
 
     for (let g of objectList.values())
     {

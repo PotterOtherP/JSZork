@@ -95,7 +95,6 @@ class GameState {
         
         this.directObject = dummyObject;
         this.indirectObject = dummyObject;
-        this.multipleObjects = false;
         this.multipleObjectList.clear();
     }
 

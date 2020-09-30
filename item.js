@@ -615,7 +615,7 @@ class Item extends GameObject {
 
             let obj = state.indirectObject;
 
-            if (this.currentWeight + obj.weight <= this.capacity)
+            if (currentWeight + obj.weight <= this.capacity)
             {
                 this.inventory.add(obj);
                 obj.location = this.inventoryID;
@@ -789,8 +789,6 @@ class Item extends GameObject {
 
         if (this.name === "rusty knife")
         {
-            let sword = objectList.get("elvish sword");
-
             if (sword.location === Location.PLAYER_INVENTORY)
                 output(ObjectStrings.RUSTY_KNIFE_TAKE);
         }
@@ -829,7 +827,6 @@ class Item extends GameObject {
                     {
                         state.ropeRailTied = false;
                         output("The rope is now untied.");
-                        let rope = objectList.get("rope");
                         rope.location = Location.PLAYER_INVENTORY;
                     }
                 }

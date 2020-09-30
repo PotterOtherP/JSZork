@@ -15,6 +15,24 @@ class Feature extends GameObject {
     {
         switch(this.name)
         {
+            case "you":
+            {
+                if (state.indirectObject.name === "you")
+                    output("You don't have the you.");
+
+                else if (state.indirectObject.isWeapon)
+                {
+                    output("If you insist... Poof, you're dead!");
+                    playerDies();
+                }
+
+                else
+                {
+                    output("Suicide is not the answer.");
+                }
+
+            } break;
+
             case "skeleton":
             {
                 skeletonIsDisturbed();
@@ -673,6 +691,20 @@ class Feature extends GameObject {
     {
         switch (this.name)
         {
+            case "you":
+            {
+                if (state.completePlayerInput === "take me")
+                    output("How romantic!");
+
+                else if (state.completePlayerInput === "take you")
+                    output("How romantic?");
+
+                else
+                    output("You seem confused.");
+
+
+            } break;
+
             case "quantity of water":
             {
                 let bottle = objectList.get("glass bottle");

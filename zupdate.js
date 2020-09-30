@@ -414,10 +414,9 @@ function updateMultiple()
         {
             for (let [token, obj] of state.multipleObjectList)
             {
-                let obj = state.multipleObjectList.get(token);
                 let line = token + ": ";
 
-                if (obj.isItem() && !currentObjects.has(obj.name))
+                if (!currentObjects.has(obj.name))
                 {
                     line += "You can't see any " + token + " here!";
                 }
@@ -495,13 +494,102 @@ function updateMultiple()
 
         case "TAKE":
         {
+            for (let [token, obj] of state.multipleObjectList)
+            {
+                let line = token + ": ";
+
+                if (!currentObjects.has(obj.name))
+                {
+                    line += "You can't see any " + token + " here!";
+                }
+
+                else if (!obj.isItem())
+                {
+                    line += obj.takeString;
+                }
+
+                else if (obj.location === Location.PLAYER_INVENTORY)
+                {
+                    line += "You're already carrying the " + obj.name + "!";    
+                }
+
+                // Object is an avaialble item not in the player's inventory
+                else
+                {
+
+                    if (obj.location === Location.INSIDE_BASKET &&
+                        state.playerLocation === Location.DRAFTY_ROOM &&
+                        !state.shaftBasketUsed)
+                    {
+                        state.shaftBasketUsed = true;
+                    }
+
+                    if (obj.name === "pile of leaves" && !state.leafPileMoved)
+                    {
+                        state.leafPileMoved = true;
+                        grating.altLocations.add(Location.CLEARING_NORTH);
+                        line += "\nIn disturbing the pile of leaves, a grating is revealed.";
+                        clearingNorth.addExit(Action.DOWN, grating_clearing);
+                        gratingRoom.setLight();
+                    }
+
+                    if (obj.name === "rope" && state.ropeRailTied)
+                    {
+                        if (state.playerLocation === Location.TORCH_ROOM)
+                            line += "\nYou cannot reach the rope.";
+
+                        else if (state.playerLocation === Location.DOME_ROOM)
+                        {
+                            state.ropeRailTied = false;
+                            line += "\nThe rope is now untied.";
+                        }
+                    }
+
+                    if (obj.name === "rusty knife")
+                    {
+                        if (sword.location === Location.PLAYER_INVENTORY)
+                            line += "\n" + ObjectStrings.RUSTY_KNIFE_TAKE;
+                    }
+
+                    if (obj.name === "small piece of vitreous slag")
+                    {
+                        line += "\n" + ObjectStrings.SLAG_CRUMBLE;
+                        obj.location = Location.NULL_LOCATION;
+                        output(line);
+                        continue;
+                    }
+
+                    if ((state.playerCarryWeight + this.weight) >= CARRY_WEIGHT_LIMIT)
+                    {
+                        line += (GameStrings.OVERBURDENED);
+                        output(line);
+                        continue;
+                    }
+
+                    // Item taken successfully
+                    state.playerCarryWeight += obj.weight;
+                    obj.location = Location.PLAYER_INVENTORY;
+                    obj.acquired = true;
+                    obj.movedFromStart = true;
+                    line += "Taken.";
+
+
+                }
+
+
+                
+
+                output(line);
+            }
 
         } break;
 
         default:
         {
             output("You can't use multiple objects with \"" + state.actionPhrase + "\".");
-        } break;
+            return;
+            
+        } // break;
     }
 
 

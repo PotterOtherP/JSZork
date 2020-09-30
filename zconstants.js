@@ -473,6 +473,7 @@ actions.set("say", {action: Action.SAY, type: ActionType.SPEAK});
 // Indirect actions
 actions.set("attack", {action: Action.ATTACK, type: ActionType.INDIRECT});
 actions.set("kill", {action: Action.ATTACK, type: ActionType.INDIRECT});
+actions.set("hit", {action: Action.ATTACK, type: ActionType.INDIRECT});
 actions.set("fight", {action: Action.ATTACK, type: ActionType.INDIRECT});
 actions.set("break", {action: Action.BREAK, type: ActionType.INDIRECT});
 actions.set("burn", {action: Action.BURN, type: ActionType.INDIRECT});

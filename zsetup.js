@@ -1533,8 +1533,9 @@ let self = new Feature("you", Location.NULL_LOCATION);
 self.altNames.add("me");
 self.altNames.add("self");
 self.altNames.add("myself");
-self.takeString = "How romantic!";
-self.attackString = "You don't have the you.";
+// self.takeString = "How romantic!";
+// self.attackString = "You don't have the you.";
+self.eatString = "Auto-cannabalism is not the answer.";
 
 
 let shaftBasket = new Container("basket", Location.SHAFT_ROOM);
