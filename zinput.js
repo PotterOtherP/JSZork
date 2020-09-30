@@ -213,13 +213,30 @@ function parsePlayerInput()
 
 function detectMultipleObjects()
 {
-    let multRE = /,|and|all|except|but|treasure/i;
+    let multRE = /,|and|all|everything|except|but|treasure/i;
     console.log("Input in detectMultipleObjects(): " + input);
 
     if (!multRE.test(input))
         return false;
+    if (!input.match(multRE))
+        return false
 
-    
+    if (state.playerAction === Action.PUT && input.match(/(in|on)\s\w+\s/))
+    {
+        
+    }
+
+    if (input.match(/^all|everything/))
+    {
+        for (let obj of currentObjects.values())
+        {
+            state.multipleObjectList.set(obj.name, obj);
+        }
+
+        state.multipleObjectList.delete("you");
+    }
+
+
 
 
     return false;

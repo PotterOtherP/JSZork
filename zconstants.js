@@ -675,7 +675,7 @@ const GAME_WORDS = [
     "bar", "bell", "bird", "bottle", "box", "bug", "but",
     "carpet", "case", "close",
     "door", "down", "drop",
-    "east", "egg", "examine", "except", "exit",
+    "east", "egg", "examine", "everything", "except", "exit",
     "five", "fuck",
     "giant", "go",
     "hand", "high", "highfive", "hit", "house",
@@ -690,7 +690,7 @@ const GAME_WORDS = [
     "quit",
     "read", "ring", "room", "rope",
     "sack", "say", "scream", "shit", "shout", "slap", "songbird", "south", "southeast", "southwest", "store", "sword",
-    "take", "the", "them", "tie", "to", "trap", "trophy", "turn",
+    "take", "the", "them", "tie", "to", "trap", "treasure", "trophy", "turn",
     "ulysses", "unlock", "up",
     "wait", "walk", "west", "window", "with", "wizard",
     "yell"
