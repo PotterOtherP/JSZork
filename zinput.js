@@ -218,28 +218,63 @@ function detectMultipleObjects()
 
     if (!multRE.test(input))
         return false;
-    if (!input.match(multRE))
-        return false
 
+    // Identify a container object here and remove it from input
     if (state.playerAction === Action.PUT && input.match(/(in|on)\s\w+\s/))
     {
         
     }
 
+    // Player is selecting "all", etc.
     if (input.match(/^all|everything/))
     {
-        for (let obj of currentObjects.values())
+        if (state.playerAction === Action.TAKE)
         {
-            state.multipleObjectList.set(obj.name, obj);
+            for (let obj of currentObjects.values())
+            {
+                if (obj.location !== Location.PLAYER_INVENTORY)
+                    state.multipleObjectList.set(obj.name, obj);
+            }
+
+            state.multipleObjectList.delete("you");
+        }
+        
+        else if (state.playerAction === Action.PUT || state.playerAction === Action.DROP)
+        {
+            state.multipleObjectList.clear();
+
+            for (let item of objectList.values())
+            {
+                if (item.location === Location.PLAYER_INVENTORY)
+                    state.multipleObjectList.set(item.name, item);
+            }
         }
 
-        state.multipleObjectList.delete("you");
+        if (input.match(/^all treasures?|treasures?/))
+        {
+            for (let [key, obj] of state.multipleObjectList)
+            {
+                if (!obj.isItem() || obj.trophyCaseValue === 0)
+                    state.multipleObjectList.delete(key);
+            }
+        }
+
+        if (input.match(/except|but/))
+        {
+
+        }
+
+        return true;
     }
 
+    // Player is listing objects
+    else if (input.match(/,|and/g))
 
 
 
-    return false;
+
+
+    return true;
 }
 
 

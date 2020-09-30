@@ -690,7 +690,7 @@ const GAME_WORDS = [
     "quit",
     "read", "ring", "room", "rope",
     "sack", "say", "scream", "shit", "shout", "slap", "songbird", "south", "southeast", "southwest", "store", "sword",
-    "take", "the", "them", "tie", "to", "trap", "treasure", "trophy", "turn",
+    "take", "the", "them", "tie", "to", "trap", "treasure", "treasures", "trophy", "turn",
     "ulysses", "unlock", "up",
     "wait", "walk", "west", "window", "with", "wizard",
     "yell"

@@ -505,7 +505,10 @@ function updateMultiple()
 
                 else if (!obj.isItem())
                 {
-                    line += obj.takeString;
+                    if (obj.takeString === "")
+                        line += GameStrings.getSarcasticResponse();
+                    else
+                        line += obj.takeString;
                 }
 
                 else if (obj.location === Location.PLAYER_INVENTORY)
@@ -513,7 +516,7 @@ function updateMultiple()
                     line += "You're already carrying the " + obj.name + "!";    
                 }
 
-                // Object is an avaialble item not in the player's inventory
+                // Object is an available item not in the player's inventory
                 else
                 {
 
@@ -594,11 +597,11 @@ function updateMultiple()
 
 
     stringLog += state.completePlayerInput + "|";
+    ++state.turns;
     updateActors();
     updateItems();
     updateEvents();
     updateScore();
-    ++state.turns;
 }
 
 
