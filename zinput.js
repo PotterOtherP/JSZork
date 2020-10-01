@@ -228,12 +228,43 @@ function parsePlayerInput()
 function getMultipleObjects()
 {
     
-
     console.log("Input in detectMultipleObjects(): " + input);
+
     // Identify a container object here and remove it from input
-    if (state.playerAction === Action.PUT && input.match(/(in|on)\s\w+\s/))
+    let cObj = null;
+    if (state.playerAction === Action.PUT && input.match(/(in|on)\s\w+/))
     {
-        
+        let res = input.split(/in\s|on\s/)[1];
+
+        console.log("Finding container: " + res);
+
+        for (let [token, obj] of objectList)
+        {
+            if (startsWith(token, res))
+                cObj = obj;
+
+            for (let name of obj.altNames)
+                if (startsWith(name, res))
+                    cObj = obj;
+        }
+
+        if (cObj == null)
+        {
+            output("I can't tell what you want to put the objects in or on.");
+            return false;
+        }
+
+        if (cObj.location !== Location.PLAYER_INVENTORY && cObj.location !== state.playerLocation)
+        {
+            output("There's no " + cObj.name + " here!");
+            return false;
+        }
+
+        if (!cObj.isContainer())
+        {
+            output("You can't put things in that.");
+            return false;
+        }
     }
 
     // Player is selecting "all", etc.
