@@ -245,7 +245,9 @@ function getMultipleObjects()
 
             for (let name of obj.altNames)
                 if (startsWith(name, res))
+                {
                     cObj = obj;
+                }
         }
 
         if (cObj == null)
@@ -265,6 +267,10 @@ function getMultipleObjects()
             output("You can't put things in that.");
             return false;
         }
+
+        state.indirectObject = cObj;
+        state.indirectObjectPhrase = cObj.name;
+        
     }
 
     // Player is selecting "all", etc.
@@ -303,12 +309,41 @@ function getMultipleObjects()
 
         if (input.match(/except|but/))
         {
-            let spl = input.split(/\sexcept\s|\sbut\s|\sand\s/);
+            let spl = input.split(/\sexcept\s|\sbut\s/)[1];
 
-            for (let i = 1; i < spl.length; ++i)
+            spl = spl.replace(/\s,\s/g, /\s/);
+            spl = spl.replace(/\sand\s/g, /\s/);
+            spl = spl.replace(/\sor\s/g, /\s/);
+
+            console.log("spl: " + spl);
+
+            while (!isEmpty(spl))
             {
-                console.log(spl[i]);
+                for (let [key, obj] of objectList)
+                {
+                    if (startsWith(key, spl) || obj.altNames.has(key))
+                    {
+                        for (let [mKey, mObj] of state.multipleObjectList)
+                        {
+                            if (mObj.name === key || mObj.altNames.has(key))
+                            {
+                                state.multipleObjectList.delete(mKey);
+                                spl = spl.substring(key.length).trim();
+
+                            }
+
+                            else
+                            {
+                                output("There is no " + key + " here.");
+                            }
+                        }
+                    }
+
+                    else
+                        spl = spl.substring(spl.split(" ")[0].length).trim();
+                }
             }
+           
         }
 
         return true;

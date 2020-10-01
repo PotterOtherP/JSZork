@@ -495,6 +495,57 @@ function updateMultiple()
 
         case "PUT":
         {
+            let cObj = state.indirectObject;
+
+            if ((cObj.isContainer && cObj.isOpen()) || cObj.isSurface())
+            {
+                for (let [token, obj] of state.multipleObjectList)
+                {
+                    let line = token + ": ";
+
+                    if (!currentObjects.has(obj.name))
+                    {
+                        line += "You can't see any " + token + " here!";
+                    }
+
+                    else if (obj.isItem() && obj.location !== "PLAYER_INVENTORY")
+                    {
+                        line += "You don't have the " + token + ".";
+                    }
+
+                    else
+                    {
+                        if (cObj.name === "machine" && cObj.inventory.size > 0)
+                        {
+                            line += "There's no more room.";
+                            break;
+                        }
+
+                        let currentWeight = 0;
+                        for (let it of cObj.inventory)
+                        {
+                            currentWeight += it.weight;
+                        }
+
+                        if (currentWeight + obj.weight <= cObj.capacity)
+                        {
+                            cObj.inventory.add(obj);
+                            obj.location = cObj.inventoryID;
+                            line += "Done.";
+                        }
+
+                        else
+                            line += "There's no more room.";
+                    }
+
+                    output(line);
+                }
+            }
+
+            if (cObj.isContainer() && !cObj.isOpen())
+            {
+                output("The " + cObj.name + " is closed.");
+            }
 
         } break;
 
