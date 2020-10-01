@@ -30,6 +30,7 @@ function restart()
 
 
     gameArea.innerText = "";
+    previousInputArea.innerText = "";
 
     state.resetInput();
     updateEvents();
@@ -60,6 +61,7 @@ function restoreInterface()
 
 
     inputTextArea.value = "";
+    previousInputArea.innerText = "";
 
     inputTextArea.removeEventListener("change", restoreInterface);
     inputTextArea.addEventListener("change", getPlayerInput);

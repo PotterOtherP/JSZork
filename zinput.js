@@ -35,7 +35,6 @@ function getMissingInput()
 
     // check for an action (not using the parseAction() method)
     // If the missing input starts with an action, replace original input with it
-
     let actionCheck = false;
 
     for (let token of actionPhrases)
@@ -109,12 +108,27 @@ function parsePlayerInput()
 
     fillCurrentObjectList();
 
-    if (detectMultipleObjects())
+    // If the player is trying to indicate multiple objects,
+    // the getMultipleObjects() method is called. If the input
+    // can't be parsed, we exit here. If the input CAN be parsed
+    // but no objects are in the final list, 
+    let multRE = /,|and|all|everything|except|but|treasure/i;
+    if (multRE.test(input))
     {
-        updateMultiple();
+        if (getMultipleObjects())
+        {
+            updateMultiple();
+        }
+
+        else
+        {
+            output("I can't understand that.");
+        }
+
         exitInput();
         return;
     }
+
 
     removeExtraWords();
 
@@ -211,14 +225,11 @@ function parsePlayerInput()
 }
 
 
-function detectMultipleObjects()
+function getMultipleObjects()
 {
-    let multRE = /,|and|all|everything|except|but|treasure/i;
+    
+
     console.log("Input in detectMultipleObjects(): " + input);
-
-    if (!multRE.test(input))
-        return false;
-
     // Identify a container object here and remove it from input
     if (state.playerAction === Action.PUT && input.match(/(in|on)\s\w+\s/))
     {
@@ -261,7 +272,12 @@ function detectMultipleObjects()
 
         if (input.match(/except|but/))
         {
+            let spl = input.split(/\sexcept\s|\sbut\s|\sand\s/);
 
+            for (let i = 1; i < spl.length; ++i)
+            {
+                console.log(spl[i]);
+            }
         }
 
         return true;
@@ -269,10 +285,18 @@ function detectMultipleObjects()
 
     // Player is listing objects
     else if (input.match(/,|and/g))
+    {
+
+    }
 
 
 
-
+    // Remove all non-items from list
+    // for (let [key, obj] of state.multipleObjectList)
+    // {
+    //     if (!obj.isItem())
+    //         state.multipleObjectList.delete(key);
+    // }
 
     return true;
 }

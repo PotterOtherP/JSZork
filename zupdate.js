@@ -408,6 +408,12 @@ function updateMultiple()
 {
     document.getElementById("gameArea").innerText = "";
 
+    if (state.multipleObjectList.size === 0)
+    {
+        output("There is nothing to " + state.actionPhrase + ".");
+        return;
+    }
+
     switch (state.playerAction)
     {
         case "DROP":
