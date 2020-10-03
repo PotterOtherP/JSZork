@@ -115,6 +115,9 @@ function parsePlayerInput()
     let multRE = /,|and|all|everything|except|but|treasure/i;
     if (multRE.test(input))
     {
+        removeSomeExtraWords();
+
+        input = input.trim();
         if (getMultipleObjects())
         {
             updateMultiple();
@@ -821,7 +824,21 @@ function removeExtraWords()
     input = input.replace(/ on /g, " ");
     input = input.replace(/ out /g, " ");
 
+    input = input.trim();
 
+}
+
+function removeSomeExtraWords()
+{
+    input = " " + input + " ";
+    input = input.replace(/ back /g, " ");
+    input = input.replace(/ from /g, " ");
+    input = input.replace(/ of /g, " ");
+    input = input.replace(/ the /g, " ");
+    input = input.replace(/ to /g, " ");
+    input = input.replace(/ with /g, " ");
+    input = input.replace(/ at /g, " ");
+    input = input.replace(/ out /g, " ");
 
     input = input.trim();
 

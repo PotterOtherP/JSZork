@@ -807,6 +807,8 @@ cyclops_strange.setClosed();
 cyclops_treasure.setClosed();
 
 grating_clearing.closedFail = "The grating is closed!";
+rainbow_end.closedFail = "You can't go that way.";
+falls_rainbow.closedFail = "You can't go that way.";
 house_behind_kitchen.closedFail = MapStrings.KITCHEN_WINDOW_CLOSED;
 strange_living_room.closedFail = "The door is nailed shut.";
 dome_torch.closedFail = "You cannot do gown without fracturing many bones.";
