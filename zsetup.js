@@ -1799,7 +1799,7 @@ function fillDictionary()
         for (let i = 0; i < words.length; ++i)
         {
             dictionary.add(words[i]);
-            gameNouns.add(words[i]);
+            // gameNouns.add(words[i]);
         }
     }
 
@@ -1814,7 +1814,7 @@ function fillDictionary()
             for (let i = 0; i < words.length; ++i)
             {
                 dictionary.add(words[i]);
-                gameNouns.add(words[i]);
+                // gameNouns.add(words[i]);
             }
         }
     }

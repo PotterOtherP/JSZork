@@ -319,29 +319,9 @@ function getMultipleObjects()
 
             while (!isEmpty(spl))
             {
-                for (let [key, obj] of objectList)
-                {
-                    if (startsWith(key, spl) || obj.altNames.has(key))
-                    {
-                        for (let [mKey, mObj] of state.multipleObjectList)
-                        {
-                            if (mObj.name === key || mObj.altNames.has(key))
-                            {
-                                state.multipleObjectList.delete(mKey);
-                                spl = spl.substring(key.length).trim();
-
-                            }
-
-                            else
-                            {
-                                output("There is no " + key + " here.");
-                            }
-                        }
-                    }
-
-                    else
-                        spl = spl.substring(spl.split(" ")[0].length).trim();
-                }
+                splArr = spl.split(" ");
+                splArr.shift();
+                spl = splArr.join(" ").trim();
             }
            
         }
