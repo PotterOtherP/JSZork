@@ -350,14 +350,38 @@ function getMultipleObjects()
             }
            
         }
-
+        
+        removeUnwantedMultiples();
         return true;
     }
 
     // Player is listing objects
     else if (input.match(/,|and/g))
     {
+        input = input.replace(/,\s?/g, " ");
+        input = input.replace(/\sand\s/g, " ");
 
+        let foundObject = false;
+        while (!isEmpty(input))
+        {
+            foundObject = false;
+
+            for (let [name, obj] of objectNameMap)
+            {
+                if (startsWith(name, input))
+                {
+                    foundObject = true;
+                    input = input.substring(name.length).trim();
+
+                    state.multipleObjectList.set(obj.name, obj);
+                }
+
+            }
+
+            if (!foundObject)
+                spl = spl.substring(spl.split(" ")[0].length).trim();
+
+        }
     }
 
 
@@ -368,7 +392,6 @@ function getMultipleObjects()
     //     if (!obj.isItem())
     //         state.multipleObjectList.delete(key);
     // }
-
     return true;
 }
 
@@ -802,6 +825,16 @@ function removeExtraWords()
 
     input = input.trim();
 
+}
+
+function removeUnwantedMultiples()
+{
+    let names = ["door", "white house", "wooden boards", "wooden door"];
+
+    for (let name of names)
+    {
+        state.multipleObjectList.delete(name);
+    }
 }
 
 
