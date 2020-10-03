@@ -311,37 +311,42 @@ function getMultipleObjects()
         {
             let spl = input.split(/\sexcept\s|\sbut\s/)[1];
 
-            spl = spl.replace(/\s,\s/g, /\s/);
-            spl = spl.replace(/\sand\s/g, /\s/);
-            spl = spl.replace(/\sor\s/g, /\s/);
+            spl = spl.replace(/,\s?/g, " ");
+            spl = spl.replace(/\sand\s/g, " ");
+            spl = spl.replace(/\sor\s/g, " ");
 
             console.log("spl: " + spl);
 
+            let foundObject = false;
             while (!isEmpty(spl))
             {
-                for (let [key, obj] of objectList)
+
+                foundObject = false;
+                for (let [name, obj] of objectNameMap)
                 {
-                    if (startsWith(key, spl) || obj.altNames.has(key))
+                    if (startsWith(name, spl))
                     {
+                        foundObject = true;
+                        spl = spl.substring(name.length).trim();
+
                         for (let [mKey, mObj] of state.multipleObjectList)
                         {
-                            if (mObj.name === key || mObj.altNames.has(key))
+                            if (mObj == obj)
                             {
                                 state.multipleObjectList.delete(mKey);
-                                spl = spl.substring(key.length).trim();
-
                             }
 
                             else
                             {
-                                output("There is no " + key + " here.");
+                                output("There is no " + name + " here.");
                             }
                         }
                     }
 
-                    else
-                        spl = spl.substring(spl.split(" ")[0].length).trim();
                 }
+
+                if (!foundObject)
+                    spl = spl.substring(spl.split(" ")[0].length).trim();
             }
            
         }

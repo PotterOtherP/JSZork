@@ -10,6 +10,7 @@ const gameNouns = new Set();
 // for sorting by length
 let currentObjectNames = [];
 const actionPhrases = [];
+const objectNameMap = new Map();
 
 for (let phrase of actions.keys())
     actionPhrases.push(phrase);
@@ -1781,6 +1782,16 @@ objectList.set(swordGlow.name, swordGlow);
 objectList.set(thief.name, thief);
 objectList.set(troll.name, troll);
 objectList.set(vampireBat.name, vampireBat);
+
+for (let [key, obj] of objectList)
+{
+    objectNameMap.set(key, obj);
+
+    for (let name of obj.altNames)
+    {
+        objectNameMap.set(name, obj);
+    }
+}
 
 
 function fillDictionary()

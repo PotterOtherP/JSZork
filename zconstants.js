@@ -685,7 +685,7 @@ const GAME_WORDS = [
     "lantern", "leaflet", "light", "lock", "look",
     "mailbox", "move",
     "nest", "next", "north", "northeast", "northwest", "note",
-    "odysseus", "off", "on", "open", "out",
+    "odysseus", "off", "on", "open", "or", "out",
     "passage", "piano", "pick", "pile", "place", "put", "play", "please", "pull", "punch",
     "quit",
     "read", "ring", "room", "rope",
