@@ -311,28 +311,77 @@ function getMultipleObjects()
         {
             let spl = input.split(/\sexcept\s|\sbut\s/)[1];
 
-            spl = spl.replace(/\s,\s/g, /\s/);
-            spl = spl.replace(/\sand\s/g, /\s/);
-            spl = spl.replace(/\sor\s/g, /\s/);
+            spl = spl.replace(/,\s?/g, " ");
+            spl = spl.replace(/\sand\s/g, " ");
+            spl = spl.replace(/\sor\s/g, " ");
 
             console.log("spl: " + spl);
 
+            let foundObject = false;
             while (!isEmpty(spl))
             {
-                splArr = spl.split(" ");
-                splArr.shift();
-                spl = splArr.join(" ").trim();
+
+                foundObject = false;
+                for (let [name, obj] of objectNameMap)
+                {
+                    if (startsWith(name, spl))
+                    {
+                        foundObject = true;
+                        spl = spl.substring(name.length).trim();
+
+                        for (let [mKey, mObj] of state.multipleObjectList)
+                        {
+                            if (mObj == obj)
+                            {
+                                state.multipleObjectList.delete(mKey);
+                            }
+
+                            else
+                            {
+                                output("There is no " + name + " here.");
+                            }
+                        }
+                    }
+
+                }
+
+                if (!foundObject)
+                    spl = spl.substring(spl.split(" ")[0].length).trim();
             }
            
         }
-
+        
+        removeUnwantedMultiples();
         return true;
     }
 
     // Player is listing objects
     else if (input.match(/,|and/g))
     {
+        input = input.replace(/,\s?/g, " ");
+        input = input.replace(/\sand\s/g, " ");
 
+        let foundObject = false;
+        while (!isEmpty(input))
+        {
+            foundObject = false;
+
+            for (let [name, obj] of objectNameMap)
+            {
+                if (startsWith(name, input))
+                {
+                    foundObject = true;
+                    input = input.substring(name.length).trim();
+
+                    state.multipleObjectList.set(obj.name, obj);
+                }
+
+            }
+
+            if (!foundObject)
+                spl = spl.substring(spl.split(" ")[0].length).trim();
+
+        }
     }
 
 
@@ -343,7 +392,6 @@ function getMultipleObjects()
     //     if (!obj.isItem())
     //         state.multipleObjectList.delete(key);
     // }
-
     return true;
 }
 
@@ -777,6 +825,16 @@ function removeExtraWords()
 
     input = input.trim();
 
+}
+
+function removeUnwantedMultiples()
+{
+    let names = ["door", "white house", "wooden boards", "wooden door"];
+
+    for (let name of names)
+    {
+        state.multipleObjectList.delete(name);
+    }
 }
 
 
