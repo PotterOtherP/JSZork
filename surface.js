@@ -44,18 +44,18 @@ class Surface extends GameObject {
             }
 
             if (!initCheck)
-                output("Sitting on the " + this.name + " is:");
+                outputDescription("Sitting on the " + this.name + " is:");
 
             for (let item of this.inventory)
             {
                 if (initCheck)
                 {
-                    output(item.initialPresenceString)
+                    outputDescription(item.initialPresenceString)
                 }
 
                 else
                 {
-                    output("\t" + item.capArticleName);
+                    outputDescription("\t" + item.capArticleName);
                     
                 }
 

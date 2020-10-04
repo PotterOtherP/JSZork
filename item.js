@@ -950,7 +950,7 @@ class Item extends GameObject {
     {
         if (this.name === "glass bottle" && state.bottleFilled)
         {
-            output("The glass bottle contains:\n\t A quantity of water");
+            outputDescription("The glass bottle contains:\n\t A quantity of water");
         }
 
         if (this.isContainer() && this.isOpen() && this.inventory.size > 0)
@@ -968,18 +968,18 @@ class Item extends GameObject {
             }
 
             if (!initCheck)
-                output("The " + this.name + " contains:");
+                outputDescription("The " + this.name + " contains:");
 
             for (let item of this.inventory)
             {
                 if (initCheck)
                 {
-                    output(item.initialPresenceString)
+                    outputDescription(item.initialPresenceString)
                 }
 
                 else
                 {
-                    output("\t" + item.capArticleName);
+                    outputDescription("\t" + item.capArticleName);
 
                 }
 

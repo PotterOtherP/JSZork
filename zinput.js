@@ -846,7 +846,8 @@ function removeSomeExtraWords()
 
 function removeUnwantedMultiples()
 {
-    let names = ["door", "white house", "wooden boards", "wooden door"];
+    let names = ["boarded window", "door", "forest", "kitchen table", "kitchen window", "song bird", 
+    "white house", "wooden boards", "wooden door"];
 
     for (let name of names)
     {
@@ -866,9 +867,9 @@ function specialInputCheck()
         return true;
     }
 
-    if (input === "author")
+    if (input === "author" || input === "about")
     {
-        output(GameStrings.AUTHOR_INFO);
+        output(GameStrings.ABOUT_INFO);
         return true;
     }
 

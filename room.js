@@ -123,17 +123,17 @@ class Room {
         {
             if (this.dark)
             {
-                output(GameStrings.DEAD_LOOK);
-                output("\n");
+                outputDescription(GameStrings.DEAD_LOOK);
+                outputDescription("\n");
             }
 
-            output(this.description);
+            outputDescription(this.description);
             return;
         }
 
         if (state.playerInDarkness)
         {
-            output(GameStrings.DARKNESS);
+            outputDescription(GameStrings.DARKNESS);
             return;
         }
 
@@ -263,7 +263,7 @@ class Room {
         }
 
 
-        output(result);
+        outputDescription(result);
     }
 
     getRoomObjects()
@@ -284,12 +284,12 @@ class Room {
 
             if ( (g.isActor() || g.isFeature()) && g.presenceString !== "")
             {
-                output(g.presenceString);
+                outputDescription(g.presenceString);
             }
 
             if (g.isItem())
             {
-                output(g.getItemDescription());
+                outputDescription(g.getItemDescription());
             }
 
             g.outputInventory();
@@ -302,6 +302,7 @@ class Room {
 
     lookAround()
     {
+        descriptionArea.innerText = "";
         outputLocation(this.name);
         this.getDescription();
         this.getRoomObjects();

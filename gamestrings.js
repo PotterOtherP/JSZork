@@ -44,9 +44,14 @@ const GameStrings = {
     ALL_TREASURES_IN_CASE: "An almost inaudible voice whispers in your ear, \"Look to your treasures for the "
         + "final secret.",
 
-    AUTHOR_INFO: "This sad attempt to recreate Zork I was written by Nate Tryon "
-        + "in the year of are Lord 2020. Zork is owned by Activision/Infocom and "
-        + "was created by Marc Blank, Dave Lebling, Bruce Daniels, and Tim Anderson.",
+    ABOUT_INFO: "Zork I: The Great Underground Empire is a classic computer game developed by "
+        + "Marc Blank, Dave Lebling, Bruce Daniels, and Tim Anderson at MIT in the late 1970s. "
+        + "It became the basis of the computer game company Infocom, which published many Zork-related "
+        + "titles in the 1980s and 1990s, and was acquired by Activision, which still owns the copyright."
+        + "\n\nThis program was written in 2020 by Nate Tryon and exists purely for educational, non-monetary "
+        + "purposes.",
+
+
     BLACK_BOOK_TEXT: "Commandment #12592\n\n"
         + "Oh ye who go about saying unto each: \"Hello sailor\":\n"
         + "Dost thou know the magnitude of thy sin before the gods?\n"

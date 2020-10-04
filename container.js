@@ -35,18 +35,18 @@ class Container extends GameObject {
             }
 
             if (!initCheck)
-                output("The " + this.name + " contains:");
+                outputDescription("The " + this.name + " contains:");
 
             for (let item of this.inventory)
             {
                 if (initCheck && item.initialPresenceString !== "")
                 {
-                    output(item.initialPresenceString)
+                    outputDescription(item.initialPresenceString)
                 }
 
                 else
                 {
-                    output("\t" + item.capArticleName);
+                    outputDescription("\t" + item.capArticleName);
                     
                 }
 

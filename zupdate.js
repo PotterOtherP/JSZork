@@ -34,6 +34,14 @@ function updateGame()
         // before the end of the switch block is reached and the game updates
         // the actors, etc.
 
+        case "BRIEF":
+        case "SUPERBRIEF":
+        case "VERBOSE":
+        {
+            output("\"brief\", \"superbrief\", and \"verbose\" are not used in this version of the game.");
+            return;
+        } // break;
+
         case "DIAGNOSE":
         {
             if (state.playerDead)
@@ -142,6 +150,8 @@ function updateGame()
         outputLocation(currentRoom.name + ", in the magic boat");
     else
         outputLocation(currentRoom.name);
+
+    currentRoom.lookAround();
 
     stringLog += state.completePlayerInput + "|";
     ++state.turns;
@@ -560,12 +570,55 @@ function updateMultiple()
                     line += "You can't see any " + token + " here!";
                 }
 
-                else if (!obj.isItem())
+                else if (!obj.isItem() && !obj.isFeature())
                 {
                     if (obj.takeString === "")
                         line += GameStrings.getSarcasticResponse();
                     else
                         line += obj.takeString;
+                }
+
+                else if (obj.isFeature())
+                {
+                    switch (obj.name)
+                    {
+                        case "quantity of water":
+                        {
+                            let bottle = objectList.get("glass bottle");
+
+                            if (bottle.location !== Location.PLAYER_INVENTORY)
+                                line += "It's in the bottle. Perhaps you should take that first.";
+
+                            else if (!bottle.isOpen())
+                                line += "The bottle is closed.";
+
+                            else
+                                line += "The water slips through your fingers.";
+                            
+                        } break;
+
+                        case "skeleton":
+                        {
+                            line += ObjectStrings.SKELTON_DISTURBED;
+
+                            for (let treasure of objectList.values())
+                            {
+                                if (treasure.location === Location.PLAYER_INVENTORY &&
+                                    treasure.trophyCaseValue > 0)
+                                {
+                                    treasure.location = Location.LAND_OF_THE_DEAD;
+                                }
+                            }
+                        } break;
+
+                        default:
+                        {
+                            if (obj.takeString === "")
+                                line += GameStrings.getSarcasticResponse();
+                            else
+                                line += obj.takeString;
+                        } break;
+                    }
                 }
 
                 else if (obj.location === Location.PLAYER_INVENTORY)
@@ -652,6 +705,14 @@ function updateMultiple()
         } // break;
     }
 
+    let currentRoom = worldMap.get(state.playerLocation);
+    
+    if (state.playerInBoat)
+        outputLocation(currentRoom.name + ", in the magic boat");
+    else
+        outputLocation(currentRoom.name);
+
+    currentRoom.lookAround();
 
     stringLog += state.completePlayerInput + "|";
     ++state.turns;
