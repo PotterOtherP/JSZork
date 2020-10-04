@@ -49,7 +49,13 @@ const GameStrings = {
         + "It became the basis of the computer game company Infocom, which published many Zork-related "
         + "titles in the 1980s and 1990s, and was acquired by Activision, which still owns the copyright."
         + "\n\nThis program was written in 2020 by Nate Tryon and exists purely for educational, non-monetary "
-        + "purposes.",
+        + "purposes.\n\nThe code may be viewed here: https://github.com/PotterOtherP/JSZork",
+
+    HELP_INFO: "Find the 19 lost treasures of Zork and return them to the trophy case."
+        + "\n\nTry moving north, south, east, west, up, or down. Try to take objects and do things with them."
+        + "\n\nThe game is difficult to complete without some references."
+        + "\nFind walkthroughs here: https://gamefaqs.gamespot.com/pc/564446-zork-i/faqs"
+        + "\nAnd maps here: http://struckus.tripod.com/Zork1maps.htm",
 
 
     BLACK_BOOK_TEXT: "Commandment #12592\n\n"

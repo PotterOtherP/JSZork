@@ -908,22 +908,7 @@ function specialInputCheck()
 
     if (input === "help")
     {
-        output("Find the 19 lost treasures of Zork and return them to the trophy case.");
-        output("");
-        output("Try moving north, south, east, west, up, or down. Try to take objects and do things with them.");
-        output("");
-        output("Possible actions:");
-        output("");
-        output("activate  again  answer  attack  blow  board  break  brief  burn  " +
-        "climb  close  count  cross  cut  defend  deflate  diagnose  dig  " +
-        "down  drink  drop  east  eat  enter  examine  exit  extinguish  " +
-        "fill  follow  give  go  in  inflate  inventory  jump  kick  knock  " +
-        "launch  light  listen  lock  look  lower  move  north  northeast  " +
-        "northwest  open  out  play  pour  pray  pull  push  put  quit  raise  " +
-        "read  restore  restart  ring  save  say  search  shake  shout  slide  " +
-        "smell  south  southeast  southwest  stay  strike  superbrief  swim  " +
-        "take  talk  throw  tie  touch  turn  unlock  up  verbose  wait  " +
-        "walk  wake  wave  wear  west  wind");
+        output(GameStrings.HELP_INFO);
         return true;
     }
 
