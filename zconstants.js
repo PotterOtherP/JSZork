@@ -157,6 +157,7 @@ const Action = {
 
     BRIEF: "BRIEF",
     DEFEND: "DEFEND",
+    DELETE: "DELETE",
     DIAGNOSE: "DIAGNOSE",
     INVENTORY: "INVENTORY",
     JUMP: "JUMP",
@@ -360,6 +361,7 @@ actions.set("swim",     {action: Action.SWIM, type: ActionType.EXIT});
 // Reflexive actions: no interaction with game objects
 actions.set("brief", {action: Action.BRIEF, type: ActionType.REFLEXIVE});
 actions.set("deboard", {action: Action.DEBOARD, type: ActionType.REFLEXIVE});
+actions.set("delete", {action: Action.DELETE, type: ActionType.REFLEXIVE});
 actions.set("disembark", {action: Action.DEBOARD, type: ActionType.REFLEXIVE});
 actions.set("exit boat", {action: Action.DEBOARD, type: ActionType.REFLEXIVE});
 actions.set("get out", {action: Action.DEBOARD, type: ActionType.REFLEXIVE});
@@ -471,7 +473,7 @@ actions.set("wind", {action: Action.WIND, type: ActionType.DIRECT});
 actions.set("say", {action: Action.SAY, type: ActionType.SPEAK});
 
 // Indirect actions
-actions.set("attack", {action: Action.ATTACK, type: ActionType.INDIRECT});
+actions.set("attack", {action: Action.ATTACK, type: ActionType.SWITCH});
 actions.set("kill", {action: Action.ATTACK, type: ActionType.INDIRECT});
 actions.set("hit", {action: Action.ATTACK, type: ActionType.INDIRECT});
 actions.set("fight", {action: Action.ATTACK, type: ActionType.INDIRECT});

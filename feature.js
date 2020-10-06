@@ -264,6 +264,32 @@ class Feature extends GameObject {
         }
     }
 
+
+    enter()
+    {
+        switch (this.name)
+        {
+            case "white house":
+            case "kitchen window":
+            {
+                if (state.playerLocation === Location.BEHIND_HOUSE && state.houseWindowOpened)
+                {
+                    relocatePlayer(Location.KITCHEN);
+                }
+
+                else if (!state.houseWindowOpened)
+                {
+                    output(MapStrings.KITCHEN_WINDOW_CLOSED);
+                }
+            } break;
+
+            default:
+            {
+                super.enter();
+            } break;
+        }
+    }
+
     kick()
     {
         switch (this.name)

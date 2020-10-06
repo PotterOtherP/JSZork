@@ -35,7 +35,7 @@ class Actor extends GameObject {
             case "thief":
             case "troll":
             {
-                if (weapon.name === "dummy_feature")
+                if (weapon.name === "dummy_object")
                 {
                     output("Trying to attack the " + this.name + " with your bare hands is suicidal.");
                     return;

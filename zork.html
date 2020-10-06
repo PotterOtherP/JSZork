@@ -148,7 +148,6 @@
             TODO
 
             - Add all action phrases and create list sorted by length
-            - Multiple object parsing
             - Test special cases of multiple takes and drops
             - Fix all that egg stuff
             - Test cyclops stuff
@@ -156,7 +155,6 @@
             - Account for all passages that can be open or closed
             - Determine when the trap door should stop closing after the player
             - Autosaves and restore buttons
-            - Remove non-allowed characters from input
             - Consistent turn updates
 
 
@@ -183,6 +181,7 @@
                 if (randomLog.length < 1)
                 {
                     console.log("Error restoring game: random number log mismatch");
+                    output("Problem detected with save file, recommend deleting.");
                     return 0;
                 }
                 
@@ -231,6 +230,8 @@
 
         function outputLocation(str)
         {
+            if (state.playerInBoat)
+                str += ", in the magic boat";
             document.getElementById("gameLocationArea").innerText = str;
         }
 

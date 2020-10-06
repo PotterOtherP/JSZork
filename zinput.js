@@ -39,7 +39,7 @@ function getMissingInput()
 
     for (let token of actionPhrases)
     {
-        if (startsWith(token, missingInput))
+        if (startsWith(token, missingInput) && token !== "pump")
         {
             state.completePlayerInput = missingInput;
             actionCheck = true;
@@ -112,7 +112,7 @@ function parsePlayerInput()
     // the getMultipleObjects() method is called. If the input
     // can't be parsed, we exit here. If the input CAN be parsed
     // but no objects are in the final list, 
-    let multRE = /,|and|all|everything|except|but|treasure/i;
+    let multRE = /,|\sand\s|\sall\s|everything|except|\sbut\s|treasure/i;
     if (multRE.test(input))
     {
         removeSomeExtraWords();
@@ -232,6 +232,11 @@ function getMultipleObjects()
 {
     
     console.log("Input in detectMultipleObjects(): " + input);
+
+    let checkComma = input.match(/,/);
+    let checkAnd = input.match(/\sand\s/);
+    console.log("checkComma: " + checkComma);
+    console.log("checkAnd: " + checkAnd);
 
     // Identify a container object here and remove it from input
     let cObj = null;
@@ -359,8 +364,10 @@ function getMultipleObjects()
     }
 
     // Player is listing objects
-    else if (input.match(/,|and/g))
+
+    else if (checkComma != null || checkAnd != null)
     {
+
         input = input.replace(/,\s?/g, " ");
         input = input.replace(/\sand\s/g, " ");
 
@@ -387,14 +394,6 @@ function getMultipleObjects()
         }
     }
 
-
-
-    // Remove all non-items from list
-    // for (let [key, obj] of state.multipleObjectList)
-    // {
-    //     if (!obj.isItem())
-    //         state.multipleObjectList.delete(key);
-    // }
     return true;
 }
 

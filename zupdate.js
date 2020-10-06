@@ -42,6 +42,19 @@ function updateGame()
             return;
         } // break;
 
+        case "DELETE":
+        {
+            console.log("Deleting");
+            output("Enter save file name to delete: ");
+
+            inputTextArea.addEventListener("change", deleteInterface);
+            inputTextArea.removeEventListener("change", getPlayerInput);
+
+
+
+            return;
+        } // break;
+
         case "DIAGNOSE":
         {
             if (state.playerDead)
@@ -85,7 +98,7 @@ function updateGame()
 
         case "RESTORE":
         {
-            output("Enter save file name: ")
+            output("Enter save file name: ");
             inputTextArea.removeEventListener("change", getPlayerInput);
             inputTextArea.addEventListener("change", restoreInterface);
             return;
@@ -146,10 +159,7 @@ function updateGame()
 
     currentRoom = worldMap.get(state.playerLocation);
     
-    if (state.playerInBoat)
-        outputLocation(currentRoom.name + ", in the magic boat");
-    else
-        outputLocation(currentRoom.name);
+    outputLocation(currentRoom.name);
 
     currentRoom.lookAround();
 
@@ -252,10 +262,7 @@ function updateStandard()
             {
                 let nextRoom = worldMap.get(state.playerLocation);
 
-                if (state.playerInBoat)
-                    outputLocation(nextRoom.name + ", in the magic boat");
-                else
-                    outputLocation(nextRoom.name);
+                outputLocation(nextRoom.name);
 
                 darknessCheck();
 
@@ -420,7 +427,20 @@ function updateMultiple()
 
     if (state.multipleObjectList.size === 0)
     {
-        output("There is nothing to " + state.actionPhrase + ".");
+        switch (state.playerAction)
+        {
+            case "DROP":
+            case "PUT":
+            case "TAKE":
+            {
+                output("There is nothing to " + state.actionPhrase + ".");
+            } break;
+
+            default:
+            {
+                output("You can't use multiple objects with \"" + state.actionPhrase + "\".");
+            } break;
+        }
         return;
     }
 
@@ -528,7 +548,8 @@ function updateMultiple()
                         if (cObj.name === "machine" && cObj.inventory.size > 0)
                         {
                             line += "There's no more room.";
-                            break;
+                            output(line);
+                            continue;
                         }
 
                         let currentWeight = 0;
@@ -707,10 +728,7 @@ function updateMultiple()
 
     let currentRoom = worldMap.get(state.playerLocation);
     
-    if (state.playerInBoat)
-        outputLocation(currentRoom.name + ", in the magic boat");
-    else
-        outputLocation(currentRoom.name);
+    outputLocation(currentRoom.name);
 
     currentRoom.lookAround();
 

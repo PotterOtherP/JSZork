@@ -417,7 +417,7 @@ const MapStrings = {
 
 
 
-    KITCHEN_WINDOW_CLOSED: "The kitchen window is closed."
+    KITCHEN_WINDOW_CLOSED: "The window is slightly ajar, but not enough to allow entry."
 };
 
 

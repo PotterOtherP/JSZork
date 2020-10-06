@@ -1,7 +1,20 @@
+function deleteInterface()
+{
+    let filename = document.getElementById("inputTextArea").value;
+
+    deleteSaveFromLocalStorage(filename);
+
+    inputTextArea.removeEventListener("change", deleteInterface);
+    inputTextArea.addEventListener("change", getPlayerInput);
+}
+
 function deleteSaveFromLocalStorage(filename)
 {
     let strName = filename + "_strings";
     let randName = filename + "_randoms";
+
+    output("File deleted.");
+    inputTextArea.value = "";
 
     localStorage.removeItem(strName);
     localStorage.removeItem(randName);
