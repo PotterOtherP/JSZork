@@ -186,7 +186,6 @@
                 }
                 
                 let result = randomLog.shift();
-                console.log("Retrieving random: " + result);
 
                 return result;
             }
@@ -335,6 +334,9 @@
 
             startingObjectList.set(obj.name, obj);
         }
+
+        deleteSaveFromLocalStorage("undoSave");
+        deleteSaveFromLocalStorage("autoSave");
     
         refreshInventories();
         fillCurrentObjectList();

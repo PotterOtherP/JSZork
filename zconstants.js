@@ -172,6 +172,7 @@ const Action = {
     SHOUT: "SHOUT",
     STAY: "STAY",
     SUPERBRIEF: "SUPERBRIEF",
+    UNDO: "UNDO",
     VERBOSE: "VERBOSE",
     WAIT: "WAIT",
   
@@ -393,6 +394,7 @@ actions.set("yell",  {action: Action.SHOUT, type: ActionType.REFLEXIVE});
 actions.set("scream",  {action: Action.SHOUT, type: ActionType.REFLEXIVE});
 actions.set("superbrief", {action: Action.SUPERBRIEF, type: ActionType.REFLEXIVE});
 actions.set("pray", {action: Action.PRAY, type: ActionType.REFLEXIVE});
+actions.set("undo", {action: Action.UNDO, type: ActionType.REFLEXIVE});
 actions.set("verbose", {action: Action.VERBOSE, type: ActionType.REFLEXIVE});
 actions.set("wait", {action: Action.WAIT, type: ActionType.REFLEXIVE});
 

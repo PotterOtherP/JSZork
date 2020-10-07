@@ -2,7 +2,24 @@ function deleteInterface()
 {
     let filename = document.getElementById("inputTextArea").value;
 
-    deleteSaveFromLocalStorage(filename);
+    let strName = filename + "_strings";
+    let randName = filename + "_randoms";
+
+    let check1 = localStorage.getItem(strName);
+    let check2 = localStorage.getItem(randName);
+
+    if (check1 !== null || check2 !== null)
+    {
+        deleteSaveFromLocalStorage(filename);
+        output("File deleted.");
+    }
+
+    else
+    {
+        output("File \"" + filename + "\" not found.");
+    }
+
+    inputTextArea.value = "";
 
     inputTextArea.removeEventListener("change", deleteInterface);
     inputTextArea.addEventListener("change", getPlayerInput);
@@ -13,11 +30,23 @@ function deleteSaveFromLocalStorage(filename)
     let strName = filename + "_strings";
     let randName = filename + "_randoms";
 
-    output("File deleted.");
-    inputTextArea.value = "";
+    let check1 = localStorage.getItem(strName);
+    let check2 = localStorage.getItem(randName);
 
-    localStorage.removeItem(strName);
-    localStorage.removeItem(randName);
+    if (check1 !== null || check2 !== null)
+    {
+        console.log("File deleted.");
+
+        localStorage.removeItem(strName);
+        localStorage.removeItem(randName);
+    }
+
+    else
+    {
+        console.log("File \"" + filename + "\" not found.");
+    }
+
+    inputTextArea.value = "";
 
 }
 
@@ -187,6 +216,27 @@ function restoreFromLocalStorage(filename)
 
 }
 
+function saveAuto()
+{
+    let loc = state.playerLocation;
+    let rm = worldMap.get(loc);
+
+    if ( (loc === Location.CELLAR ||
+        loc === Location.SQUEAKY_ROOM ||
+        loc === Location.MAZE_15)
+        && rm.firstVisit )
+    {
+        output("Autosaving...");
+        console.log("Autosaving...");
+
+        if (usingLocalStorage)
+            saveToLocalStorage("autoSave");
+        else
+            saveToGameMemory("autoSave");
+    }
+
+}
+
 
 function saveInterface()
 {
@@ -246,12 +296,21 @@ function saveToLocalStorage(filename)
     let strName = filename + "_strings";
     let randName = filename + "_randoms";
 
-    if (localStorage.getItem(strName) != null || localStorage.getItem(randName) != null)
+    if (localStorage.getItem(strName) !== null || localStorage.getItem(randName) !== null)
     {
+        // output("Overwriting file.");
         deleteSaveFromLocalStorage(filename);
     }
 
     localStorage.setItem(strName, stringLog);
     localStorage.setItem(randName, randomLog);
 
+}
+
+function saveUndo()
+{
+    if (usingLocalStorage)
+            saveToLocalStorage("undoSave");
+    else
+        saveToGameMemory("undoSave");
 }

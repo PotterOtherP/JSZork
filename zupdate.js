@@ -134,10 +134,32 @@ function updateGame()
 
         } // break;
 
+        case "UNDO":
+        {
+            if (state.turns === 0)
+            {
+                output("There is nothing to undo.");
+            }
 
+            else
+            {
+                if (usingLocalStorage)
+                    restoreFromLocalStorage("undoSave");
+                else
+                    restoreFromGameMemory("undoSave");
+            }
+
+            inputTextArea.value = "";
+            previousInputArea.innerText = "";
+
+            return;
+        }
 
         default:
         {
+            saveUndo();
+            saveAuto();
+
             if (state.playerDead)
             {
                 updateDeath();
@@ -423,6 +445,9 @@ function updateStandard()
 
 function updateMultiple()
 {
+    saveUndo();
+    saveAuto();
+
     document.getElementById("gameArea").innerText = "";
 
     if (state.multipleObjectList.size === 0)

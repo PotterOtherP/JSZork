@@ -112,7 +112,7 @@ function parsePlayerInput()
     // the getMultipleObjects() method is called. If the input
     // can't be parsed, we exit here. If the input CAN be parsed
     // but no objects are in the final list, 
-    let multRE = /,|\sand\s|\sall\s|everything|except|\sbut\s|treasure/i;
+    let multRE = /,|\sand\s|all\s|\sall$|^all$|everything|\sexcept\s|\sbut\s|treasure/i;
     if (multRE.test(input))
     {
         removeSomeExtraWords();
