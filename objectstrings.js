@@ -79,7 +79,7 @@ const ObjectStrings = {
     TUBE: "There is an object which looks like a tube of toothpaste here.",
 
 
-    ANCIENT_MAP: "The map shows a forest with three clearings. The largest clearing contains a house."
+    ANCIENT_MAP: "The map shows a forest with three clearings. The largest clearing contains a house. "
         + "Three paths leave the large clearing. One of these paths, leading southwest, is marked \"To Stone Barrow.\"",
     BAT_CEILING: "You can't reach him, he's on the ceiling.",
     BELL_RING_SPIRITS: "The bell suddenly becomes red hot and falls to the ground. The wraiths, "

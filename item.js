@@ -905,9 +905,7 @@ class Item extends GameObject {
         {
             case "golden clockwork canary":
             {
-                let bird = objectList.get("song bird");
-                let bauble = objectList.get("brass bauble");
-                if (bird.altLocations.contains(state.playerLocation) && bauble.location === Location.NULL_LOCATION)
+                if (songbird.altLocations.has(state.playerLocation) && bauble.location === Location.NULL_LOCATION)
                 {
                     output(ObjectStrings.CANARY_WIND_BAUBLE);
                     bauble.location = state.playerLocation;
