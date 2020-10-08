@@ -309,8 +309,10 @@ function saveToLocalStorage(filename)
 
 function saveUndo()
 {
+    if (restoringGame) return;
+
     if (usingLocalStorage)
-            saveToLocalStorage("undoSave");
+        saveToLocalStorage("undoSave");
     else
         saveToGameMemory("undoSave");
 }

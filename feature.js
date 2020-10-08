@@ -272,14 +272,21 @@ class Feature extends GameObject {
             case "white house":
             case "kitchen window":
             {
-                if (state.playerLocation === Location.BEHIND_HOUSE && state.houseWindowOpened)
+                if (state.playerLocation === Location.BEHIND_HOUSE)
                 {
-                    relocatePlayer(Location.KITCHEN);
+                    state.playerAction = Action.WEST;
+                    behindHouse.exit();
                 }
 
-                else if (!state.houseWindowOpened)
+                else if (state.playerLocation === Location.WEST_OF_HOUSE)
                 {
-                    output(MapStrings.KITCHEN_WINDOW_CLOSED);
+                    state.playerAction = Action.EAST;
+                    westOfHouse.exit();
+                }
+
+                else
+                {
+                    super.enter();
                 }
             } break;
 

@@ -139,6 +139,13 @@ function updateGame()
             if (state.turns === 0)
             {
                 output("There is nothing to undo.");
+                return;
+            }
+
+            else if (state.playerPreviousInput === "undo")
+            {
+                output("You cannot undo more than one move at a time.");
+                return;
             }
 
             else
@@ -147,13 +154,14 @@ function updateGame()
                     restoreFromLocalStorage("undoSave");
                 else
                     restoreFromGameMemory("undoSave");
+             
+                inputTextArea.value = "";
+                state.completePlayerInput = "undo";
+                outputPreviousInput(state.completePlayerInput);
+                return;
             }
 
-            inputTextArea.value = "";
-            previousInputArea.innerText = "";
-
-            return;
-        }
+        } // break;
 
         default:
         {

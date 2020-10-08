@@ -1443,6 +1443,7 @@ house.altLocations.add(Location.KITCHEN);
 house.altLocations.add(Location.LIVING_ROOM);
 house.altLocations.add(Location.ATTIC);
 house.examineString = ObjectStrings.HOUSE_EXAMINE;
+house.enterString = "I can't see how to get in from here.";
 
 let houseBoards = new Feature("wooden boards", Location.WEST_OF_HOUSE);
 houseBoards.altNames.add("boards");
