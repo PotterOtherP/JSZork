@@ -389,9 +389,11 @@ function getMultipleObjects()
             }
 
             if (!foundObject)
-                spl = spl.substring(spl.split(" ")[0].length).trim();
+                input = input.substring(input.split(" ")[0].length).trim();
 
         }
+
+        state.multipleObjectList.delete(state.indirectObject.name);
     }
 
     return true;
@@ -604,6 +606,7 @@ function bottleCheck(obj)
 function fillCurrentObjectList()
 {
     currentObjects.clear();
+    ambiguousMap.clear();
 
     // Self object should go here
     currentObjects.set("you", self);
@@ -621,7 +624,12 @@ function fillCurrentObjectList()
             currentObjects.set(g.name, g);
 
             for (let str of g.altNames)
-                currentObjects.set(str, g);
+            {
+                if (currentObjects.has(str))
+                    currentObjects.set(str + "_alt", g);
+                else
+                    currentObjects.set(str, g);
+            }
 
             bottleCheck(g);
         }
@@ -709,7 +717,12 @@ function fillCurrentObjectList()
 
     currentObjectNames = [];
     for (let name of currentObjects.keys())
+    {
         currentObjectNames.push(name);
+
+        // for (let altName of obj.altNames)
+        //     currentObjectNames.push(altName);
+    }
 
     // Bubble sort by length
     for (let x = 0; x < currentObjectNames.length - 1; ++x)

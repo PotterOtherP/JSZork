@@ -57,6 +57,7 @@ class GameState {
         this.potOfGoldAppeared = false;
         this.rainbowSolid = false;
         this.redButtonPushed = false;
+        this.ropeRailTied = false;
         this.sandStage = 0;
         this.scarabFound = false;
         this.shaftBasketLowered = false;

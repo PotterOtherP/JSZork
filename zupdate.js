@@ -1335,10 +1335,14 @@ function breakEgg()
     
 }
 
-
+// Sets playerInDarkness
 function darknessCheck()
 {
     state.lightActivated = false;
+    state.playerInDarkness = false;
+    let currentRoom = worldMap.get(state.playerLocation);
+
+    if (!currentRoom.isDark()) return;
 
     let lightSource1 = objectList.get("brass lantern");
     let lightSource2 = objectList.get("torch");
@@ -1351,20 +1355,26 @@ function darknessCheck()
     {
         let source = lightSources[i];
 
-        if ((source.location === Location.PLAYER_INVENTORY || source.location === state.playerLocation) && source.activated)
+        if (!source.activated) continue;
+
+        if (source.location === Location.PLAYER_INVENTORY || source.location === state.playerLocation)
             state.lightActivated = true;
 
         // If the light source is in an open container in the same room
         for (let g of objectList.values())
         {
-            if (g.isContainer() && g.isOpen() && source.location === g.inventoryID && source.activated)
+            if (g.isContainer() && g.isOpen() && source.location === g.inventoryID)
+                state.lightActivated = true;
+        }
+
+        for (let g of objectList.values())
+        {
+            if (g.isSurface() && source.location === g.inventoryID)
                 state.lightActivated = true;
         }
     }
 
-    let currentRoom = worldMap.get(state.playerLocation);
-
-    state.playerInDarkness = (currentRoom.isDark() && !state.lightActivated);
+    state.playerInDarkness = !state.lightActivated;
 
     if (!state.playerInDarkness)
         state.darknessTurns = 0;

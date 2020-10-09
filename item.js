@@ -751,7 +751,7 @@ class Item extends GameObject {
                 }
 
                 else
-                    output(ringString);
+                    output(this.ringString);
             } break;
 
             default:

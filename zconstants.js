@@ -443,7 +443,6 @@ actions.set("l under", {action: Action.LOOK_UNDER, type: ActionType.DIRECT});
 actions.set("lower", {action: Action.LOWER, type: ActionType.DIRECT});
 actions.set("move", {action: Action.MOVE_OBJECT, type: ActionType.DIRECT});
 actions.set("open", {action: Action.OPEN, type: ActionType.DIRECT});
-actions.set("pour", {action: Action.POUR, type: ActionType.DIRECT});
 actions.set("pull", {action: Action.PULL, type: ActionType.DIRECT});
 actions.set("press", {action: Action.PUSH, type: ActionType.DIRECT});
 actions.set("push", {action: Action.PUSH, type: ActionType.DIRECT});
@@ -486,6 +485,7 @@ actions.set("dig", {action: Action.DIG, type: ActionType.INDIRECT});
 actions.set("dig in", {action: Action.DIG, type: ActionType.INDIRECT});
 actions.set("fill", {action: Action.FILL, type: ActionType.INDIRECT});
 actions.set("inflate", {action: Action.INFLATE, type: ActionType.INDIRECT});
+actions.set("pour", {action: Action.POUR, type: ActionType.INDIRECT});
 actions.set("pump up", {action: Action.INFLATE, type: ActionType.INDIRECT});
 actions.set("pump", {action: Action.INFLATE, type: ActionType.INDIRECT});
 

@@ -11,6 +11,7 @@ const gameNouns = new Set();
 let currentObjectNames = [];
 const actionPhrases = [];
 const objectNameMap = new Map();
+const ambiguousMap = new Map();
 
 for (let phrase of actions.keys())
     actionPhrases.push(phrase);
@@ -1374,7 +1375,6 @@ carpet.takeString = "The rug is extremely heavy and cannot be carried.";
 carpet.altNames.add("carpet");
 carpet.altNames.add("oriental carpet");
 carpet.altNames.add("rug");
-carpet.altNames.add("oriental rug");
 carpet.boardString = ObjectStrings.CARPET_SIT_1;
 carpet.lookUnderString = ObjectStrings.CARPET_LOOK_UNDER;
 
