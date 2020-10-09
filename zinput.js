@@ -458,6 +458,23 @@ function parseDirectObject()
             state.directObjectPhrase = token;
             input = input.substring(token.length).trim();
             missingDirect = false;
+
+            // check for ambiguity
+            let altTok = token + "_alt";
+            if (currentObjectNames.includes(altTok))
+            {
+                console.log("Ambiguous object!");
+                for (let [key, obj] of currentObjects)
+                {
+                    let tokenRE = new RegExp('^' + token);
+                    if (tokenRE.test(key))
+                    {
+                        console.log("Ambiguous object: " + key);
+                        ambiguousMap.set(key, obj);
+                    }
+                }
+            }
+
             return true;
         }
     }
