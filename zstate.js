@@ -42,6 +42,7 @@ class GameState {
         this.houseWindowOpened = false;
         this.carpetMoved = false;
         this.cyclopsGone = false;
+        this.cyclopsShutsTrapDoor = true;
         this.damGatesOpen = false;
         this.damWaterHigh = true;
         this.damWaterLow = false;

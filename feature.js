@@ -944,6 +944,7 @@ class Feature extends GameObject {
                     {
                         output("The grate is unlocked.");
                         state.gratingUnlocked = true;
+                        state.cyclopsShutsTrapDoor = false;
                     }
 
                     else if (state.playerLocation === Location.CLEARING_NORTH)

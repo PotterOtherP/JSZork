@@ -400,6 +400,7 @@ function updateStandard()
         {
             if (state.playerLocation === Location.ALTAR)
             {
+                state.cyclopsShutsTrapDoor = false;
                 relocatePlayer(Location.FOREST_WEST);
             }
 
@@ -420,7 +421,8 @@ function updateStandard()
                 {
                     output(ObjectStrings.CYCLOPS_FLEES);
                     clops.alive = false;
-                    state.cyclopsGone = true;                        
+                    state.cyclopsGone = true;
+                    updateEvents();                        
                 }
 
                 else
@@ -899,6 +901,7 @@ function updateDeath()
                 state.playerLocation = Location.FOREST_WEST;
                 state.playerDead = false;
                 state.playerHitPoints = 1;
+                state.cyclopsShutsTrapDoor = false;
             }
 
             else
@@ -1029,15 +1032,34 @@ function updateEvents()
         cellar_livingroom.closedFail = "You can't go that way.";
     }
 
-    // CYCLOPS GONE
+    // CYCLOPS STATUS
+    
+    if (cyclops.unconscious)
+    {
+        cyclops.presenceString = ObjectStrings.CYCLOPS_SLEEP_1;
+        cyclops_treasure.setOpen();
+    }
+
+    else
+    {
+        state.cyclopsShutsTrapDoor = false;
+        cyclops.presenceString = ObjectStrings.CYCLOPS_2;
+        cyclops_treasure.setClosed();
+    }
+
+    if (!cyclops.alive)
+    {
+        cyclops.presenceString = "";
+        cyclops.location = Location.NULL_LOCATION;
+    }
+
     if (state.cyclopsGone)
     {
+        state.cyclopsShutsTrapDoor = false;
         cyclops.location = Location.NULL_LOCATION;
         cyclops_strange.setOpen();
         cyclops_treasure.setOpen();
         strange_living_room.setOpen();
-        cellar_livingroom.setOpen();
-        cellar_livingroom.message = "";
     }
 
     else
@@ -1045,7 +1067,16 @@ function updateEvents()
         cyclops_strange.setClosed();
         cyclops_treasure.setClosed();
         strange_living_room.setClosed();
-        cellar_livingroom.setClosed();
+    }
+
+    if (state.cyclopsShutsTrapDoor)
+    {
+        cellar_livingroom.message = "The trap door crashes shut, and you hear someone barring it.";
+    }
+
+    else
+    {
+        cellar_livingroom.message = "";
     }
 
     // GAME WON
@@ -1154,9 +1185,16 @@ function updateEvents()
         cellar_livingroom.setClosed();
     }
 
+    // THIEF STATUS
 
-    // TROLL GONE
-    if (troll.alive)
+    if (thief.unconscious)
+    {
+        thief.presenceString = ObjectStrings.THIEF_PRESENT_UNCONSCIOUS;
+    }
+
+
+    // TROLL STATUS
+    if (troll.alive && !troll.unconscious)
     {
         troll_eastwest.setClosed();
         troll_maze.setClosed();
@@ -1164,11 +1202,30 @@ function updateEvents()
         troll_maze.closedFail = ObjectStrings.TROLL_FEND;
     }
 
-    else
+    else if (troll.unconscious)
     {
+        troll.presenceString = ObjectStrings.TROLL_PRESENCE_UNCONSCIOUS;
         troll_eastwest.setOpen();
         troll_maze.setOpen();
+    }
+
+    if (troll.disarmed)
+    {
+        troll.presenceString = ObjectStrings.TROLL_PRESENCE_DISARMED;
+
+    }
+
+    else if (!troll.alive)
+    {
         troll.location = Location.NULL_LOCATION;
+        troll_eastwest.setOpen();
+        troll_maze.setOpen();
+    }
+
+    else
+    {
+        troll.presenceString = ObjectStrings.TROLL_PRESENCE;
+
     }
 
 }

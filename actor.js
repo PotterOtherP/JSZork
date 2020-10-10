@@ -126,6 +126,7 @@ class Actor extends GameObject {
                             this.cyclopsThirsty = false;
                             state.bottleFilled = false;
                             state.indirectObject.location = state.playerLocation;
+                            updateEvents();
                         }
 
                         else if (!this.cyclopsThirsty)
@@ -206,7 +207,8 @@ class Actor extends GameObject {
         if (!this.alive) return;
 
         if (state.playerLocation === Location.CELLAR &&
-            state.playerPreviousLocation === Location.LIVING_ROOM)
+            state.playerPreviousLocation === Location.LIVING_ROOM &&
+            state.cyclopsShutsTrapDoor)
         {
             cellar_livingroom.setClosed();
             state.trapDoorOpen = false;
@@ -1124,6 +1126,8 @@ class Actor extends GameObject {
                 this.thiefItemsHidden = true;
             }
 
+            treasureRoom.lookAround();
+
             // Attack without pity!
             this.thiefAttacks();
 
@@ -1432,11 +1436,6 @@ class Actor extends GameObject {
         if (axe.location !== Location.TROLL_INVENTORY)
             this.disarmed = true;
 
-
-        if (this.disarmed) this.presenceString = ObjectStrings.TROLL_PRESENCE_DISARMED;
-        else if (this.unconscious) this.presenceString = ObjectStrings.TROLL_PRESENCE_UNCONSCIOUS;
-        else this.presenceString = ObjectStrings.TROLL_PRESENCE;
-
         troll_eastwest.setClosed();
         troll_maze.setClosed();
         troll_eastwest.closedFail = ObjectStrings.TROLL_FEND;
@@ -1519,7 +1518,8 @@ class Actor extends GameObject {
                 return;
             }
 
-            if (this.unconscious)
+            // The troll will only regain consciousness if the player is there.
+            if (this.unconscious && state.playerLocation === Location.TROLL_ROOM)
             {
                 let check = getRandom(3);
 

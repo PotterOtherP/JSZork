@@ -162,6 +162,12 @@ class Room {
                     result += "\nThere is an open grating, descending into darkness.";
             } break;
 
+            case "CYCLOPS_ROOM":
+            {
+                if (state.cyclopsGone)
+                    result += "[The east wall, previously solid, now has a cyclops-sized opening in it.]";
+            } break;
+
             case "DAM":
             {
                 if (state.damGatesOpen && state.damWaterHigh)

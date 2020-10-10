@@ -857,6 +857,7 @@ class Item extends GameObject {
                     if (!state.rainbowSolid)
                     {
                         state.rainbowSolid = true;
+                        state.cyclopsShutsTrapDoor = false;
                         output(ObjectStrings.SCEPTRE_RAINBOW);
                         rainbow_end.setOpen();
                         falls_rainbow.setOpen();

@@ -524,14 +524,12 @@ function ambiguityInterface()
     gameArea.innerText = "";
     let token = state.ambiguousPhrase;
     let newToken = document.getElementById("inputTextArea").value;
-    console.log("New token: " + newToken);
     newToken = newToken.trim().toLowerCase();
     outputPreviousInput(newToken);
 
     let tokenRE = new RegExp(token);
 
     state.completePlayerInput = state.completePlayerInput.replace(tokenRE, newToken);
-    console.log("Non-ambiguous input: " + state.completePlayerInput);
 
     inputTextArea.removeEventListener("change", ambiguityInterface);
     inputTextArea.addEventListener("change", getPlayerInput);
