@@ -411,6 +411,7 @@ actions.set("brush", {action: Action.BRUSH, type: ActionType.DIRECT});
 actions.set("climb", {action: Action.CLIMB, type: ActionType.DIRECT});
 actions.set("climb up", {action: Action.CLIMB, type: ActionType.DIRECT});
 actions.set("close", {action: Action.CLOSE, type: ActionType.DIRECT});
+actions.set("shut", {action: Action.CLOSE, type: ActionType.DIRECT});
 actions.set("count", {action: Action.COUNT, type: ActionType.DIRECT});
 actions.set("cross", {action: Action.CROSS, type: ActionType.DIRECT});
 actions.set("deflate", {action: Action.DEFLATE, type: ActionType.DIRECT});

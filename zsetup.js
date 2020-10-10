@@ -1222,6 +1222,7 @@ inflatedBoat.itemOpen = true;
 
 let knife = new Item("nasty knife", Location.ATTIC);
 knife.altNames.add("knife");
+knife.altNames.add("nasty");
 knife.initialPresenceString = ObjectStrings.INIT_NASTY_KNIFE;
 knife.weight = KNIFE_WEIGHT;
 
@@ -1281,6 +1282,7 @@ rope.weight = ROPE_WEIGHT;
 
 let rustyKnife = new Item("rusty knife", Location.MAZE_5);
 rustyKnife.altNames.add("knife");
+rustyKnife.altNames.add("rusty");
 rustyKnife.initialPresenceString = ObjectStrings.INIT_RUSTY_KNIFE;
 rustyKnife.weight = RUSTY_KNIFE_WEIGHT;
 
@@ -1332,6 +1334,9 @@ tube.capacity = 7;
 
 let uselessLantern = new Item("useless lantern", Location.MAZE_5);
 uselessLantern.altNames.add("lantern");
+uselessLantern.altNames.add("lamp");
+uselessLantern.altNames.add("useless");
+uselessLantern.altNames.add("useless lamp");
 uselessLantern.initialPresenceString = ObjectStrings.INIT_USELESS;
 uselessLantern.weight = USELESS_LANTERN_WEIGHT;
 
@@ -1582,6 +1587,7 @@ water.altNames.add("water");
 
 let woodenDoor = new Feature("wooden door", Location.LIVING_ROOM);
 woodenDoor.altNames.add("door");
+woodenDoor.altNames.add("wooden");
 woodenDoor.altNames.add("letters");
 woodenDoor.altNames.add("lettering");
 woodenDoor.openString = "The door cannot be opened.";

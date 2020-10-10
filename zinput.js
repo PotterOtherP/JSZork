@@ -112,7 +112,7 @@ function parsePlayerInput()
     // the getMultipleObjects() method is called. If the input
     // can't be parsed, we exit here. If the input CAN be parsed
     // but no objects are in the final list, 
-    let multRE = /,|\sand\s|all\s|\sall$|^all$|everything|\sexcept\s|\sbut\s|treasure/i;
+    let multRE = /,|\sand\s|\sall\s|\sall$|^all$|everything|\sexcept\s|\sbut\s|treasure/i;
     if (multRE.test(input))
     {
         removeSomeExtraWords();
@@ -457,23 +457,11 @@ function parseDirectObject()
             state.directObject = currentObjects.get(token);
             state.directObjectPhrase = token;
             input = input.substring(token.length).trim();
-            missingDirect = false;
 
             // check for ambiguity
-            let altTok = token + "_alt";
-            if (currentObjectNames.includes(altTok))
-            {
-                console.log("Ambiguous object!");
-                for (let [key, obj] of currentObjects)
-                {
-                    let tokenRE = new RegExp('^' + token);
-                    if (tokenRE.test(key))
-                    {
-                        console.log("Ambiguous object: " + key);
-                        ambiguousMap.set(key, obj);
-                    }
-                }
-            }
+
+            if (ambiguityCheck(token))
+                return false;
 
             return true;
         }
@@ -493,6 +481,62 @@ function parseDirectObject()
 
     return false;
 
+}
+
+function ambiguityCheck(token)
+{
+    let altTok = token + "_alt";
+    if (currentObjectNames.includes(altTok))
+    {
+        state.ambiguousPhrase = token;
+        let tokenRE = new RegExp('^' + token);
+        for (let [key, obj] of currentObjects)
+        {
+            if (tokenRE.test(key))
+            {
+                ambiguousMap.set(key, obj);
+            }
+        }
+
+        let ambigStr = "Which " + token + " do you mean: ";
+        for (let amObj of ambiguousMap.values())
+        {
+            ambigStr += "the " + amObj.name + ", ";
+        }
+
+        ambigStr = ambigStr.replace(/,\s$/, "?");
+        ambigStr = ambigStr.replace(/,(.*$)/, " or $1");
+
+        output(ambigStr);
+
+        inputTextArea.innerText = "";
+        inputTextArea.removeEventListener("change", getPlayerInput);
+        inputTextArea.addEventListener("change", ambiguityInterface);
+
+        return true;
+    }
+
+    return false;
+}
+
+function ambiguityInterface()
+{
+    gameArea.innerText = "";
+    let token = state.ambiguousPhrase;
+    let newToken = document.getElementById("inputTextArea").value;
+    console.log("New token: " + newToken);
+    newToken = newToken.trim().toLowerCase();
+    outputPreviousInput(newToken);
+
+    let tokenRE = new RegExp(token);
+
+    state.completePlayerInput = state.completePlayerInput.replace(tokenRE, newToken);
+    console.log("Non-ambiguous input: " + state.completePlayerInput);
+
+    inputTextArea.removeEventListener("change", ambiguityInterface);
+    inputTextArea.addEventListener("change", getPlayerInput);
+
+    parsePlayerInput();
 }
 
 
@@ -517,6 +561,10 @@ function parseIndirectObject()
             state.indirectObject = currentObjects.get(token);
             state.indirectObjectPhrase = token;
             input = input.substring(token.length).trim();
+
+            if (ambiguityCheck(token))
+                return false;
+
             return true;
         }
     }
@@ -932,6 +980,12 @@ function specialInputCheck()
             default: {} break;
         }
 
+        return true;
+    }
+
+    if (/fuck|shit|damn|hell|ass/.test(input))
+    {
+        output("Such language in a high-class establishment like this!");
         return true;
     }
 

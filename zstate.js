@@ -34,6 +34,7 @@ class GameState {
         this.previousDirectObject = null;
         this.indirectObject = null;
         this.multipleObjectList = new Map();
+        this.ambiguousPhrase = "";
 
         // game events
         this.blueButtonPushed = false;
@@ -97,6 +98,7 @@ class GameState {
         this.directObject = dummyObject;
         this.indirectObject = dummyObject;
         this.multipleObjectList.clear();
+        this.ambiguousPhrase = "";
     }
 
 
