@@ -1228,6 +1228,17 @@ function updateEvents()
 
     }
 
+    // YELLOW BUTTON
+    if (state.yellowButtonPushed)
+    {
+        damBubble.examineString = "The bubble is lit with a serene green glow.";
+    }
+
+    else
+    {
+        damBubble.examineString = "The green bubble is dark and lifeless.";
+    }
+
 }
 
 

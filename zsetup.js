@@ -1392,6 +1392,12 @@ coalMachine.takeString = "It is far too large to carry.";
 let coalMachineSwitch = new Feature("switch", Location.MACHINE_ROOM);
 
 let damBolt = new Feature("bolt", Location.DAM);
+damBolt.takeString = "It is an integral part of the control panel.";
+
+let damBubble = new Feature("green bubble", Location.DAM);
+damBubble.altNames.add("bubble");
+damBubble.takeString = "It is an integral part of the control panel.";
+damBubble.examineString = "The green bubble is dark and lifeless.";
 
 let deadGate = new Feature("gate", Location.ENTRANCE_TO_HADES);
 deadGate.altLocations.add(Location.LAND_OF_THE_DEAD);
@@ -1583,6 +1589,7 @@ vitreousSlag.altNames.add("vitreous slag");
 vitreousSlag.altNames.add("slag");
 
 let water = new Feature("quantity of water", Location.NULL_LOCATION);
+water.altNames.add("quanitity");
 water.altNames.add("water");
 
 let woodenDoor = new Feature("wooden door", Location.LIVING_ROOM);
@@ -1748,6 +1755,7 @@ objectList.set(carpet.name, carpet);
 objectList.set(coalMachine.name, coalMachine);
 objectList.set(coalMachineSwitch.name, coalMachineSwitch);
 objectList.set(damBolt.name, damBolt);
+objectList.set(damBubble.name, damBubble);
 objectList.set(deadGate.name, deadGate);
 objectList.set(engravings.name, engravings);
 objectList.set(forest.name, forest);
