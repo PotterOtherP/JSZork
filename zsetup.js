@@ -1581,6 +1581,7 @@ let trophyCase = new Container("trophy case", Location.LIVING_ROOM);
 trophyCase.altNames.add("case");
 trophyCase.inventoryID = Location.INSIDE_TROPHY_CASE;
 trophyCase.capacity = 10000;
+trophyCase.takeString = "The trophy case is securely fastened to the wall.";
 
 let vitreousSlag = new Item("small piece of vitreous slag", Location.NULL_LOCATION);
 vitreousSlag.altNames.add("piece of vitreous slag");

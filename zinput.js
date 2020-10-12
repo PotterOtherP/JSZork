@@ -925,7 +925,7 @@ function removeUnwantedMultiples()
     "brown button", "current", "door", 
     "engravings", "flood", "flow", "forest", "gas", "glow", "grating", "green bubble", "kitchen table", 
     "kitchen window", "machine", "mirror", "mountains", "pedestal", "quantity of water", "rainbow", "red button", 
-    "reservoir water", "river water", "sand", "song bird", "spirits", "stream water", "trap door", "trophy case",
+    "reservoir water", "river water", "sand", "song bird", "spirits", "stream water", "trap door",
     "white house", "wooden boards", "wooden door", "wooden railing", "yellow button", "you"];
 
     for (let name of names)
@@ -985,11 +985,15 @@ function specialInputCheck()
         return true;
     }
 
-    if (/fuck|shit|damn|hell|ass/.test(input))
+    input = " " + input + " ";
+
+    if (/\sfuck\s|\sshit\s|\sdamn\s|\shell\s|\sass\s/.test(input))
     {
         output("Such language in a high-class establishment like this!");
         return true;
     }
+
+    input = input.trim();
 
     if (input === "help")
     {

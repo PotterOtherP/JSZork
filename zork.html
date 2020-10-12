@@ -122,8 +122,14 @@
         <h2>Zork I: The Great Underground Empire - A Complete Re-Creation</h2>
         <p>This classic game, the first of a franchise developed by Infocom, was very popular in the 1980's. It is a
            text-based interactive fiction game, in which the player navigates the game
-           world by entering typed commands. <br><br> The goal of this project is to reconstruct the game
-           from scratch, with all new source code written in JavaScript.</p>
+           world by entering typed commands.
+           <br><br>
+           The goal of this project is to reconstruct the game
+           from scratch, with all new source code written in JavaScript.
+           <br><br>
+           For the intrepid adventurer who seeks the great Underground, countless wonders await: trolls, thieves, 
+           treasures galore, quantities of water, piles of plastic, unknown viscous materials, and small chunks of vitreous slag.
+           Your journey begins here!</p>
         <div id="gameHeaderArea" class="gameTextArea">
             <div id="gameLocationArea"></div>
             <div id="gameStatsArea">
@@ -335,7 +341,7 @@
         }
 
         deleteSaveFromLocalStorage("undoSave");
-        deleteSaveFromLocalStorage("autoSave");
+        // deleteSaveFromLocalStorage("autoSave");
     
         refreshInventories();
         fillCurrentObjectList();

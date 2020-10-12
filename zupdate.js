@@ -80,6 +80,7 @@ function updateGame()
 
         case "LOOK":
         {
+            output("You inspect your surroundings.");
             currentRoom.lookAround();
             return;
         } // break;
@@ -87,7 +88,8 @@ function updateGame()
         case "QUIT":
         {
             output("To quit, simply leave the page. To restart, enter \"restart\" or click the Restart button.");
-        } break;
+            return;
+        } // break;
 
         case "RESTART":
         {
@@ -166,7 +168,7 @@ function updateGame()
         default:
         {
             saveUndo();
-            saveAuto();
+            // saveAuto();
 
             if (state.playerDead)
             {
@@ -456,7 +458,7 @@ function updateStandard()
 function updateMultiple()
 {
     saveUndo();
-    saveAuto();
+    // saveAuto();
 
     document.getElementById("gameArea").innerText = "";
 

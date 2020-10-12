@@ -2,6 +2,8 @@ const noEffect1 = " doesn't seem to work.";
 const noEffect2 = " has no effect.";
 const noEffect3 = " isn't notably helpful.";
 
+const noEffect = [noEffect1, noEffect2, noEffect3];
+
 class GameObject {
 
 
@@ -344,7 +346,7 @@ class GameObject {
     {
         let i = Math.floor(Math.random() * 3);
 
-        return this.noEffect[i];
+        return noEffect[i];
 
 
     }
