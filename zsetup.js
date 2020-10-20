@@ -1801,15 +1801,32 @@ objectList.set(thief.name, thief);
 objectList.set(troll.name, troll);
 objectList.set(vampireBat.name, vampireBat);
 
-for (let [key, obj] of objectList)
+function createObjectNameMap()
 {
-    objectNameMap.set(key, obj);
+    objectNameMap.clear();
 
-    for (let name of obj.altNames)
+    for (let [key, obj] of objectList)
     {
-        objectNameMap.set(name, obj);
+        objectNameMap.set(key, obj);
+
+        for (let name of obj.altNames)
+        {
+            objectNameMap.set(name, obj);
+        }
     }
+
+    objectNameMap.set("lamp", lantern);
+    objectNameMap.set("lantern", lantern);
+    objectNameMap.set("book", blackBook);
+    objectNameMap.set("brass bell", bell);
+    objectNameMap.set("bell", bell);
+
 }
+
+
+createObjectNameMap();
+
+
 
 
 function fillDictionary()

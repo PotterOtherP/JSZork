@@ -84,6 +84,8 @@ function restart()
     outputLocation(westOfHouse.name);
     outputTurns(state.turns);
     westOfHouse.lookAround();
+    let mobMarkup = document.getElementById("descriptionArea").innerHTML;
+    document.getElementById("zorkMobileOutputArea").innerHTML = mobMarkup;
 
 }
 

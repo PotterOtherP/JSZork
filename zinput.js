@@ -230,6 +230,36 @@ function parsePlayerInput()
 
 function getMultipleObjects()
 {
+    createObjectNameMap();
+
+    // In which we deal with ambiguous objects one by one.
+
+    let condition = (hotBell.location === state.playerLocation);
+
+    if (condition)
+    {
+        objectNameMap.set("bell", hotBell);
+        objectNameMap.set("brass bell", hotBell);
+    }
+
+    condition = (currentObjectNames.includes("useless lantern") &&
+                 !currentObjectNames.includes("brass lantern"));
+
+    if (condition)
+    {
+        objectNameMap.set("lamp", uselessLantern);
+        objectNameMap.set("lantern", uselessLantern);
+    }
+
+    condition = (currentObjectNames.includes("guidebook") &&
+                 !currentObjectNames.includes("black book"));
+
+    if (condition)
+    {
+        objectNameMap.set("book", guidebook);
+    }
+
+
     
     console.log("Input in detectMultipleObjects(): " + input);
 

@@ -82,6 +82,8 @@ function updateGame()
         {
             output("You inspect your surroundings.");
             currentRoom.lookAround();
+            let mobMarkup = document.getElementById("descriptionArea").innerHTML;
+            document.getElementById("zorkMobileOutputArea").innerHTML = mobMarkup;
             return;
         } // break;
 
@@ -322,6 +324,8 @@ function updateStandard()
                 }
 
                 nextRoom.lookAround();
+                let mobMarkup = document.getElementById("descriptionArea").innerHTML;
+                document.getElementById("zorkMobileOutputArea").innerHTML = mobMarkup;
 
                 if (nextRoom.firstVisit)
                     nextRoom.firstVisit = false;
@@ -854,6 +858,8 @@ function updateDarkness()
                 }
 
                 nextRoom.lookAround();
+                let mobMarkup = document.getElementById("descriptionArea").innerHTML;
+                document.getElementById("zorkMobileOutputArea").innerHTML = mobMarkup;
 
                 if (nextRoom.firstVisit)
                     nextRoom.firstVisit = false;
@@ -899,11 +905,11 @@ function updateDeath()
             if (state.playerLocation === Location.ALTAR)
             {
                 output(GameStrings.DEAD_PRAY_ALTAR);
-                state.playerPreviousLocation = state.playerLocation;
-                state.playerLocation = Location.FOREST_WEST;
                 state.playerDead = false;
                 state.playerHitPoints = 1;
                 state.cyclopsShutsTrapDoor = false;
+
+                relocatePlayer(Location.FOREST_WEST);
             }
 
             else
@@ -967,10 +973,17 @@ function updateDeath()
                     state.playerLocation = Location.TORCH_ROOM;
                     output("\n");
                     torchRoom.lookAround();
+                    let mobMarkup = document.getElementById("descriptionArea").innerHTML;
+                    document.getElementById("zorkMobileOutputArea").innerHTML = mobMarkup;
+
+
                     return;
                 }
 
                 nextRoom.lookAround();
+                let mobMarkup = document.getElementById("descriptionArea").innerHTML;
+                document.getElementById("zorkMobileOutputArea").innerHTML = mobMarkup;
+
 
                 if (nextRoom.firstVisit)
                     nextRoom.firstVisit = false;
@@ -1038,13 +1051,14 @@ function updateEvents()
     
     if (cyclops.unconscious)
     {
+        state.cyclopsShutsTrapDoor = false;
         cyclops.presenceString = ObjectStrings.CYCLOPS_SLEEP_1;
         cyclops_treasure.setOpen();
     }
 
     else
     {
-        state.cyclopsShutsTrapDoor = false;
+        state.cyclopsShutsTrapDoor = true;
         cyclops.presenceString = ObjectStrings.CYCLOPS_2;
         cyclops_treasure.setClosed();
     }
@@ -1521,12 +1535,11 @@ function playerDies()
         output(GameStrings.PLAYER_DIES);
         output("\n");
 
-        state.playerPreviousLocation = state.playerLocation;
-        state.playerLocation = FOREST[getRandom(FOREST.length)];
         state.playerHitPoints = MAX_HIT_POINTS;
-        darknessCheck();
-        worldMap.get(state.playerLocation).lookAround();
-        outputLocation(worldMap.get(state.playerLocation).name);
+
+        let landingSpot = FOREST[getRandom(FOREST.length)];
+
+        relocatePlayer(landingSpot);
     }
 
 }
@@ -1538,10 +1551,10 @@ function playerDiesForReal()
 
     state.playerDead = true;
 
-    outputLocation(entranceToHades.name);
     output(GameStrings.PLAYER_DIES_FOR_REAL);
     output(GameStrings.DEAD_LOOK);
-    output(entranceToHades.description);
+
+    relocatePlayer(Location.ENTRANCE_TO_HADES);
 
 }
 
