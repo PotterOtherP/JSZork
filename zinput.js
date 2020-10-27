@@ -68,23 +68,24 @@ function getPlayerInput()
 {
     input = "";
 
-    document.getElementById("gameArea").innerText = "";
+    document.getElementById("gameArea").innerHTML = "";
     console.clear();
 
     state.resetInput();
 
     let rawInput = inputTextArea.value;
-    console.log("Raw input: " + rawInput);
+    // console.log("Raw input: " + rawInput);
     
     let processedInput = processRawInput(rawInput);
 
-    console.log("Processed input: " + processedInput);
+    // console.log("Processed input: " + processedInput);
 
 
     if (isEmpty(processedInput)) return;
     outputPreviousInput(rawInput);
     state.completePlayerInput = processedInput;
     parsePlayerInput();
+    outputMobile();
 
 }
 
@@ -261,12 +262,12 @@ function getMultipleObjects()
 
 
     
-    console.log("Input in detectMultipleObjects(): " + input);
+    // console.log("Input in detectMultipleObjects(): " + input);
 
     let checkComma = input.match(/,/);
     let checkAnd = input.match(/\sand\s/);
-    console.log("checkComma: " + checkComma);
-    console.log("checkAnd: " + checkAnd);
+    // console.log("checkComma: " + checkComma);
+    // console.log("checkAnd: " + checkAnd);
 
     // Identify a container object here and remove it from input
     let cObj = null;
@@ -274,7 +275,7 @@ function getMultipleObjects()
     {
         let res = input.split(/in\s|on\s/)[1];
 
-        console.log("Finding container: " + res);
+        // console.log("Finding container: " + res);
 
         for (let [token, obj] of objectList)
         {
@@ -353,7 +354,7 @@ function getMultipleObjects()
             spl = spl.replace(/\sand\s/g, " ");
             spl = spl.replace(/\sor\s/g, " ");
 
-            console.log("spl: " + spl);
+            // console.log("spl: " + spl);
 
             let foundObject = false;
             while (!isEmpty(spl))
@@ -434,7 +435,7 @@ function getMultipleObjects()
 // extracted from the input string.
 function parseAction()
 {
-    console.log("parseAction phrase: " + input);
+    // console.log("parseAction phrase: " + input);
 
     for (let token of actionPhrases)
     {
@@ -478,7 +479,7 @@ function parseDirectObject()
         input = input.trim();
     }
 
-    console.log("parseDirectObject phrase: " + input);
+    // console.log("parseDirectObject phrase: " + input);
 
     for (let token of currentObjectNames)
     {
@@ -570,7 +571,7 @@ function ambiguityInterface()
 
 function parseIndirectObject()
 {
-    console.log("parseIndirectObject phrase: " + input);
+    // console.log("parseIndirectObject phrase: " + input);
 
     if (isEmpty(input))
     {
@@ -621,7 +622,7 @@ function parseIndirectObject()
 // Clears player input text area 
 function exitInput()
 {
-    printDebugInfo();
+    // printDebugInfo();
 
     updateEvents();
     refreshInventories();
@@ -706,6 +707,29 @@ function fillCurrentObjectList()
     currentObjects.set("me", self);
     currentObjects.set("myself", self);
     currentObjects.set("self", self);
+    currentObjects.set("ground", ground);
+    currentObjects.set("floor", ground);
+    currentObjects.set("air", air);
+    currentObjects.set("sky", air);
+
+    switch (state.playerLocation)
+    {
+        case "FRIGID_RIVER_1":
+        case "FRIGID_RIVER_2":
+        case "FRIGID_RIVER_3":
+        case "FRIGID_RIVER_4":
+        case "FRIGID_RIVER_5":
+        case "ON_THE_RAINBOW":
+        case "RESERVOIR":
+        case "STREAM":
+        case "UP_TREE":
+        {
+            currentObjects.delete("ground");
+            currentObjects.delete("floor");
+        } break;
+
+        default: {} break;
+    }
 
     for (let g of objectList.values())
     {
@@ -871,7 +895,7 @@ function loudRoomCheck(input)
             return true;
         }
 
-        console.log("Loud room input: " + input);
+        // console.log("Loud room input: " + input);
 
         let words = state.completePlayerInput.trim().split(" ");
         let lastWord = words[words.length - 1];
@@ -951,11 +975,12 @@ function removeSomeExtraWords()
 
 function removeUnwantedMultiples()
 {
-    let names = [ "altar", "attic table", "basket", "blue button", "boarded window", "broken mirror",
+    let names = [ "air", "altar", "attic table", "basket", "blue button", "boarded window", "broken mirror",
     "brown button", "current", "door", 
-    "engravings", "flood", "flow", "forest", "gas", "glow", "grating", "green bubble", "kitchen table", 
+    "engravings", "flood", "floor", "flow", "forest", "gas", "glow", "grating", "ground",
+    "green bubble", "kitchen table", 
     "kitchen window", "machine", "mirror", "mountains", "pedestal", "quantity of water", "rainbow", "red button", 
-    "reservoir water", "river water", "sand", "song bird", "spirits", "stream water", "trap door",
+    "reservoir water", "river water", "sand", "sky", "song bird", "spirits", "stream water", "trap door",
     "white house", "wooden boards", "wooden door", "wooden railing", "yellow button", "you"];
 
     for (let name of names)
@@ -1125,7 +1150,7 @@ function validateAction()
                         output("You're not carrying the " + dirObj.name + ".");
                         exitInput();
                         return false;
-                    } break;
+                    } // break;
                 }
             }
 
@@ -1136,9 +1161,43 @@ function validateAction()
         {
             if (indObj.isItem() && indObj.location !== Location.PLAYER_INVENTORY)
             {
-                output("You're not carrying the " + indObj.name + ".");
-                exitInput();
-                return false;
+                switch (act)
+                {
+                    case "THROW":
+                    {
+
+                    } break;
+
+                    default:
+                    {
+                        output("You're not carrying the " + indObj.name + ".");
+                        exitInput();
+                        return false;
+                    } // break;
+                }
+                
+            }
+
+            if (dirObj.isItem() && dirObj.location !== Location.PLAYER_INVENTORY)
+            {
+                switch (act)
+                {
+                    case "BREAK":
+                    case "BURN":
+                    case "CUT":
+                    case "INFLATE":
+                    {
+
+                    } break;
+
+                    default:
+                    {
+                        output("You're not carrying the " + dirObj.name + ".");
+                        exitInput();
+                        return false;
+                    } // break;
+                }
+                
             }
         } break;
 

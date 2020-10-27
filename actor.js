@@ -370,7 +370,7 @@ class Actor extends GameObject {
                 {
                     output(MapStrings.RESERVOIR_EMPTIES_BOAT);
                     output("\n");
-                    relocatePlayer(Location.RESERVOIR_EMPTY);
+                    relocatePlayerNoClear(Location.RESERVOIR_EMPTY);
                 }
 
                 if (state.playerLocation === Location.DEEP_CANYON)
@@ -590,25 +590,25 @@ class Actor extends GameObject {
                 case "FRIGID_RIVER_1":
                 {
                     output("\nThe flow of the river carries you downstream.\n");
-                    relocatePlayer(Location.FRIGID_RIVER_2);
+                    relocatePlayerNoClear(Location.FRIGID_RIVER_2);
                 } break;
 
                 case "FRIGID_RIVER_2":
                 {
                     output("\nThe flow of the river carries you downstream.\n");
-                    relocatePlayer(Location.FRIGID_RIVER_3);
+                    relocatePlayerNoClear(Location.FRIGID_RIVER_3);
                 } break;
 
                 case "FRIGID_RIVER_3":
                 {
                     output("\nThe flow of the river carries you downstream.\n");
-                    relocatePlayer(Location.FRIGID_RIVER_4);
+                    relocatePlayerNoClear(Location.FRIGID_RIVER_4);
                 } break;
 
                 case "FRIGID_RIVER_4":
                 {
                     output("\nThe flow of the river carries you downstream.\n");
-                    relocatePlayer(Location.FRIGID_RIVER_5);
+                    relocatePlayerNoClear(Location.FRIGID_RIVER_5);
                 } break;
 
                 case "FRIGID_RIVER_5":
@@ -1394,7 +1394,7 @@ class Actor extends GameObject {
 
     trollDies()
     {
-        console.log("trollDies() called");
+        // console.log("trollDies() called");
         this.alive = false;
 
         for (let it of this.inventory)
@@ -1443,6 +1443,8 @@ class Actor extends GameObject {
 
         if (this.location === state.playerLocation)
         {
+            outputFirst(this.presenceString);
+
             let misses = [ ObjectStrings.TROLL_FIGHT_MISS_1, ObjectStrings.TROLL_FIGHT_MISS_2, ObjectStrings.TROLL_FIGHT_MISS_3,
                 ObjectStrings.TROLL_FIGHT_MISS_4, ObjectStrings.TROLL_FIGHT_MISS_5 ];
             let lightBlows = [ ObjectStrings.TROLL_FIGHT_LIGHT_1, ObjectStrings.TROLL_FIGHT_LIGHT_2, ObjectStrings.TROLL_FIGHT_LIGHT_3,
@@ -1653,18 +1655,20 @@ class Actor extends GameObject {
 
             if (state.playerLocation == Location.BAT_ROOM)
             {
+                output(this.presenceString);
+
                 // Let's give the player a 1 in 10 chance of making it back to the squeaky room.
                 let chance = getRandom(10);
 
                 if (chance === 0)
                 {
-                    relocatePlayer(Location.SQUEAKY_ROOM);
+                    relocatePlayerNoClear(Location.SQUEAKY_ROOM);
                 }
 
                 else
                 {
                     let dieRoll = getRandom(COAL_MINE.length);
-                    relocatePlayer(COAL_MINE[dieRoll]);
+                    relocatePlayerNoClear(COAL_MINE[dieRoll]);
                 }
             }
             

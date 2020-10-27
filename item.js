@@ -16,6 +16,24 @@ class Item extends GameObject {
         this.weight = 0;
     }
 
+
+    blow()
+    {
+        switch (this.name)
+        {
+            case "matchbook":
+            case "pair of candles":
+            {
+                this.extinguish();
+            } break;
+
+            default:
+            {
+                super.blow();
+            } break;
+        }
+    }
+
     board()
     {
         switch (this.name)
@@ -61,6 +79,203 @@ class Item extends GameObject {
             default:
             {
                 super.board();
+            } break;
+        }
+    }
+
+    breakObject()
+    {
+        switch (this.name)
+        {
+            case "golden clockwork canary":
+            {
+                output("You briefly consider breaking the canary, but then remember "
+                    + "all the trouble you went through to acquire it, and change your mind.");
+            } break;
+
+            case "glass bottle":
+            {
+                if (state.indirectObject.name === "elvish sword")
+                {
+                    output("A brilliant maneuver destroys the bottle.");
+
+                    if (state.bottleFilled)
+                        output("The water spills to the floor and evaporates.");
+
+                    this.location = Location.NULL_LOCATION;
+                }
+
+                else
+                {
+                    super.breakObject();
+                }
+            } break;
+
+            case "jewel-encrusted egg":
+            {
+                switch (state.indirectObject.name)
+                {
+                    case "altar":
+                    case "bloody axe":
+                    case "brass bell":
+                    case "brass lantern":
+                    case "broken timber":
+                    case "crystal skull":
+                    case "crystal trident":
+                    case "elvish sword":
+                    case "glass bottle":
+                    case "gold coffin":
+                    case "ground":
+                    case "jade figurine":
+                    case "nasty knife":
+                    case "pedestal":
+                    case "platinum bar":
+                    case "rusty knife":
+                    case "sceptre":
+                    case "screwdriver":
+                    case "shovel":
+                    case "stiletto":
+                    case "trunk of jewels":
+                    case "useless lantern":
+                    case "white house":
+                    case "wrench":
+                    {
+                        output("Your rather indelicate handling of the egg has caused it some damage, "
+                                    + "although you have succeeded in opening it.");
+                        breakEgg();
+
+                    } break;
+
+                    default:
+                    {
+                        super.breakObject();
+                    } break;
+                }
+            } break;
+
+            case "painting":
+            {
+                switch (state.indirectObject.name)
+                {
+                    case "elvish sword":
+                    case "bloody axe":
+                    case "nasty knife":
+                    case "rusty knife":
+                    case "stiletto":
+                    case "sceptre":
+                    {
+                        output("Congratulations! Unlike the other vandals, who merely stole the artist's masterpieces, "
+                            + "you have destroyed one.");
+                        painting.location = Location.NULL_LOCATION;
+                        ruinedPainting.location = state.playerLocation;
+                    } break;
+
+                    default:
+                    {
+                        super.breakObject();
+                    }
+                }
+
+            } break;
+
+            default:
+            {
+                super.breakObject();
+            } break;
+        }
+    }
+
+
+    burn()
+    {
+        switch (state.indirectObject.name)
+        {
+            case "torch":
+            case "pair of candles":
+            case "matchbook":
+            {
+                if (!state.indirectObject.activated)
+                {
+                    super.burn();
+                    return;
+                }
+            } break;
+
+            default:
+            {
+                super.burn();
+                return;
+            } // break;
+        }
+
+        switch (this.name)
+        {
+            case "leaflet":
+            case "painting":
+            case "ruined painting":
+            case "ancient map":
+            case "tan label":
+            case "guidebook":
+            case "bird's nest":
+            case "pile of leaves":
+            case "lunch":
+            case "matchbook":
+            case "brown sack":
+            case "ZORK owner's manual":
+            {
+                if (this.location === Location.PLAYER_INVENTORY)
+                {
+                    output("The " + this.name + " catches fire. Unfortunately, you were holding it at the time.");
+                    playerDies();
+                }
+
+                else
+                {
+                    output("The " + this.name + " catches fire and is consumed.");
+                }
+                
+                this.location = Location.NULL_LOCATION;
+
+            } break;
+
+            case "black book":
+            {
+                output("A booming void says \"Wrong, cretin!\" and you notice that you have been turned "
+                    + "into a pile of dust. How, I can't imagine.");
+                this.location = Location.ON_ALTAR;
+                playerDies();
+            } break;
+
+            case "small pile of coal":
+            {
+                output("The small pile of coal catches fire and is consumed, dramatically "
+                    + "and unnecessarily increasing your carbon footprint. Well done.");
+                this.location = Location.NULL_LOCATION;
+            } break;
+
+            case "clove of garlic":
+            {
+                output("A pleasant aroma briefly fills the air before the garlic catches fire and is consumed.");
+                this.location = Location.NULL_LOCATION;
+            } break;
+
+            case "pair of candles":
+            {
+                if (candles.activated)
+                {
+                    output("You realize, just in time, that the candles are already lit.");
+                }
+                else
+                {
+                    output("The heat from the torch is so intense that the candles are vaporized.");
+                    this.location = Location.NULL_LOCATION;
+                }
+            } break;
+
+
+            default:
+            {
+                super.burn();
             } break;
         }
     }
@@ -284,6 +499,30 @@ class Item extends GameObject {
                 else
                 {
                     output("It is already off.");
+                }
+            } break;
+
+            case "matchbook":
+            {
+                matchbook.activated = false;
+                output("The match is out.");
+            } break;
+
+            case "pair of candles":
+            {
+                if (this.activated)
+                {
+                    this.activated = false;
+                    output("The candles have been put out.");
+                    this.examineString = "The candles are unlit.";
+                    darknessCheck();
+                    if (state.playerInDarkness)
+                        output("It is now pitch black.");
+                }
+
+                else
+                {
+                    output("The candles are unlit.");
                 }
             } break;
 
@@ -811,6 +1050,271 @@ class Item extends GameObject {
         this.acquired = true;
         this.movedFromStart = true;
         output("Taken.");
+    }
+
+
+    throwObject()
+    {
+        switch(state.indirectObject.name)
+        {
+            case "river water":
+            {
+                switch (this.name)
+                {
+                    case "ancient map":
+                    case "bird's nest":
+                    case "black book":
+                    case "brown sack":
+                    case "clove of garlic":
+                    case "glass bottle":
+                    case "guidebook":
+                    case "leaflet":
+                    case "matchbook":
+                    case "tan label":
+                    case "ZORK owner's manual":
+                    {
+                        output("The " + this.name + " floats for a moment, then sinks.");
+                        this.location = Location.NULL_LOCATION;
+                    } break;
+
+                    case "pile of leaves":
+                    {
+                        output("The leaves float along the water and disperse.");
+                        this.location = Location.NULL_LOCATION;
+                    }
+
+                    case "red buoy":
+                    {
+                        output("The buoy bobbles out onto the water.");
+                        this.location = state.playerLocation;
+                    } break;
+
+                    default:
+                    {
+                        output("The " + this.name + " splashes into the water and is gone forever.");
+                        this.location = Location.NULL_LOCATION;
+                    } break;
+                }
+
+            } break;
+
+            case "reservoir water":
+            case "stream water":
+            {
+                switch (this.name)
+                {
+                    case "ancient map":
+                    case "bird's nest":
+                    case "black book":
+                    case "brown sack":
+                    case "clove of garlic":
+                    case "glass bottle":
+                    case "guidebook":
+                    case "leaflet":
+                    case "matchbook":
+                    case "tan label":
+                    case "ZORK owner's manual":
+                    {
+                        output("The " + this.name + " floats for a moment, then sinks.");
+                        this.location = Location.RESERVOIR_EMPTY;
+                    } break;
+
+                    case "pile of leaves":
+                    {
+                        output("The leaves float along the water and disperse.");
+                        this.location = Location.NULL_LOCATION;
+                    }
+
+                    case "red buoy":
+                    {
+                        output("The buoy bobbles out onto the water.");
+                        this.location = state.playerLocation;
+                    } break;
+
+                    default:
+                    {
+                        output("The " + this.name + " splashes into the water and disappears.");
+                        this.location = Location.RESERVOIR_EMPTY;
+                    } break;
+                }
+
+            } break;
+
+            case "chasm":
+            {
+                output("The " + this.name + " drops out of sight into the chasm.");
+                this.location = Location.NULL_LOCATION;
+            } break;
+
+            default:
+            {
+                switch(this.name)
+                {
+                    case "gold coffin":
+                    {
+                        output("You heave the coffin as far as you can manage, which is not very far.");
+                        this.location = state.playerLocation;
+                    } break;
+
+                    case "glass bottle":
+                    {
+                        output("The bottle hits the far wall and shatters.");
+                        if (state.bottleFilled)
+                        {
+                            output("The water splashes on the walls and evaporates immediately.");
+                        }
+
+                        this.location = Location.NULL_LOCATION;
+                    } break;
+
+                    case "jewel-encrusted egg":
+                    {
+                        output("Your rather indelicate handling of the egg has caused it some damage, "
+                            + "although you have succeeded in opening it.");
+                        breakEgg();
+                    } break;
+
+                    case "bloody axe":
+                    case "elvish sword":
+                    case "nasty knife":
+                    case "rusty knife":
+                    case "stiletto":
+                    {
+                        switch (state.indirectObject.name)
+                        {
+                            case "troll":
+                            {
+                                output("The troll, who is remarkable coordinated, catches the " + this.name
+                                    + " and eats it hungrily. Poor troll, he dies from an internal hemmorhage "
+                                    + "and his carcass disappears in a sinister black fog.");
+                                this.location = state.playerLocation;
+                                troll.alive = false;
+                                troll.trollDies();
+                            } break;
+
+                            case "thief":
+                            {
+                                output("You missed. The thief makes no attempt to take the " + this.name
+                                    + ", though it would be a fine addition to the collection in his bag. "
+                                    + "He does seem angered by your attempt.");
+                                thief.thiefAggro = true;
+                                this.location = state.playerLocation;
+
+                            } break;
+
+                            case "cyclops":
+                            {
+                                output("The cyclops graps your " + this.name + ", tastes it, and throws it "
+                                    + "to the ground in disgust.");
+                                this.location = state.playerLocation;
+                            } break;
+
+                            case "vampire bat":
+                            {
+                                output("The bat ducks as the " + this.name + " flies by and crashes to the ground.");
+                                this.location = state.playerLocation;
+                            } break;
+
+                            default:
+                            {
+                                output("Throwing a sharp object would be highly disappointing to your first-grade teacher.");
+                            } break;
+
+                        }
+                    } break;
+
+                    default:
+                    {
+                        if (state.indirectObject.location === Location.PLAYER_INVENTORY)
+                        {
+                            output("You aren't an accomplished enough juggler.");
+                            break;
+                        }
+
+                        switch (state.indirectObject.name)
+                        {
+                            case "air":
+                            {
+                                let airString = "The " + this.name + " arcs through the air, and ";
+
+                                switch (state.playerLocation)
+                                {
+                                    case "FRIGID_RIVER_1":
+                                    case "FRIGID_RIVER_2":
+                                    case "FRIGID_RIVER_3":
+                                    case "FRIGID_RIVER_4":
+                                    case "FRIGID_RIVER_5":
+                                    {
+                                        airString += "disappears under the flowing water.";
+                                        this.location = Location.NULL_LOCATION;
+                                    } break;
+
+                                    case "RESERVOIR":
+                                    case "STREAM":
+                                    {
+                                        airString += "slips under the water's surface.";
+                                        this.location = Location.RESERVOIR_EMPTY;
+                                    } break;
+
+                                    default:
+                                    {
+                                        airString += "lands unceremoniously on the ground.";
+                                        this.location = state.playerLocation;
+                                    } break;
+
+                                }
+                                output(airString);
+                            } break;
+
+                            case "magic boat":
+                            {
+                                output("Thrown.");
+                                this.location = Location.INSIDE_BOAT;
+                            } break;
+
+                            case "troll":
+                            {
+                                output("The troll, who is remarkably coordinated, catches the " + this.name
+                                    + " and not having the most discriminating taste, gleefully eats it.");
+                                this.location = Location.NULL_LOCATION;
+                            } break;
+
+                            case "thief":
+                            {
+                                output("The thief deftly snatches your " + this.name
+                                    + "out of the air and calmly places it in his bag.");
+                                this.location = Location.THIEF_INVENTORY;
+
+                            } break;
+
+                            case "cyclops":
+                            {
+                                output("The cyclops graps your " + this.name + ", tastes it, and throws it "
+                                    + "to the ground in disgust.");
+                                this.location = state.playerLocation;
+                            } break;
+
+                            case "vampire bat":
+                            {
+                                output("The bat ducks as the " + this.name + " flies by and crashes to the ground.");
+                                this.location = state.playerLocation;
+                            } break;
+
+                            default:
+                            {
+                                output("Thrown.");
+                                this.location = state.playerLocation;
+                            } break;
+                        }
+
+                    } break;
+                }
+
+            } break;
+        }
+
+        
+
     }
 
     untie()

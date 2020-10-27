@@ -55,6 +55,11 @@ function restart()
 {
     console.log("Restarting");
 
+    deleteSaveFromLocalStorage("reloadSave");
+
+    stringLog = "";
+    randomLog = [];
+
     state = Object.assign(state, startingState);
     state.playerLocation = Location.WEST_OF_HOUSE;
 
@@ -216,6 +221,8 @@ function restoreFromLocalStorage(filename)
     outputTurns(state.turns);
     curRoom.lookAround();
 
+    saveToLocalStorage("reloadSave");
+
 }
 
 function saveAuto()
@@ -252,6 +259,7 @@ function saveInterface()
         filename === "autoSave1" ||
         filename === "autoSave2" ||
         filename === "autoSave3" ||
+        filename === "reloadSave" ||
         filename === "startSave")
     {
         output("Filename reserved by system, choose something else.");

@@ -403,6 +403,7 @@ actions.set("wait", {action: Action.WAIT, type: ActionType.REFLEXIVE});
 
 actions.set("answer", {action: Action.ANSWER, type: ActionType.DIRECT});
 actions.set("blow", {action: Action.BLOW, type: ActionType.DIRECT});
+actions.set("blow out", {action: Action.BLOW, type: ActionType.DIRECT});
 actions.set("board", {action: Action.BOARD, type: ActionType.DIRECT});
 actions.set("get on", {action: Action.BOARD, type: ActionType.DIRECT});
 actions.set("get in", {action: Action.BOARD, type: ActionType.DIRECT});
@@ -480,6 +481,7 @@ actions.set("kill", {action: Action.ATTACK, type: ActionType.INDIRECT});
 actions.set("hit", {action: Action.ATTACK, type: ActionType.INDIRECT});
 actions.set("fight", {action: Action.ATTACK, type: ActionType.INDIRECT});
 actions.set("break", {action: Action.BREAK, type: ActionType.INDIRECT});
+actions.set("destroy", {action: Action.BREAK, type: ActionType.INDIRECT});
 actions.set("burn", {action: Action.BURN, type: ActionType.INDIRECT});
 actions.set("cut", {action: Action.CUT, type: ActionType.INDIRECT});
 actions.set("dig", {action: Action.DIG, type: ActionType.INDIRECT});
@@ -494,11 +496,11 @@ actions.set("turn", {action: Action.TURN, type: ActionType.INDIRECT});
 actions.set("unlock", {action: Action.UNLOCK, type: ActionType.INDIRECT});
 actions.set("lock", {action: Action.LOCK, type: ActionType.INDIRECT});
 actions.set("strike", {action: Action.STRIKE, type: ActionType.INDIRECT});
+actions.set("throw", {action: Action.THROW, type: ActionType.INDIRECT});
 
 actions.set("give", {action: Action.GIVE, type: ActionType.INDIRECT_INVERSE});
 actions.set("place", {action: Action.PUT, type: ActionType.INDIRECT_INVERSE});
 actions.set("put", {action: Action.PUT, type: ActionType.INDIRECT_INVERSE});
-actions.set("throw", {action: Action.THROW, type: ActionType.INDIRECT_INVERSE});
 actions.set("tie", {action: Action.TIE, type: ActionType.INDIRECT_INVERSE});
 
 const prepositions = new Map();

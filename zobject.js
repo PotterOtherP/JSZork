@@ -100,7 +100,7 @@ class GameObject {
         this.giveString = "";
         this.lockString = "";
         this.putString = "There's no good surface on the " + this.name + ".";
-        this.throwString = "";
+        this.throwString = "Thrown.";
         this.tieString = "";
         this.turnString = "";
         this.unlockString = "It doesn't seem to work.";
@@ -130,7 +130,47 @@ class GameObject {
     blow() { output(this.blowString); }
     board() { output(this.boardString); }
     brush() { output(this.brushString); }
-    burn() { output(this.burnString); }
+    burn()
+    {
+        if (state.indirectObject.name === "dummy_object")
+        {
+            output("You should say what you want to use.");
+        }
+
+        else
+        {
+            switch (state.indirectObject.name)
+            {
+                case "torch":
+                {
+                    output("You can't burn " + this.articleName + ".");
+                } break;
+
+                case "matchbook":
+                {
+                    if (!matchbook.activated)
+                        output("With an unlit match?!??");
+                    else
+                        output("You can't burn " + this.articleName + ".");
+
+                } break;
+
+                case "pair of candles":
+                {
+                    if (!candles.activated)
+                        output("With an unlit pair of candles?!??");
+                    else
+                        output("You can't burn " + this.articleName + ".");
+                } break;
+
+
+                default:
+                {
+                    output("With " + state.indirectObject.articleName + "??!?");
+                } break;
+            }
+        }
+    }
     breakObject()
     {
         if (state.indirectObject.isWeapon)
@@ -140,7 +180,7 @@ class GameObject {
 
         else
         {
-            output("Trying to destroy " + this.articleName + " with "
+            output("Trying to destroy the " + this.name + " with "
             + state.indirectObject.articleName + " is futile.");
         }
     }
@@ -190,10 +230,10 @@ class GameObject {
 
                     case "brown sack":
                     {
-                        if (!(inventory.length === 0))
+                        if (sack.inventory.length !== 0)
                         {
                             output("The sack is cut open and its contents spill onto the floor.");
-                            for (let g in this.inventory)
+                            for (let g of sack.inventory)
                                 g.location = state.playerLocation;
                         }
 
@@ -202,18 +242,33 @@ class GameObject {
                             output("The sack has been cut open and now rendered useless.");
                         }
 
-                        this.location = Location.NULL_LOCATION;
+                        sack.location = Location.NULL_LOCATION;
 
                     } break;
 
                     case "magic boat":
                     {
+                        if (state.playerInBoat)
+                        {
+                            output("Not a bright idea, since you're in it.");
+                        }
 
+                        else
+                        {
+                            output("The boat deflates to the sound of hissing, sputtering, and cursing.");
+                            puncturedBoat.location = inflatedBoat.location;
+                            inflatedBoat.location = Location.NULL_LOCATION;
+                            deflatedBoat.location = Location.NULL_LOCATION;
+
+                        }
                     } break;
 
                     case "painting":
                     {
-
+                        output("Congratulations! Unlike the other vandals, who merely stole the artist's masterpieces, "
+                            + "you have destroyed one.");
+                        painting.location = Location.NULL_LOCATION;
+                        ruinedPainting.location = state.playerLocation;
                     } break;
 
                     default:
@@ -311,7 +366,22 @@ class GameObject {
             output(this.takeString);
     }
     talk() { output(this.talkString); }   
-    throwObject() { output(this.throwString); }
+    throwObject()
+    {
+        if (!this.isItem())
+        {
+            output("You'd have a hard time picking that up, much less throwing it.");
+            return;
+        }
+
+        switch (this.name)
+        {
+            default:
+            {
+                
+            } break;
+        }
+    }
     tie() { output("You can't tie the " + state.indirectObject.name + " to that."); }
     touch() { output(this.touchString + this.randPhrase()); }
     turn() { output(this.turnString); }

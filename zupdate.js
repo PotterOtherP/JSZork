@@ -2,6 +2,10 @@ function updateGame()
 {
 
     let currentRoom = worldMap.get(state.playerLocation);
+    if (currentRoom.firstVisit)
+    {
+        currentRoom.firstVisit = false;
+    }
 
     // Special cases: being in the boat and messing with the shaft basket
 
@@ -192,18 +196,43 @@ function updateGame()
     }
 
     currentRoom = worldMap.get(state.playerLocation);
-    
-    outputLocation(currentRoom.name);
-
     currentRoom.lookAround();
+
+    updateActors();
+    //outputMobile();
 
     stringLog += state.completePlayerInput + "|";
     ++state.turns;
-    updateActors();
     updateItems();
     updateEvents();
     updateScore();
 
+    if (usingLocalStorage)
+        saveToLocalStorage("reloadSave");
+
+}
+
+function outputMobile()
+{
+    zorkMobileOutputArea.innerHTML = "";
+    let mobMarkup = "";
+
+    if (gameArea.innerHTML === "" || worldMap.get(state.playerLocation).firstVisit)
+    {
+        mobMarkup += descriptionArea.innerHTML;
+
+        if (gameArea.innerHTML !== "")
+            mobMarkup += "<br>";
+    }
+
+    mobMarkup += gameArea.innerHTML;
+
+    if (state.playerAction === Action.LOOK)
+    {
+        mobMarkup = descriptionArea.innerHTML;
+    }
+
+    zorkMobileOutputArea.innerHTML = mobMarkup;
 }
 
 
@@ -223,6 +252,7 @@ function updateStandard()
         case "BOARD": { state.directObject.board(); } break;
         case "BREAK": { state.directObject.breakObject(); } break;
         case "BRUSH": { state.directObject.brush(); } break;
+        case "BURN": { state.directObject.burn(); } break;
         case "CLIMB": {state.directObject.climb(); } break;
         case "CLOSE": {state.directObject.close(); } break;
         case "COUNT": { state.directObject.count(); } break;
@@ -267,6 +297,7 @@ function updateStandard()
         case "SMELL": { state.directObject.smell(); } break;
         case "TAKE": {state.directObject.take(); } break;
         case "TALK_TO": { state.directObject.talk(); } break;
+        case "THROW": {state.directObject.throwObject(); } break;
         case "TIE": {state.directObject.tie(); } break;
         case "TOUCH": { state.directObject.touch(); } break;
         case "TURN": { state.directObject.turn(); } break;
@@ -326,9 +357,6 @@ function updateStandard()
                 nextRoom.lookAround();
                 let mobMarkup = document.getElementById("descriptionArea").innerHTML;
                 document.getElementById("zorkMobileOutputArea").innerHTML = mobMarkup;
-
-                if (nextRoom.firstVisit)
-                    nextRoom.firstVisit = false;
 
                 if (nextRoom.roomID === "GAS_ROOM")
                 {
@@ -861,9 +889,6 @@ function updateDarkness()
                 let mobMarkup = document.getElementById("descriptionArea").innerHTML;
                 document.getElementById("zorkMobileOutputArea").innerHTML = mobMarkup;
 
-                if (nextRoom.firstVisit)
-                    nextRoom.firstVisit = false;
-
             }
 
         } break;
@@ -909,7 +934,7 @@ function updateDeath()
                 state.playerHitPoints = 1;
                 state.cyclopsShutsTrapDoor = false;
 
-                relocatePlayer(Location.FOREST_WEST);
+                relocatePlayerNoClear(Location.FOREST_WEST);
             }
 
             else
@@ -984,10 +1009,6 @@ function updateDeath()
                 let mobMarkup = document.getElementById("descriptionArea").innerHTML;
                 document.getElementById("zorkMobileOutputArea").innerHTML = mobMarkup;
 
-
-                if (nextRoom.firstVisit)
-                    nextRoom.firstVisit = false;
-
             }
 
         } break; 
@@ -1010,10 +1031,10 @@ function updateActors()
     riverCurrent.riverCurrentTurn();
     songbird.songbirdTurn();
     spirits.spiritsTurn();
-    swordGlow.swordGlowTurn();
     thief.thiefTurn();
     troll.trollTurn();
     vampireBat.vampireBatTurn();
+    swordGlow.swordGlowTurn();
 
     if (state.playerHitPoints <= 0)
         playerDies();
@@ -1172,6 +1193,10 @@ function updateEvents()
     }
 
     // ROPE TIED TO RAIL
+
+    if (rope.location === Location.NULL_LOCATION)
+        state.ropeRailTied = false;
+
     if (state.ropeRailTied)
     {
         rope.location = Location.ON_RAILING;
@@ -1410,9 +1435,9 @@ function boatCheck()
 
 function breakEgg()
 {
+    brokenEgg.location = egg.location;
     egg.location = Location.NULL_LOCATION;
     brokenCanary.location = Location.INSIDE_BROKEN_EGG;
-    brokenEgg.location = state.playerLocation;
     brokenEgg.itemOpen = true;
 
     output(ObjectStrings.INIT_BROKEN_CANARY);
@@ -1539,7 +1564,7 @@ function playerDies()
 
         let landingSpot = FOREST[getRandom(FOREST.length)];
 
-        relocatePlayer(landingSpot);
+        relocatePlayerNoClear(landingSpot);
     }
 
 }
@@ -1554,7 +1579,7 @@ function playerDiesForReal()
     output(GameStrings.PLAYER_DIES_FOR_REAL);
     output(GameStrings.DEAD_LOOK);
 
-    relocatePlayer(Location.ENTRANCE_TO_HADES);
+    relocatePlayerNoClear(Location.ENTRANCE_TO_HADES);
 
 }
 

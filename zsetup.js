@@ -1280,6 +1280,16 @@ let rope = new Item("rope", Location.ATTIC);
 rope.initialPresenceString = ObjectStrings.INIT_ROPE;
 rope.weight = ROPE_WEIGHT;
 
+let ruinedPainting = new Item("ruined painting", Location.NULL_LOCATION);
+ruinedPainting.initialPresenceString = "There is a worthless piece of canvas here.";
+ruinedPainting.presenceString = "There is a worthless piece of canvas here.";
+ruinedPainting.weight = PAINTING_WEIGHT;
+ruinedPainting.altNames.add("painting");
+ruinedPainting.altNames.add("canvas");
+ruinedPainting.altNames.add("worthless canvas");
+ruinedPainting.altNames.add("worthless piece of canvas");
+ruinedPainting.altNames.add("piece of canvas");
+
 let rustyKnife = new Item("rusty knife", Location.MAZE_5);
 rustyKnife.altNames.add("knife");
 rustyKnife.altNames.add("rusty");
@@ -1346,7 +1356,8 @@ wrench.weight = WRENCH_WEIGHT;
 
 // Features, containers and surfaces
 
-
+let air = new Feature("air", Location.NULL_LOCATION);
+air.altNames.add("sky");
 
 let altar = new Surface("altar", Location.ALTAR);
 altar.inventoryID = Location.ON_ALTAR;
@@ -1382,6 +1393,9 @@ carpet.altNames.add("oriental carpet");
 carpet.altNames.add("rug");
 carpet.boardString = ObjectStrings.CARPET_SIT_1;
 carpet.lookUnderString = ObjectStrings.CARPET_LOOK_UNDER;
+
+let chasmObj = new Feature("chasm", Location.CHASM);
+chasmObj.altLocations.add(Location.EAST_OF_CHASM);
 
 let coalMachine = new Container("machine", Location.MACHINE_ROOM);
 coalMachine.inventoryID = Location.INSIDE_COAL_MACHINE;
@@ -1434,6 +1448,9 @@ let grating = new Feature("grating", Location.GRATING_ROOM);
 grating.altNames.add("grate");
 grating.examineString = "The grating is closed.";
 grating.lookInString = "You can see only darkness through the grating.";
+
+let ground = new Feature("ground", Location.NULL_LOCATION);
+ground.altNames.add("floor");
 
 let hotBell = new Feature("red hot brass bell", Location.NULL_LOCATION);
 hotBell.altNames.add("red hot bell");
@@ -1496,6 +1513,23 @@ mailbox.inventory.add(leaflet);
 mailbox.inventoryID = Location.INSIDE_MAILBOX;
 mailbox.capacity = 10;
 
+let mazeObj = new Feature("maze", Location.MAZE_1);
+mazeObj.altLocations.add(Location.MAZE_2);
+mazeObj.altLocations.add(Location.MAZE_3);
+mazeObj.altLocations.add(Location.MAZE_4);
+mazeObj.altLocations.add(Location.MAZE_5);
+mazeObj.altLocations.add(Location.MAZE_6);
+mazeObj.altLocations.add(Location.MAZE_7);
+mazeObj.altLocations.add(Location.MAZE_8);
+mazeObj.altLocations.add(Location.MAZE_9);
+mazeObj.altLocations.add(Location.MAZE_10);
+mazeObj.altLocations.add(Location.MAZE_11);
+mazeObj.altLocations.add(Location.MAZE_12);
+mazeObj.altLocations.add(Location.MAZE_13);
+mazeObj.altLocations.add(Location.MAZE_14);
+mazeObj.altLocations.add(Location.MAZE_15);
+mazeObj.examineString = "The maze consists of many twisty little passages, all alike.";
+
 let mirror = new Feature("mirror", Location.MIRROR_ROOM_SOUTH);
 mirror.altLocations.add(Location.MIRROR_ROOM_NORTH);
 mirror.touchString = "There is a rumble from deep within the earth and the room shakes.";
@@ -1506,6 +1540,7 @@ mirror.breakString = "You have broken the mirror. I hope you have a seven years'
 
 let mountains = new Feature("mountains", Location.FOREST_NORTHEAST);
 mountains.altNames.add("mountain");
+mountains.articleName = "a mountain";
 mountains.climbString = "Don't you believe me? The mountains are impassable!";
 
 let pedestal = new Surface("pedestal", Location.TORCH_ROOM);
@@ -1567,6 +1602,13 @@ let streamWater = new Feature("stream water", Location.STREAM);
 streamWater.altNames.add("stream");
 streamWater.altNames.add("water");
 streamWater.altLocations.add(Location.STREAM_VIEW);
+
+let templeInscription = new Feature("inscription", Location.TEMPLE);
+templeInscription.altNames.add("prayer");
+templeInscription.altNames.add("east wall");
+templeInscription.altNames.add("wall");
+templeInscription.readString = GameStrings.TEMPLE_PRAYER;
+templeInscription.examineString = GameStrings.TEMPLE_PRAYER;
 
 let toolChests = new Feature("tool chests", Location.MAINTENANCE_ROOM);
 toolChests.initialPresenceString = ObjectStrings.INIT_TOOL_CHESTS;
@@ -1734,6 +1776,7 @@ objectList.set(nest.name, nest);
 objectList.set(pump.name, pump);
 objectList.set(puncturedBoat.name, puncturedBoat);
 objectList.set(rope.name, rope);
+objectList.set(ruinedPainting.name, ruinedPainting);
 objectList.set(rustyKnife.name, rustyKnife);
 objectList.set(screwdriver.name, screwdriver);
 objectList.set(shovel.name, shovel);
@@ -1745,6 +1788,7 @@ objectList.set(tube.name, tube);
 objectList.set(uselessLantern.name, uselessLantern);
 objectList.set(wrench.name, wrench);
 
+objectList.set(air.name, air);
 objectList.set(altar.name, altar);
 objectList.set(atticTable.name, atticTable);
 objectList.set(brokenMirror.name, brokenMirror);
@@ -1753,6 +1797,7 @@ objectList.set(buttonYellow.name, buttonYellow);
 objectList.set(buttonBrown.name, buttonBrown);
 objectList.set(buttonRed.name, buttonRed);
 objectList.set(carpet.name, carpet);
+objectList.set(chasmObj.name, chasmObj);
 objectList.set(coalMachine.name, coalMachine);
 objectList.set(coalMachineSwitch.name, coalMachineSwitch);
 objectList.set(damBolt.name, damBolt);
@@ -1762,6 +1807,7 @@ objectList.set(engravings.name, engravings);
 objectList.set(forest.name, forest);
 objectList.set(gas.name, gas);
 objectList.set(grating.name, grating);
+objectList.set(ground.name, ground);
 objectList.set(house.name, house);
 objectList.set(houseBoards.name, houseBoards);
 objectList.set(houseExteriorDoor.name, houseExteriorDoor);
@@ -1769,6 +1815,7 @@ objectList.set(houseExteriorWindow.name, houseExteriorWindow);
 objectList.set(houseWindow.name, houseWindow);
 objectList.set(kitchenTable.name, kitchenTable);
 objectList.set(mailbox.name, mailbox);
+objectList.set(mazeObj.name, mazeObj);
 objectList.set(mirror.name, mirror);
 objectList.set(mountains.name, mountains);
 objectList.set(pedestal.name, pedestal);
@@ -1782,6 +1829,7 @@ objectList.set(shaftBasket.name, shaftBasket);
 objectList.set(shaftChain.name, shaftChain);
 objectList.set(skeleton.name, skeleton);
 objectList.set(streamWater.name, streamWater);
+objectList.set(templeInscription.name, templeInscription);
 objectList.set(trapDoor.name, trapDoor);
 objectList.set(trophyCase.name, trophyCase);
 objectList.set(toolChests.name, toolChests);

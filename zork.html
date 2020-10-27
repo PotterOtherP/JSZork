@@ -1,135 +1,44 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Zork</title>
+    <title>Ematry</title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="w3.css">
+    <link rel="stylesheet" href="zork.css">
+    <link rel="stylesheet" href="global.css">
+    <script type="text/javascript" src="util.js"></script>
 
 </head>
 
+<body class="w3-light-gray">
+
+    <div class="w3-bar w3-blue-gray" style="position: fixed; top: 0; height: 8%;">
+        <a href=# class="w3-bar-item w3-button" style="text-decoration: none;"><h2>Home</h2></a>
+        <button class="w3-bar-item w3-blue-gray w3-right w3-xxlarge" id="mobile-menu-button" onclick="mobile_menu_open()">☰</button>
+    </div>
+
+    <div class="w3-sidebar w3-mobile w3-blue-gray" id="mobile-menu">
+        
+        <div class="link"><button onclick="mobile_menu_close()" class="w3-button w3-bar-item w3-large w3-right w3-blue-gray">&times;</button></div>
+        <div class="link w3-xlarge w3-hover-gray"><a href=# style="text-decoration: none;">Home</a></div>
+        <div class="link w3-xlarge w3-hover-gray"><a href=# style="text-decoration: none;">Zork</a></div>
+        <div class="link w3-xlarge w3-hover-gray"><a href=# style="text-decoration: none;">Blog</a></div>
+    </div> 
 
 
-<style>
 
-    body {
-        background-color: #f0f8ff;
-        background-color: rgb(220, 228, 245);
-        font-size: 16px;
-    }
+    <div class="w3-container w3-sidebar w3-gray" style="width: 15%; height: 92%; bottom: 0;" id="web-menu">
+        <div class="link"><a href=#>Zork: A Re-Creation</a></div>
+        <div class="link"><a href=#>Blog</a></div>
+    </div>
 
-    #gameContainer {
-        width: 70%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        max-width: 700px;
-        min-width: 300px;
-        margin-left: 30px;
-
-    }
-
-    .gameTextArea {
-
-        padding: 7px;
-        background: gray;
-        color: white;
-        font-family: monospace;
-
-    }
-
-    #gameHeaderArea {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
-        height: 30px;
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-    }
-
-    #gameStatsArea {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        width: 40%;
-    }
-
-    #descriptionArea {
-        width: 100%;
-        height: auto;
-        min-height: 100px;
-        max-height: 200px;
-        overflow: auto;
-    }
-
-    #divider {
-
-        width: 100%;
-        height: 2px;
-        background: black;
-        padding-right: 7px;
-        padding-left: 7px;
-
-    }
-
-
-    #gameArea {
-        width: 100%;
-        height: auto;
-        min-height: 200px;
-        max-height: 600px;
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
-        overflow: auto;
-
-    }
-
-    #previousInputArea {
-        width: 100%;
-        height: 20px;
-        overflow: auto;
-        color: #00ffff;
-    }
-
-    #inputTextArea {
-        width: 100%;
-        border-radius: 5px;
-        padding: 7px;
-        margin-top: 10px;
-        border: 1px;
-        font-family: monospace;
-        font-size: 16px;
-        background: black;
-        color: white;
-
-    }
-
-    @media (max-width: 1000px) {
-        #gameContainer {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-
-    }
-    
-
-</style>
-
-
-<body>
-
-    <div id="gameContainer">
-        <h2>Zork I: The Great Underground Empire - A Complete Re-Creation</h2>
-        <p>This classic game, the first of a franchise developed by Infocom, was very popular in the 1980's. It is a
-           text-based interactive fiction game, in which the player navigates the game
-           world by entering typed commands.
-           <br><br>
-           The goal of this project is to reconstruct the game
-           from scratch, with all new source code written in JavaScript.
-           <br><br>
-           For the intrepid adventurer who seeks the great Underground, countless wonders await: trolls, thieves, 
-           treasures galore, quantities of water, piles of plastic, unknown viscous materials, and small chunks of vitreous slag.
-           Your journey begins here!</p>
+    <div class="w3-container w3-leftbar w3-topbar w3-border-black" id="gameArena">
+        <div id="zorkGameContainer">
+        <div id="zorkWebTitle"><h2>Zork I: The Great Underground Empire</h2></div>
+        <div id="zorkMobileTitle"><h2>Zork I Remake</h2></div>
+        
         <div id="gameHeaderArea" class="gameTextArea">
             <div id="gameLocationArea"></div>
             <div id="gameStatsArea">
@@ -141,11 +50,27 @@
         <div id="divider"></div>
         <div id="previousInputArea" class="gameTextArea"></div>
         <div id="gameArea" class="gameTextArea"></div>
+        <div id="zorkMobileOutputArea" class="gameTextArea"></div>
         <input type="text" id="inputTextArea" name="playerInput" tabindex="0" spellcheck="false" autofocus="true">
-    </div>
+        <input class="w3-button w3-blue w3-round w3-ripple w3-hover-white" id="zorkMobileRestartButton" value="Restart">
+        </div>
 
-    <input type="button" id="restartButton" value="Restart" style="margin-top: 20px; margin-left: 30px">
-    <div style="margin-top: 100px"><a href="index.html">Home</a></div>
+        <div id="zorkInfoContainer">
+            <h3>About Zork: A Complete Re-Creation</h3>
+        <p style="display: block;">This classic game, the first of a franchise developed by Infocom, was very popular in the 1980's. It is a
+           text-based interactive fiction game, in which the player navigates the game
+           world by entering typed commands.
+           <br><br>
+           The goal of this project is to reconstruct the game
+           from scratch, with all new source code written in JavaScript.
+           <br><br>
+           For the intrepid adventurer who seeks the great Underground, countless wonders await: trolls, thieves, 
+           treasures galore, quantities of water, piles of plastic, unknown viscous materials, and small chunks of vitreous slag.
+           Your journey begins here!</p>
+
+        <input class="w3-button w3-blue w3-round w3-ripple w3-hover-white" id="restartButton" value="Restart Game">
+        </div>
+
 
     <script type="text/javascript" src="zconstants.js"></script>
     <script type="text/javascript" src="mapstrings.js"></script>
@@ -156,9 +81,14 @@
     <script type="text/javascript">
 
         /*
+
             TODO
+
             - Implement all flags in updateEvents()
             - Account for all passages that can be open or closed
+
+
+
         */
         
         let state = new GameState();
@@ -201,6 +131,8 @@
 
         function output(str)
         {
+            str = str.replace(/\n/g, "<br>");
+
             if (restoringGame)
                 return;
 
@@ -211,20 +143,27 @@
                 str = str.replace(/WEAPON/g,  state.indirectObject.name);
             }
 
-            let txt = document.getElementById("gameArea").innerText;
+            let markup = document.getElementById("gameArea").innerHTML;
 
-            if (txt === "")
+            if (markup === "")
             {
-                txt = str;
+                markup = str;
             }
 
             else
             {
-                txt += "\n" + str;
+                markup += "<br>" + str;
             }
 
-            document.getElementById("gameArea").innerText = txt;
+            document.getElementById("gameArea").innerHTML = markup;
+            document.getElementById("zorkMobileOutputArea").innerHTML = markup;
             
+        }
+
+        function outputFirst(str)
+        {
+            if (restoringGame) return;
+            gameArea.innerHTML = str + "<br>" + gameArea.innerHTML;
         }
 
         function outputLocation(str)
@@ -236,19 +175,21 @@
 
         function outputDescription(str)
         {
-            let txt = document.getElementById("descriptionArea").innerText;
+            str = str.replace(/\n/g, "<br>");
 
-            if (txt === "")
+            let markup = document.getElementById("descriptionArea").innerHTML;
+
+            if (markup === "")
             {
-                txt = str;
+                markup = str;
             }
 
             else
             {
-                txt += "\n" + str;
+                markup += "<br>" + str;
             }
 
-            document.getElementById("descriptionArea").innerText = txt;
+            document.getElementById("descriptionArea").innerHTML = markup;
         }
 
         function outputPreviousInput(str)
@@ -344,12 +285,28 @@
         
         outputLocation(westOfHouse.name);
         westOfHouse.lookAround();
+        let text = document.getElementById("descriptionArea").innerHTML;
+        document.getElementById("zorkMobileOutputArea").innerHTML = text;
 
         state.resetInput();
+
+        if (localStorage.getItem("reloadSave_strings") !== null && localStorage.getItem("reloadSave_randoms") !== null)
+        {
+            restoreFromLocalStorage("reloadSave");
+            gameArea.innerHTML = "";
+        }
+
+
         inputTextArea.addEventListener("change", getPlayerInput);
         restartButton.addEventListener("click", restart);
+        zorkMobileRestartButton.addEventListener("click", restart);
 
     </script>
+
+
+
+    
+    </div>
 
 
 </body>

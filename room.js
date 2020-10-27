@@ -288,7 +288,12 @@ class Room {
                 continue;
             }
 
-            if ( (g.isActor() || g.isFeature()) && g.presenceString !== "")
+            if (g.isFeature() && g.presenceString !== "")
+            {
+                outputDescription(g.presenceString);
+            }
+
+            if (g.isActor() && g.presenceString !== "" && state.playerAction === Action.LOOK)
             {
                 outputDescription(g.presenceString);
             }
