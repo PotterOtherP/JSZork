@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ematry</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/w3.css">
+    <link rel="stylesheet" href="styles/zork.css">
+    <link rel="stylesheet" href="styles/global.css">
+    <script type="text/javascript" src="scripts/util.js"></script>
+
+</head>
+
+<body class="w3-light-gray">
+
+    <div class="w3-bar w3-blue-gray" style="position: fixed; top: 0; height: 8%;">
+        <a href="index.html" class="w3-bar-item w3-button" style="text-decoration: none;"><h2>Home</h2></a>
+        <button class="w3-bar-item w3-blue-gray w3-right w3-xxlarge" id="mobile-menu-button" onclick="mobile_menu_open()">☰</button>
+    </div>
+
+    <div class="w3-sidebar w3-mobile w3-blue-gray" id="mobile-menu">
+        
+        <div class="link"><button onclick="mobile_menu_close()" class="w3-button w3-bar-item w3-large w3-right w3-blue-gray">&times;</button></div>
+        <div class="link w3-xlarge w3-hover-gray"><a href="index.html" style="text-decoration: none;">Home</a></div>
+        <div class="link w3-xlarge w3-hover-gray"><a href="zork.html" style="text-decoration: none;">Zork</a></div>
+        <!-- <div class="link w3-xlarge w3-hover-gray"><a href="maze.html" style="text-decoration: none;">Maze</a></div> -->
+        <!-- <div class="link w3-xlarge w3-hover-gray"><a href="blog.html" style="text-decoration: none;">Blog</a></div> -->
+    </div> 
+
+
+
+    <div class="w3-container w3-sidebar w3-gray" style="width: 15%; height: 92%; bottom: 0;" id="web-menu">
+        <div class="link"><a href="zork.html">Zork: A Re-Creation</a></div>
+        <!-- <div class="link"><a href="maze.html">Maze Generator</a></div> -->
+        <!-- <div class="link"><a href="blog.html">Blog</a></div> -->
+    </div>
+
+    <div class="w3-container w3-leftbar w3-topbar w3-border-black" id="gameArena">
+        <div id="zorkGameContainer">
+        <div id="zorkWebTitle"><h2>Zork I: The Great Underground Empire</h2></div>
+        <div id="zorkMobileTitle"><h2>Zork I Remake</h2></div>
+        
+        <div id="gameHeaderArea" class="gameTextArea">
+            <div id="gameLocationArea"></div>
+            <div id="gameStatsArea">
+                <div id="gameTurnsArea">Turns: 0</div>
+                <div id="gameScoreArea">Score: 0</div>
+            </div>
+        </div>
+        <div id="descriptionArea" class="gameTextArea"></div>
+        <div id="divider"></div>
+        <div id="previousInputArea" class="gameTextArea"></div>
+        <div id="gameArea" class="gameTextArea"></div>
+        <div id="zorkMobileOutputArea" class="gameTextArea"></div>
+        <input type="text" id="inputTextArea" name="playerInput" tabindex="0" spellcheck="false" autofocus="true">
+        <input class="w3-button w3-blue w3-round w3-ripple w3-hover-white" id="zorkMobileRestartButton" value="Restart">
+        </div>
+
+        <div id="zorkInfoContainer">
+            <h3>About Zork: A Complete Re-Creation</h3>
+        <p style="display: block;">This classic game, the first of a franchise developed by Infocom, was very popular in the 1980's. It is a
+           text-based interactive fiction game, in which the player navigates the game
+           world by entering typed commands.
+           <br><br>
+           The goal of this project is to reconstruct the game
+           from scratch, with all new source code written in JavaScript.
+           <br><br>
+           For the intrepid adventurer who seeks the great Underground, countless wonders await: trolls, thieves, 
+           treasures galore, quantities of water, piles of plastic, unknown viscous materials, and small chunks of vitreous slag.
+           Your journey begins here!</p>
+
+        <input class="w3-button w3-blue w3-round w3-ripple w3-hover-white" id="restartButton" value="Restart Game">
+        </div>
+
+
+    <script type="text/javascript" src="zork/zconstants.js"></script>
+    <script type="text/javascript" src="zork/mapstrings.js"></script>
+    <script type="text/javascript" src="zork/objectstrings.js"></script>
+    <script type="text/javascript" src="zork/gamestrings.js"></script>
+    <script type="text/javascript" src="zork/zstate.js"></script>
+
+    <script type="text/javascript">
+
+        /*
+
+            TODO
+
+            - Implement all flags in updateEvents()
+            - Account for all passages that can be open or closed
+
+
+
+        */
+        
+        let state = new GameState();
+        let inputLog = [];
+        let stringLog = "";
+        let randomLog = [];
+
+        function clearOutput()
+        {
+            document.getElementById("gameArea").innerText = "";
+        }
+
+        let restoringGame = false;
+
+        function getRandom(int)
+        {
+            if (restoringGame)
+            {
+
+                if (randomLog.length < 1)
+                {
+                    console.log("Error restoring game: random number log mismatch");
+                    output("Problem detected with save file, recommend deleting.");
+                    return 0;
+                }
+                
+                let result = randomLog.shift();
+
+                return result;
+            }
+
+            else
+            {
+                let result = Math.floor(Math.random() * int);
+                randomLog.push(result);
+                return result;
+            }
+        }
+
+
+        function output(str)
+        {
+            str = str.replace(/\n/g, "<br>");
+
+            if (restoringGame)
+                return;
+
+            if (state.directObject != null && state.indirectObject != null)
+            {
+                str = str.replace(/ENEMY/g, state.directObject.name);
+                str = str.replace(/ITEM/g,  state.indirectObject.name);
+                str = str.replace(/WEAPON/g,  state.indirectObject.name);
+            }
+
+            let markup = document.getElementById("gameArea").innerHTML;
+
+            if (markup === "")
+            {
+                markup = str;
+            }
+
+            else
+            {
+                markup += "<br>" + str;
+            }
+
+            document.getElementById("gameArea").innerHTML = markup;
+            document.getElementById("zorkMobileOutputArea").innerHTML = markup;
+            
+        }
+
+        function outputFirst(str)
+        {
+            if (restoringGame) return;
+            gameArea.innerHTML = str + "<br>" + gameArea.innerHTML;
+        }
+
+        function outputLocation(str)
+        {
+            if (state.playerInBoat)
+                str += ", in the magic boat";
+            document.getElementById("gameLocationArea").innerText = str;
+        }
+
+        function outputDescription(str)
+        {
+            str = str.replace(/\n/g, "<br>");
+
+            let markup = document.getElementById("descriptionArea").innerHTML;
+
+            if (markup === "")
+            {
+                markup = str;
+            }
+
+            else
+            {
+                markup += "<br>" + str;
+            }
+
+            document.getElementById("descriptionArea").innerHTML = markup;
+        }
+
+        function outputPreviousInput(str)
+        {
+            document.getElementById("previousInputArea").innerText = ">> " + str;
+
+        }
+
+        function outputScore(str)
+        {
+            document.getElementById("gameScoreArea").innerText = "Score: " + str;
+        }
+
+        function outputTurns(str)
+        {
+            document.getElementById("gameTurnsArea").innerText = "Turns: " + str;
+        }
+
+        // Function from MDN Web Storage API guide
+        function storageAvailable(type)
+        {
+            var storage;
+            try
+            {
+                storage = window[type];
+                var x = '__storage_test__';
+                storage.setItem(x, x);
+                storage.removeItem(x);
+                return true;
+            }
+            catch(e)
+            {
+                return e instanceof DOMException &&
+                (
+                    // everything except Firefox
+                    e.code === 22 ||
+                    // Firefox
+                    e.code === 1014 ||
+                    // test field name too, because code might not be present
+                    // everything except Firefox
+                    e.name === 'QuotaExceededError' ||
+                    // Firefox
+                    e.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+                ) &&
+                // acknowledge QuotaExceededError only if there's something already stored
+                (storage && storage.length !== 0);
+            }
+        }
+
+        const usingLocalStorage = storageAvailable('localStorage');
+        if (!usingLocalStorage)
+            console.log("Local storage not available, games will be saved to game memory.");
+
+    </script>
+
+    <script type="text/javascript" src="zork/zobject.js"></script>
+    <script type="text/javascript" src="zork/actor.js"></script>
+    <script type="text/javascript" src="zork/container.js"></script>
+    <script type="text/javascript" src="zork/feature.js"></script>
+    <script type="text/javascript" src="zork/item.js"></script>
+    <script type="text/javascript" src="zork/surface.js"></script>
+    <script type="text/javascript" src="zork/passage.js"></script>
+    <script type="text/javascript" src="zork/room.js"></script>
+    <script type="text/javascript" src="zork/zsetup.js"></script>
+    <script type="text/javascript" src="zork/zinput.js"></script>
+    <script type="text/javascript" src="zork/zupdate.js"></script>
+    <script type="text/javascript" src="zork/zsave.js"></script>
+
+    <script type="text/javascript">
+
+        state.playerLocation = Location.WEST_OF_HOUSE;
+
+        const savedGames = new Map();
+
+        let startingState = Object.create(state);
+        startingState = Object.assign(startingState, state);
+
+        const startingObjectList = new Map();
+        for (let sourceObject of objectList.values())
+        {
+            let obj = Object.create(sourceObject);
+            obj = Object.assign(obj, sourceObject);
+
+            startingObjectList.set(obj.name, obj);
+        }
+
+        deleteSaveFromLocalStorage("undoSave");
+        // deleteSaveFromLocalStorage("autoSave");
+    
+        refreshInventories();
+        fillCurrentObjectList();
+        fillDictionary();
+        
+        outputLocation(westOfHouse.name);
+        westOfHouse.lookAround();
+        let text = document.getElementById("descriptionArea").innerHTML;
+        document.getElementById("zorkMobileOutputArea").innerHTML = text;
+
+        state.resetInput();
+
+        if (localStorage.getItem("reloadSave_strings") !== null && localStorage.getItem("reloadSave_randoms") !== null)
+        {
+            restoreFromLocalStorage("reloadSave");
+            gameArea.innerHTML = "";
+        }
+
+
+        inputTextArea.addEventListener("change", getPlayerInput);
+        restartButton.addEventListener("click", restart);
+        zorkMobileRestartButton.addEventListener("click", restart);
+
+    </script>
+
+
+
+    
+    </div>
+
+
+</body>
+</html>
